@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./YearCalendar.css";
 import { fetchEvents, fetchPromotions } from "./api";
+import { logoColors } from "./envTheme";
 import YearCalendar from "./YearCalendar";
 import PromotionSidebar from "./PromotionSidebar";
 import type { EventListItem, Promotion } from "./types";
@@ -59,7 +60,7 @@ function App() {
     <div className="d-flex flex-column p-3" data-bs-theme="dark" style={{ height: "100vh", boxSizing: "border-box" }}>
       <header className="d-flex align-items-center justify-content-between mb-2 flex-shrink-0">
         <h1 className="h4 mb-0">
-          <span style={{ color: "#e63946" }}>Fight</span> <span style={{ color: "#e6c200" }}>Calendar</span>
+          <span style={{ color: logoColors.fight }}>Fight</span> <span style={{ color: logoColors.calendar }}>Calendar</span>
         </h1>
         <div className="d-flex align-items-center gap-2">
           <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setYear((y) => y - 1)}>
