@@ -111,23 +111,28 @@ export default function YearCalendar({ year, events }: YearCalendarProps) {
             </button>
           </div>
           <ul className="year-grid-popover-list">
-            {selectedEvents.map((event) => (
-              <li key={event.id}>
-                <a href={event.link} target="_blank" rel="noreferrer">
-                  <span
-                    className="year-grid-dot"
-                    style={{ backgroundColor: colorForPromotion(event.promotion.code) }}
-                  />
-                  <span className="year-grid-popover-title">{event.title}</span>
-                </a>
-                {event.mainEvent && (
-                  <div className="year-grid-popover-subtitle">
-                    {event.mainEvent.fighterA} vs {event.mainEvent.fighterB}
-                  </div>
-                )}
-              </li>
-            ))}
+            {selectedEvents
+              .slice()
+              .sort((a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime())
+              .map((event) => (
+                <li key={event.id}>
+                  <a href={event.link} target="_blank" rel="noreferrer">
+                    <span
+                      className="year-grid-dot"
+                      style={{ backgroundColor: colorForPromotion(event.promotion.code) }}
+                    />
+                    <span className="year-grid-popover-time">{format(new Date(event.startsAt), "h:mm a")}</span>
+                    <span className="year-grid-popover-title">{event.title}</span>
+                  </a>
+                  {event.mainEvent && (
+                    <div className="year-grid-popover-subtitle">
+                      {event.mainEvent.fighterA} vs {event.mainEvent.fighterB}
+                    </div>
+                  )}
+                </li>
+              ))}
           </ul>
+          <div className="year-grid-popover-footnote">Times shown in your local timezone. End times aren't tracked - fights don't have a fixed duration.</div>
         </div>
       )}
     </div>

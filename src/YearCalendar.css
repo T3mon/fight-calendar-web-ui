@@ -172,3 +172,18 @@
   color: #9aa0aa;
   margin-left: 16px;
 }
+
+.year-grid-popover-time {
+  color: #9aa0aa;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.year-grid-popover-footnote {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #2c303a;
+  font-size: 11px;
+  color: #6b7280;
+}
