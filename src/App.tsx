@@ -1,19 +1,35 @@
 import { useEffect, useMemo, useState } from "react";
+import { format, isWithinInterval } from "date-fns";
 import "./YearCalendar.css";
+import "./HeatmapCalendar.css";
 import { fetchEvents, fetchPromotions } from "./api";
 import YearCalendar from "./YearCalendar";
+import HeatmapCalendar from "./HeatmapCalendar";
 import PromotionSidebar from "./PromotionSidebar";
 import GoogleSignInButton from "./GoogleSignInButton";
 import { clearSession, loadSession, type Session } from "./auth";
+import { getVisibleRange, monthsInView, shiftViewDate, type ViewMode } from "./calendarView";
 import { computeSubSeriesByPromotion, filterKeyForEvent, leafKeysForPromotion } from "./eventSeries";
 import { loadDeselectedKeys, saveDeselectedKeys } from "./filterStorage";
 import type { EventListItem, Promotion } from "./types";
+
+function formatViewLabel(mode: ViewMode, viewDate: Date): string {
+  if (mode === "year") return String(viewDate.getFullYear());
+  if (mode === "month") return format(viewDate, "MMMM yyyy");
+  const months = monthsInView("quarter", viewDate);
+  const first = months[0]!;
+  const last = months[months.length - 1]!;
+  return first.getFullYear() === last.getFullYear()
+    ? `${format(first, "MMM")} – ${format(last, "MMM yyyy")}`
+    : `${format(first, "MMM yyyy")} – ${format(last, "MMM yyyy")}`;
+}
 
 function App() {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [events, setEvents] = useState<EventListItem[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
-  const [year, setYear] = useState(() => new Date().getFullYear());
+  const [viewMode, setViewMode] = useState<ViewMode>("year");
+  const [viewDate, setViewDate] = useState(() => new Date());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [session, setSession] = useState<Session | null>(() => loadSession());
@@ -70,12 +86,16 @@ function App() {
     saveDeselectedKeys(new Set(allKeys.filter((key) => !selectedKeys.has(key))));
   }, [loading, promotions, subSeriesByPromotion, selectedKeys]);
 
+  const visibleRange = useMemo(() => getVisibleRange(viewMode, viewDate), [viewMode, viewDate]);
+
   const visibleEvents = useMemo(
     () =>
       events.filter(
-        (event) => selectedKeys.has(filterKeyForEvent(event, subSeriesByPromotion)) && new Date(event.startsAt).getFullYear() === year,
+        (event) =>
+          selectedKeys.has(filterKeyForEvent(event, subSeriesByPromotion)) &&
+          isWithinInterval(new Date(event.startsAt), visibleRange),
       ),
-    [events, selectedKeys, subSeriesByPromotion, year],
+    [events, selectedKeys, subSeriesByPromotion, visibleRange],
   );
 
   return (
@@ -85,18 +105,28 @@ function App() {
           <span style={{ color: "#e63946" }}>Fight</span> <span style={{ color: "#e6c200" }}>Calendar</span>
         </h1>
         <div className="d-flex align-items-center gap-2">
-          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setYear((y) => y - 1)}>
+          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setViewDate((d) => shiftViewDate(viewMode, d, -1))}>
             &lsaquo;
           </button>
-          <span className="fw-semibold" style={{ minWidth: 48, textAlign: "center" }}>
-            {year}
+          <span className="fw-semibold" style={{ minWidth: 120, textAlign: "center" }}>
+            {formatViewLabel(viewMode, viewDate)}
           </span>
-          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setYear((y) => y + 1)}>
+          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setViewDate((d) => shiftViewDate(viewMode, d, 1))}>
             &rsaquo;
           </button>
-          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setYear(new Date().getFullYear())}>
+          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setViewDate(new Date())}>
             Today
           </button>
+          <select
+            className="form-select form-select-sm"
+            style={{ width: "auto" }}
+            value={viewMode}
+            onChange={(e) => setViewMode(e.target.value as ViewMode)}
+          >
+            <option value="year">Full Year</option>
+            <option value="quarter">3 Months</option>
+            <option value="month">1 Month</option>
+          </select>
           {session ? (
             <div className="d-flex align-items-center gap-2">
               <span className="small text-muted">{session.email}</span>
@@ -137,7 +167,11 @@ function App() {
           </aside>
 
           <main className="flex-grow-1" style={{ minHeight: 0 }}>
-            <YearCalendar year={year} events={visibleEvents} />
+            {viewMode === "year" ? (
+              <YearCalendar year={viewDate.getFullYear()} events={visibleEvents} />
+            ) : (
+              <HeatmapCalendar months={monthsInView(viewMode, viewDate)} events={visibleEvents} />
+            )}
           </main>
         </div>
       )}

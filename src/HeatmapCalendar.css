@@ -1,0 +1,224 @@
+.heatmap-layout {
+  display: flex;
+  height: 100%;
+  gap: 10px;
+}
+
+.heatmap-month {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: #1c1f26;
+  border: 1px solid #2c303a;
+  border-radius: 8px;
+  padding: 10px 12px 12px;
+}
+
+.heatmap-month-large {
+  height: 100%;
+  width: 100%;
+}
+
+.heatmap-month-medium {
+  flex: 1;
+  height: 100%;
+}
+
+.heatmap-month-title {
+  font-weight: 600;
+  color: #e8e8e8;
+  padding-bottom: 8px;
+}
+
+.heatmap-month-large .heatmap-month-title {
+  font-size: 20px;
+}
+
+.heatmap-month-medium .heatmap-month-title {
+  font-size: 15px;
+}
+
+.heatmap-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  color: #6b7280;
+  text-align: center;
+  padding-bottom: 4px;
+}
+
+.heatmap-month-large .heatmap-weekdays {
+  font-size: 13px;
+}
+
+.heatmap-month-medium .heatmap-weekdays {
+  font-size: 11px;
+}
+
+.heatmap-days {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 4px;
+}
+
+.heatmap-day {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-end;
+  border: none;
+  background: #20242c;
+  border-radius: 6px;
+  padding: 5px 6px;
+  cursor: default;
+  color: #cbd2dc;
+  overflow: hidden;
+}
+
+.heatmap-day-outside {
+  color: #3a3f4b;
+  background: transparent;
+}
+
+.heatmap-day-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.heatmap-day-number {
+  line-height: 1;
+}
+
+.heatmap-month-large .heatmap-day-number {
+  font-size: 15px;
+}
+
+.heatmap-month-medium .heatmap-day-number {
+  font-size: 12px;
+}
+
+.heatmap-day-today .heatmap-day-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #e63946;
+  color: #fff;
+  font-weight: 700;
+  padding: 0 5px;
+  min-width: 1.6em;
+}
+
+.heatmap-day-count {
+  font-size: 10px;
+  color: #9aa0aa;
+  font-variant-numeric: tabular-nums;
+}
+
+.heatmap-day-has-events {
+  cursor: pointer;
+}
+
+.heatmap-day-has-events:hover {
+  background: #2c313d;
+}
+
+.heatmap-day-selected {
+  background: #323848;
+  outline: 1px solid #4a5568;
+}
+
+.heatmap-bar {
+  margin-top: 4px;
+  display: flex;
+  width: 100%;
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.heatmap-bar-segment {
+  height: 100%;
+}
+
+.heatmap-popover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(460px, 92%);
+  max-height: 80%;
+  overflow-y: auto;
+  background: #1c1f26;
+  border: 1px solid #3a3f4b;
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  z-index: 20;
+  padding: 16px 18px;
+}
+
+.heatmap-popover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #f0f0f0;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.heatmap-popover-close {
+  background: none;
+  border: none;
+  color: #9aa0aa;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.heatmap-popover-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.heatmap-popover-list a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #e8e8e8;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.heatmap-popover-list a:hover {
+  text-decoration: underline;
+}
+
+.heatmap-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.heatmap-popover-subtitle {
+  font-size: 13px;
+  color: #9aa0aa;
+  margin-left: 20px;
+}
+
+.heatmap-popover-time {
+  color: #9aa0aa;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
