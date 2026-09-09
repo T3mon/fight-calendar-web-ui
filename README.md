@@ -8,7 +8,7 @@ See the [project wiki](https://github.com/T3mon/fight-calendar-api/wiki) for the
 
 - [Vite](https://vite.dev) + React + TypeScript
 - [Bootstrap](https://getbootstrap.com) for styling
-- [FullCalendar](https://fullcalendar.io) (`multiMonthYear` view) for the year-at-a-glance calendar - deliberately the only view; there's no month/week toggle by design
+- Custom year-at-a-glance calendar (`src/YearCalendar.tsx`), built on `date-fns` - all 12 months fit one screen with no scrolling and no month/week toggle by design. Off-the-shelf calendar libraries were evaluated first: FullCalendar is built for scrolling/interactive scheduling rather than a fixed year view, and SVAR gates its Year view behind a paid PRO tier - a purpose-built component gave more control for less effort than fighting either
 
 ## Local development
 

@@ -1,0 +1,174 @@
+.year-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+.year-grid-month {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: #1c1f26;
+  border: 1px solid #2c303a;
+  border-radius: 8px;
+  padding: 6px 8px 8px;
+}
+
+.year-grid-month-title {
+  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
+  color: #e8e8e8;
+  padding-bottom: 4px;
+}
+
+.year-grid-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-size: 9px;
+  color: #6b7280;
+  text-align: center;
+  padding-bottom: 2px;
+}
+
+.year-grid-days {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 1px;
+}
+
+.year-grid-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  padding: 0;
+  cursor: default;
+  color: #cbd2dc;
+}
+
+.year-grid-day-outside {
+  color: #3a3f4b;
+}
+
+.year-grid-day-number {
+  font-size: 10px;
+  line-height: 1;
+}
+
+.year-grid-day-today .year-grid-day-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #e63946;
+  color: #fff;
+  font-weight: 700;
+}
+
+.year-grid-day-has-events {
+  cursor: pointer;
+}
+
+.year-grid-day-has-events:hover {
+  background: #262a33;
+}
+
+.year-grid-day-selected {
+  background: #2c313d;
+  outline: 1px solid #4a5568;
+}
+
+.year-grid-day-dots {
+  display: flex;
+  gap: 2px;
+}
+
+.year-grid-dot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.year-grid-popover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(420px, 90%);
+  max-height: 80%;
+  overflow-y: auto;
+  background: #1c1f26;
+  border: 1px solid #3a3f4b;
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  z-index: 20;
+  padding: 14px 16px;
+}
+
+.year-grid-popover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #f0f0f0;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.year-grid-popover-close {
+  background: none;
+  border: none;
+  color: #9aa0aa;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.year-grid-popover-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.year-grid-popover-list a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #e8e8e8;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.year-grid-popover-list a:hover {
+  text-decoration: underline;
+}
+
+.year-grid-popover-list .year-grid-dot {
+  width: 8px;
+  height: 8px;
+}
+
+.year-grid-popover-subtitle {
+  font-size: 12px;
+  color: #9aa0aa;
+  margin-left: 16px;
+}
