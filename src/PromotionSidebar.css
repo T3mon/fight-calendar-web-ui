@@ -35,6 +35,10 @@
   margin-left: 20px;
 }
 
+.promotion-row-indented-2 {
+  margin-left: 40px;
+}
+
 .promotion-select-all {
   font-weight: 600;
   margin-bottom: 4px;
@@ -168,7 +172,7 @@
 }
 
 .promotion-group-children-wrapper.expanded {
-  max-height: 500px;
+  max-height: 800px;
 }
 
 .promotion-group-children {

@@ -1,13 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./PromotionSidebar.css";
 import { colorForGroup, colorForPromotion, groupForPromotion, GROUP_ORDER } from "./promotionColors";
-import type { Promotion } from "./types";
+import { computeSubSeriesByPromotion, filterKey, leafKeysForPromotion, subSeriesValuesFor } from "./eventSeries";
+import type { EventListItem, Promotion } from "./types";
+
+const FLAGSHIP_LABEL = "Numbered Events";
 
 interface PromotionSidebarProps {
   promotions: Promotion[];
-  selectedCodes: Set<string>;
-  onToggle: (code: string) => void;
-  onSetMany: (codes: string[], selected: boolean) => void;
+  events: EventListItem[];
+  selectedKeys: Set<string>;
+  onToggle: (key: string) => void;
+  onSetMany: (keys: string[], selected: boolean) => void;
 }
 
 interface TriStateCheckboxProps {
@@ -50,8 +54,11 @@ function ChevronIcon({ expanded }: { expanded: boolean }) {
   );
 }
 
-export default function PromotionSidebar({ promotions, selectedCodes, onToggle, onSetMany }: PromotionSidebarProps) {
+export default function PromotionSidebar({ promotions, events, selectedKeys, onToggle, onSetMany }: PromotionSidebarProps) {
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(GROUP_ORDER));
+  const [expandedPromotions, setExpandedPromotions] = useState<Set<string>>(new Set());
+
+  const subSeriesByPromotion = useMemo(() => computeSubSeriesByPromotion(events), [events]);
 
   const byGroup = new Map<string, Promotion[]>();
   const standalone: Promotion[] = [];
@@ -69,21 +76,105 @@ export default function PromotionSidebar({ promotions, selectedCodes, onToggle, 
     }
   }
 
-  function toggleExpanded(group: string) {
+  function toggleExpandedGroup(group: string) {
     setExpandedGroups((prev) => {
       const next = new Set(prev);
-      if (next.has(group)) {
-        next.delete(group);
-      } else {
-        next.add(group);
-      }
+      if (next.has(group)) next.delete(group);
+      else next.add(group);
       return next;
     });
   }
 
-  const allCodes = promotions.map((p) => p.code);
-  const allSelectedCount = allCodes.filter((c) => selectedCodes.has(c)).length;
-  const allSelected = allSelectedCount === allCodes.length && allCodes.length > 0;
+  function toggleExpandedPromotion(code: string) {
+    setExpandedPromotions((prev) => {
+      const next = new Set(prev);
+      if (next.has(code)) next.delete(code);
+      else next.add(code);
+      return next;
+    });
+  }
+
+  function renderPromotionEntry(promotion: Promotion, indented: boolean) {
+    const color = colorForPromotion(promotion.code);
+    const subValues = subSeriesValuesFor(promotion.code, subSeriesByPromotion);
+
+    if (subValues.length === 0) {
+      const key = promotion.code;
+      return (
+        <label className={"promotion-row" + (indented ? " promotion-row-indented" : "")} key={promotion.id}>
+          <input
+            type="checkbox"
+            className="promotion-checkbox"
+            style={{ "--accent": color } as React.CSSProperties}
+            checked={selectedKeys.has(key)}
+            onChange={() => onToggle(key)}
+          />
+          <span className="promotion-dot" style={{ backgroundColor: color }} />
+          <span className="promotion-label-text">{promotion.name}</span>
+        </label>
+      );
+    }
+
+    // This promotion itself has multiple discovered sub-series - render it
+    // as its own expandable group, same pattern as the family groups above.
+    const keys = subValues.map((v) => filterKey(promotion.code, v));
+    const selectedCount = keys.filter((k) => selectedKeys.has(k)).length;
+    const allSelected = selectedCount === keys.length;
+    const noneSelected = selectedCount === 0;
+    const expanded = expandedPromotions.has(promotion.code);
+
+    return (
+      <div className="promotion-group" key={promotion.id}>
+        <div className={"promotion-group-header" + (indented ? " promotion-row-indented" : "")}>
+          <button
+            type="button"
+            className="promotion-group-caret"
+            onClick={() => toggleExpandedPromotion(promotion.code)}
+            aria-label={expanded ? `Collapse ${promotion.name}` : `Expand ${promotion.name}`}
+          >
+            <ChevronIcon expanded={expanded} />
+          </button>
+          <TriStateCheckbox
+            checked={allSelected}
+            indeterminate={!allSelected && !noneSelected}
+            onChange={() => onSetMany(keys, !allSelected)}
+            ariaLabel={`Select or deselect all ${promotion.name}`}
+            accentColor={color}
+          />
+          <span className="promotion-dot" style={{ backgroundColor: color }} />
+          <span className="promotion-group-label">{promotion.name}</span>
+        </div>
+
+        <div className={"promotion-group-children-wrapper" + (expanded ? " expanded" : "")}>
+          <div className="promotion-group-children">
+            {subValues.map((value) => {
+              const key = filterKey(promotion.code, value);
+              return (
+                <label className={"promotion-row " + (indented ? "promotion-row-indented-2" : "promotion-row-indented")} key={key}>
+                  <input
+                    type="checkbox"
+                    className="promotion-checkbox"
+                    style={{ "--accent": color } as React.CSSProperties}
+                    checked={selectedKeys.has(key)}
+                    onChange={() => onToggle(key)}
+                  />
+                  <span className="promotion-dot" style={{ backgroundColor: color }} />
+                  <span className="promotion-label-text">{value ?? FLAGSHIP_LABEL}</span>
+                </label>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const allKeys = useMemo(
+    () => promotions.flatMap((p) => leafKeysForPromotion(p.code, subSeriesByPromotion)),
+    [promotions, subSeriesByPromotion],
+  );
+  const allSelectedCount = allKeys.filter((k) => selectedKeys.has(k)).length;
+  const allSelected = allSelectedCount === allKeys.length && allKeys.length > 0;
   const noneSelected = allSelectedCount === 0;
 
   return (
@@ -96,7 +187,7 @@ export default function PromotionSidebar({ promotions, selectedCodes, onToggle, 
         <TriStateCheckbox
           checked={allSelected}
           indeterminate={!allSelected && !noneSelected}
-          onChange={() => onSetMany(allCodes, !allSelected)}
+          onChange={() => onSetMany(allKeys, !allSelected)}
           ariaLabel="Select or deselect all promotions"
           accentColor="#e8e8e8"
         />
@@ -105,9 +196,9 @@ export default function PromotionSidebar({ promotions, selectedCodes, onToggle, 
 
       {GROUP_ORDER.filter((group) => byGroup.has(group)).map((group) => {
         const members = byGroup.get(group)!;
-        const codes = members.map((m) => m.code);
-        const selectedCount = codes.filter((c) => selectedCodes.has(c)).length;
-        const groupAllSelected = selectedCount === codes.length;
+        const memberKeys = members.flatMap((m) => leafKeysForPromotion(m.code, subSeriesByPromotion));
+        const selectedCount = memberKeys.filter((k) => selectedKeys.has(k)).length;
+        const groupAllSelected = selectedCount === memberKeys.length;
         const groupNoneSelected = selectedCount === 0;
         const expanded = expandedGroups.has(group);
         const groupColor = colorForGroup(group);
@@ -118,7 +209,7 @@ export default function PromotionSidebar({ promotions, selectedCodes, onToggle, 
               <button
                 type="button"
                 className="promotion-group-caret"
-                onClick={() => toggleExpanded(group)}
+                onClick={() => toggleExpandedGroup(group)}
                 aria-label={expanded ? `Collapse ${group}` : `Expand ${group}`}
               >
                 <ChevronIcon expanded={expanded} />
@@ -126,7 +217,7 @@ export default function PromotionSidebar({ promotions, selectedCodes, onToggle, 
               <TriStateCheckbox
                 checked={groupAllSelected}
                 indeterminate={!groupAllSelected && !groupNoneSelected}
-                onChange={() => onSetMany(codes, !groupAllSelected)}
+                onChange={() => onSetMany(memberKeys, !groupAllSelected)}
                 ariaLabel={`Select or deselect all ${group} promotions`}
                 accentColor={groupColor}
               />
@@ -135,21 +226,7 @@ export default function PromotionSidebar({ promotions, selectedCodes, onToggle, 
             </div>
 
             <div className={"promotion-group-children-wrapper" + (expanded ? " expanded" : "")}>
-              <div className="promotion-group-children">
-                {members.map((promotion) => (
-                  <label className="promotion-row promotion-row-indented" key={promotion.id}>
-                    <input
-                      type="checkbox"
-                      className="promotion-checkbox"
-                      style={{ "--accent": colorForPromotion(promotion.code) } as React.CSSProperties}
-                      checked={selectedCodes.has(promotion.code)}
-                      onChange={() => onToggle(promotion.code)}
-                    />
-                    <span className="promotion-dot" style={{ backgroundColor: colorForPromotion(promotion.code) }} />
-                    <span className="promotion-label-text">{promotion.name}</span>
-                  </label>
-                ))}
-              </div>
+              <div className="promotion-group-children">{members.map((m) => renderPromotionEntry(m, true))}</div>
             </div>
           </div>
         );
@@ -158,19 +235,7 @@ export default function PromotionSidebar({ promotions, selectedCodes, onToggle, 
       {standalone.length > 0 && (
         <div className="promotion-group">
           {byGroup.size > 0 && <div className="promotion-standalone-label">Other</div>}
-          {standalone.map((promotion) => (
-            <label className="promotion-row" key={promotion.id}>
-              <input
-                type="checkbox"
-                className="promotion-checkbox"
-                style={{ "--accent": colorForPromotion(promotion.code) } as React.CSSProperties}
-                checked={selectedCodes.has(promotion.code)}
-                onChange={() => onToggle(promotion.code)}
-              />
-              <span className="promotion-dot" style={{ backgroundColor: colorForPromotion(promotion.code) }} />
-              <span className="promotion-label-text">{promotion.name}</span>
-            </label>
-          ))}
+          {standalone.map((m) => renderPromotionEntry(m, false))}
         </div>
       )}
     </div>

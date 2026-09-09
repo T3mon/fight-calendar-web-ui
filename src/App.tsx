@@ -3,12 +3,13 @@ import "./YearCalendar.css";
 import { fetchEvents, fetchPromotions } from "./api";
 import YearCalendar from "./YearCalendar";
 import PromotionSidebar from "./PromotionSidebar";
+import { computeSubSeriesByPromotion, filterKeyForEvent, leafKeysForPromotion } from "./eventSeries";
 import type { EventListItem, Promotion } from "./types";
 
 function App() {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [events, setEvents] = useState<EventListItem[]>([]);
-  const [selectedCodes, setSelectedCodes] = useState<Set<string>>(new Set());
+  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
   const [year, setYear] = useState(() => new Date().getFullYear());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -17,42 +18,48 @@ function App() {
     Promise.all([fetchPromotions(), fetchEvents()])
       .then(([promotionsResult, eventsResult]) => {
         setPromotions(promotionsResult);
-        setSelectedCodes(new Set(promotionsResult.map((p) => p.code)));
+        const subSeriesByPromotion = computeSubSeriesByPromotion(eventsResult);
+        setSelectedKeys(new Set(promotionsResult.flatMap((p) => leafKeysForPromotion(p.code, subSeriesByPromotion))));
         setEvents(eventsResult);
       })
       .catch((err: Error) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
 
-  function togglePromotion(code: string) {
-    setSelectedCodes((prev) => {
+  function toggleKey(key: string) {
+    setSelectedKeys((prev) => {
       const next = new Set(prev);
-      if (next.has(code)) {
-        next.delete(code);
+      if (next.has(key)) {
+        next.delete(key);
       } else {
-        next.add(code);
+        next.add(key);
       }
       return next;
     });
   }
 
-  function setManyPromotions(codes: string[], selected: boolean) {
-    setSelectedCodes((prev) => {
+  function setManyKeys(keys: string[], selected: boolean) {
+    setSelectedKeys((prev) => {
       const next = new Set(prev);
-      for (const code of codes) {
+      for (const key of keys) {
         if (selected) {
-          next.add(code);
+          next.add(key);
         } else {
-          next.delete(code);
+          next.delete(key);
         }
       }
       return next;
     });
   }
 
+  const subSeriesByPromotion = useMemo(() => computeSubSeriesByPromotion(events), [events]);
+
   const visibleEvents = useMemo(
-    () => events.filter((event) => selectedCodes.has(event.promotion.code) && new Date(event.startsAt).getFullYear() === year),
-    [events, selectedCodes, year],
+    () =>
+      events.filter(
+        (event) => selectedKeys.has(filterKeyForEvent(event, subSeriesByPromotion)) && new Date(event.startsAt).getFullYear() === year,
+      ),
+    [events, selectedKeys, subSeriesByPromotion, year],
   );
 
   return (
@@ -89,9 +96,10 @@ function App() {
           <aside style={{ width: 250, overflowY: "auto" }} className="flex-shrink-0">
             <PromotionSidebar
               promotions={promotions}
-              selectedCodes={selectedCodes}
-              onToggle={togglePromotion}
-              onSetMany={setManyPromotions}
+              events={events}
+              selectedKeys={selectedKeys}
+              onToggle={toggleKey}
+              onSetMany={setManyKeys}
             />
           </aside>
 

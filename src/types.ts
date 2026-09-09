@@ -21,6 +21,9 @@ export interface EventListItem {
   venue: string | null;
   location: string | null;
   link: string;
+  // Derived from the title server-side, e.g. "Fight Night" or "Friday
+  // Fights". Null means a flagship/numbered event with no named sub-series.
+  subSeries: string | null;
   mainEvent: Bout | null;
   boutCount: number;
 }
