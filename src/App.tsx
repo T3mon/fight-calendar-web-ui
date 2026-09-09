@@ -4,6 +4,7 @@ import { fetchEvents, fetchPromotions } from "./api";
 import YearCalendar from "./YearCalendar";
 import PromotionSidebar from "./PromotionSidebar";
 import { computeSubSeriesByPromotion, filterKeyForEvent, leafKeysForPromotion } from "./eventSeries";
+import { loadDeselectedKeys, saveDeselectedKeys } from "./filterStorage";
 import type { EventListItem, Promotion } from "./types";
 
 function App() {
@@ -19,7 +20,9 @@ function App() {
       .then(([promotionsResult, eventsResult]) => {
         setPromotions(promotionsResult);
         const subSeriesByPromotion = computeSubSeriesByPromotion(eventsResult);
-        setSelectedKeys(new Set(promotionsResult.flatMap((p) => leafKeysForPromotion(p.code, subSeriesByPromotion))));
+        const allKeys = promotionsResult.flatMap((p) => leafKeysForPromotion(p.code, subSeriesByPromotion));
+        const deselected = loadDeselectedKeys();
+        setSelectedKeys(new Set(allKeys.filter((key) => !deselected.has(key))));
         setEvents(eventsResult);
       })
       .catch((err: Error) => setError(err.message))
@@ -53,6 +56,16 @@ function App() {
   }
 
   const subSeriesByPromotion = useMemo(() => computeSubSeriesByPromotion(events), [events]);
+
+  // Persist only the user's explicit unchecks (see filterStorage.ts) once
+  // real data has loaded - skip the initial empty-Set render before the
+  // fetch above resolves, which would otherwise wipe a returning visitor's
+  // saved selection.
+  useEffect(() => {
+    if (loading) return;
+    const allKeys = promotions.flatMap((p) => leafKeysForPromotion(p.code, subSeriesByPromotion));
+    saveDeselectedKeys(new Set(allKeys.filter((key) => !selectedKeys.has(key))));
+  }, [loading, promotions, subSeriesByPromotion, selectedKeys]);
 
   const visibleEvents = useMemo(
     () =>
