@@ -1,0 +1,109 @@
+.promotion-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.promotion-sidebar-title-row {
+  margin-bottom: 4px;
+}
+
+.promotion-sidebar-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #f0f0f0;
+  margin: 0;
+}
+
+.promotion-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.promotion-row:hover {
+  background: #20242c;
+}
+
+.promotion-row-indented {
+  margin-left: 22px;
+}
+
+.promotion-select-all {
+  font-weight: 600;
+  margin-bottom: 4px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #2c303a;
+}
+
+.promotion-checkbox {
+  flex-shrink: 0;
+  accent-color: #3a86ff;
+  cursor: pointer;
+}
+
+.promotion-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.promotion-label-text {
+  color: #e8e8e8;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.promotion-group {
+  margin-bottom: 2px;
+}
+
+.promotion-group-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 2px;
+  border-radius: 4px;
+  cursor: default;
+}
+
+.promotion-group-header:hover {
+  background: #20242c;
+}
+
+.promotion-group-caret {
+  background: none;
+  border: none;
+  color: #9aa0aa;
+  font-size: 10px;
+  width: 12px;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.promotion-group-label {
+  color: #f0f0f0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.promotion-group-children {
+  display: flex;
+  flex-direction: column;
+}
+
+.promotion-standalone-label {
+  color: #6b7280;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 2px 2px;
+}

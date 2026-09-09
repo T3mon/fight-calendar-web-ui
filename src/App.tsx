@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import "./YearCalendar.css";
 import { fetchEvents, fetchPromotions } from "./api";
-import { colorForPromotion } from "./promotionColors";
 import YearCalendar from "./YearCalendar";
+import PromotionSidebar from "./PromotionSidebar";
 import type { EventListItem, Promotion } from "./types";
 
 function App() {
@@ -31,6 +31,20 @@ function App() {
         next.delete(code);
       } else {
         next.add(code);
+      }
+      return next;
+    });
+  }
+
+  function setManyPromotions(codes: string[], selected: boolean) {
+    setSelectedCodes((prev) => {
+      const next = new Set(prev);
+      for (const code of codes) {
+        if (selected) {
+          next.add(code);
+        } else {
+          next.delete(code);
+        }
       }
       return next;
     });
@@ -72,33 +86,13 @@ function App() {
 
       {!loading && !error && (
         <div className="d-flex flex-grow-1" style={{ minHeight: 0, gap: "1rem" }}>
-          <aside style={{ width: 220, overflowY: "auto" }} className="flex-shrink-0">
-            <h2 className="h6">Promotions</h2>
-            {promotions.map((promotion) => (
-              <div className="form-check d-flex align-items-center gap-2" key={promotion.id}>
-                <input
-                  className="form-check-input mt-0"
-                  type="checkbox"
-                  id={`promo-${promotion.code}`}
-                  checked={selectedCodes.has(promotion.code)}
-                  onChange={() => togglePromotion(promotion.code)}
-                />
-                <span
-                  aria-hidden="true"
-                  style={{
-                    display: "inline-block",
-                    width: 10,
-                    height: 10,
-                    borderRadius: "50%",
-                    backgroundColor: colorForPromotion(promotion.code),
-                    flexShrink: 0,
-                  }}
-                />
-                <label className="form-check-label" htmlFor={`promo-${promotion.code}`} style={{ fontSize: 13 }}>
-                  {promotion.name}
-                </label>
-              </div>
-            ))}
+          <aside style={{ width: 250, overflowY: "auto" }} className="flex-shrink-0">
+            <PromotionSidebar
+              promotions={promotions}
+              selectedCodes={selectedCodes}
+              onToggle={togglePromotion}
+              onSetMany={setManyPromotions}
+            />
           </aside>
 
           <main className="flex-grow-1" style={{ minHeight: 0 }}>
