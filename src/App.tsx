@@ -1,22 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { Calendar, dateFnsLocalizer, type Event as CalendarEvent } from "react-big-calendar";
-import { format, getDay, parse, startOfWeek } from "date-fns";
-import { enUS } from "date-fns/locale";
-import "react-big-calendar/lib/css/react-big-calendar.css";
+import FullCalendar from "@fullcalendar/react";
+import multiMonthPlugin from "@fullcalendar/multimonth";
+import interactionPlugin from "@fullcalendar/interaction";
+import type { EventClickArg, EventInput } from "@fullcalendar/core";
 import { fetchEvents, fetchPromotions } from "./api";
+import { colorForPromotion } from "./promotionColors";
 import type { EventListItem, Promotion } from "./types";
-
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales: { "en-US": enUS },
-});
-
-interface FightCalendarEvent extends CalendarEvent {
-  source: EventListItem;
-}
 
 function App() {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
@@ -48,21 +37,29 @@ function App() {
     });
   }
 
-  const calendarEvents = useMemo<FightCalendarEvent[]>(
+  const calendarEvents = useMemo<EventInput[]>(
     () =>
       events
         .filter((event) => selectedCodes.has(event.promotion.code))
         .map((event) => {
-          const start = new Date(event.startsAt);
+          const color = colorForPromotion(event.promotion.code);
           return {
-            title: `${event.promotion.code}: ${event.title}`,
-            start,
-            end: start,
-            source: event,
+            id: String(event.id),
+            title: event.promotion.code,
+            start: event.startsAt,
+            allDay: true,
+            backgroundColor: color,
+            borderColor: color,
+            extendedProps: { source: event },
           };
         }),
     [events, selectedCodes],
   );
+
+  function handleEventClick(clickInfo: EventClickArg) {
+    const source = clickInfo.event.extendedProps.source as EventListItem;
+    window.open(source.link, "_blank");
+  }
 
   return (
     <div className="container-fluid p-3">
@@ -80,13 +77,24 @@ function App() {
           <aside className="col-12 col-md-3 col-lg-2 mb-3">
             <h2 className="h6">Promotions</h2>
             {promotions.map((promotion) => (
-              <div className="form-check" key={promotion.id}>
+              <div className="form-check d-flex align-items-center gap-2" key={promotion.id}>
                 <input
-                  className="form-check-input"
+                  className="form-check-input mt-0"
                   type="checkbox"
                   id={`promo-${promotion.code}`}
                   checked={selectedCodes.has(promotion.code)}
                   onChange={() => togglePromotion(promotion.code)}
+                />
+                <span
+                  aria-hidden="true"
+                  style={{
+                    display: "inline-block",
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    backgroundColor: colorForPromotion(promotion.code),
+                    flexShrink: 0,
+                  }}
                 />
                 <label className="form-check-label" htmlFor={`promo-${promotion.code}`}>
                   {promotion.name}
@@ -95,15 +103,16 @@ function App() {
             ))}
           </aside>
 
-          <main className="col-12 col-md-9 col-lg-10" style={{ height: "80vh" }}>
-            <Calendar
-              localizer={localizer}
+          <main className="col-12 col-md-9 col-lg-10">
+            <FullCalendar
+              plugins={[multiMonthPlugin, interactionPlugin]}
+              initialView="multiMonthYear"
+              multiMonthMaxColumns={4}
+              headerToolbar={{ left: "prev", center: "title", right: "next today" }}
               events={calendarEvents}
-              startAccessor="start"
-              endAccessor="end"
-              style={{ height: "100%" }}
-              popup
-              onSelectEvent={(event) => window.open((event as FightCalendarEvent).source.link, "_blank")}
+              eventClick={handleEventClick}
+              dayMaxEvents={2}
+              height="auto"
             />
           </main>
         </div>

@@ -8,7 +8,7 @@ See the [project wiki](https://github.com/T3mon/fight-calendar-api/wiki) for the
 
 - [Vite](https://vite.dev) + React + TypeScript
 - [Bootstrap](https://getbootstrap.com) for styling
-- [react-big-calendar](https://github.com/jquense/react-big-calendar) for the calendar view
+- [FullCalendar](https://fullcalendar.io) (`multiMonthYear` view) for the year-at-a-glance calendar - deliberately the only view; there's no month/week toggle by design
 
 ## Local development
 
