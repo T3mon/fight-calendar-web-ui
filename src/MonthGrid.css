@@ -1,0 +1,252 @@
+.month-grid {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: #1c1f26;
+  border: 1px solid #2c303a;
+  border-radius: 8px;
+  padding: 10px 12px 12px;
+}
+
+.month-grid-large {
+  height: 100%;
+}
+
+.month-grid-medium {
+  flex: 1;
+  height: 100%;
+}
+
+.month-grid-title {
+  font-weight: 600;
+  color: #e8e8e8;
+  padding-bottom: 8px;
+}
+
+.month-grid-large .month-grid-title {
+  font-size: 20px;
+}
+
+.month-grid-medium .month-grid-title {
+  font-size: 15px;
+}
+
+.month-grid-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  color: #6b7280;
+  text-align: center;
+  padding-bottom: 4px;
+}
+
+.month-grid-large .month-grid-weekdays {
+  font-size: 13px;
+}
+
+.month-grid-medium .month-grid-weekdays {
+  font-size: 11px;
+}
+
+.month-grid-days {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 4px;
+}
+
+.month-grid-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border: none;
+  background: #20242c;
+  border-radius: 6px;
+  padding: 4px 2px;
+  cursor: default;
+  color: #cbd2dc;
+}
+
+.month-grid-large .month-grid-day {
+  gap: 6px;
+  padding: 8px 4px;
+}
+
+.month-grid-medium .month-grid-day {
+  gap: 3px;
+}
+
+.month-grid-day-outside {
+  color: #3a3f4b;
+  background: transparent;
+}
+
+.month-grid-day-number {
+  line-height: 1;
+}
+
+.month-grid-large .month-grid-day-number {
+  font-size: 15px;
+}
+
+.month-grid-medium .month-grid-day-number {
+  font-size: 12px;
+}
+
+.month-grid-day-today .month-grid-day-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #e63946;
+  color: #fff;
+  font-weight: 700;
+}
+
+.month-grid-large .month-grid-day-today .month-grid-day-number {
+  width: 26px;
+  height: 26px;
+}
+
+.month-grid-medium .month-grid-day-today .month-grid-day-number {
+  width: 19px;
+  height: 19px;
+}
+
+.month-grid-day-has-events {
+  cursor: pointer;
+}
+
+.month-grid-day-has-events:hover {
+  background: #2c313d;
+}
+
+.month-grid-day-selected {
+  background: #323848;
+  outline: 1px solid #4a5568;
+}
+
+.month-grid-day-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+}
+
+.month-grid-large .month-grid-day-dots {
+  gap: 4px;
+  max-width: 70px;
+}
+
+.month-grid-medium .month-grid-day-dots {
+  gap: 2px;
+  max-width: 44px;
+}
+
+.month-grid-dot {
+  display: inline-block;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.month-grid-large .month-grid-dot {
+  width: 9px;
+  height: 9px;
+}
+
+.month-grid-medium .month-grid-dot {
+  width: 6px;
+  height: 6px;
+}
+
+.month-grid-dot-overflow {
+  color: #9aa0aa;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.month-grid-large .month-grid-dot-overflow {
+  font-size: 11px;
+}
+
+.month-grid-medium .month-grid-dot-overflow {
+  font-size: 9px;
+}
+
+.month-grid-popover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(460px, 92%);
+  max-height: 80%;
+  overflow-y: auto;
+  background: #1c1f26;
+  border: 1px solid #3a3f4b;
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  z-index: 20;
+  padding: 16px 18px;
+}
+
+.month-grid-popover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #f0f0f0;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.month-grid-popover-close {
+  background: none;
+  border: none;
+  color: #9aa0aa;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.month-grid-popover-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.month-grid-popover-list a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #e8e8e8;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.month-grid-popover-list a:hover {
+  text-decoration: underline;
+}
+
+.month-grid-popover-list .month-grid-dot {
+  width: 10px;
+  height: 10px;
+}
+
+.month-grid-popover-subtitle {
+  font-size: 13px;
+  color: #9aa0aa;
+  margin-left: 20px;
+}
+
+.month-grid-popover-time {
+  color: #9aa0aa;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
