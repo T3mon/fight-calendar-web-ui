@@ -15,9 +15,10 @@ interface TriStateCheckboxProps {
   indeterminate: boolean;
   onChange: () => void;
   ariaLabel: string;
+  accentColor: string;
 }
 
-function TriStateCheckbox({ checked, indeterminate, onChange, ariaLabel }: TriStateCheckboxProps) {
+function TriStateCheckbox({ checked, indeterminate, onChange, ariaLabel, accentColor }: TriStateCheckboxProps) {
   const ref = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (ref.current) ref.current.indeterminate = indeterminate;
@@ -27,10 +28,25 @@ function TriStateCheckbox({ checked, indeterminate, onChange, ariaLabel }: TriSt
       ref={ref}
       type="checkbox"
       className="promotion-checkbox"
+      style={{ "--accent": accentColor } as React.CSSProperties}
       checked={checked}
       onChange={onChange}
       aria-label={ariaLabel}
     />
+  );
+}
+
+function ChevronIcon({ expanded }: { expanded: boolean }) {
+  return (
+    <svg
+      className={"promotion-chevron" + (expanded ? " promotion-chevron-expanded" : "")}
+      width="10"
+      height="10"
+      viewBox="0 0 10 10"
+      aria-hidden="true"
+    >
+      <path d="M2 3.2L5 6.2L8 3.2" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
@@ -82,6 +98,7 @@ export default function PromotionSidebar({ promotions, selectedCodes, onToggle, 
           indeterminate={!allSelected && !noneSelected}
           onChange={() => onSetMany(allCodes, !allSelected)}
           ariaLabel="Select or deselect all promotions"
+          accentColor="#e8e8e8"
         />
         <span className="promotion-label-text">{allSelected ? "Deselect all" : "Select all"}</span>
       </label>
@@ -93,6 +110,7 @@ export default function PromotionSidebar({ promotions, selectedCodes, onToggle, 
         const groupAllSelected = selectedCount === codes.length;
         const groupNoneSelected = selectedCount === 0;
         const expanded = expandedGroups.has(group);
+        const groupColor = colorForGroup(group);
 
         return (
           <div className="promotion-group" key={group}>
@@ -103,25 +121,27 @@ export default function PromotionSidebar({ promotions, selectedCodes, onToggle, 
                 onClick={() => toggleExpanded(group)}
                 aria-label={expanded ? `Collapse ${group}` : `Expand ${group}`}
               >
-                {expanded ? "▾" : "▸"}
+                <ChevronIcon expanded={expanded} />
               </button>
               <TriStateCheckbox
                 checked={groupAllSelected}
                 indeterminate={!groupAllSelected && !groupNoneSelected}
                 onChange={() => onSetMany(codes, !groupAllSelected)}
                 ariaLabel={`Select or deselect all ${group} promotions`}
+                accentColor={groupColor}
               />
-              <span className="promotion-dot" style={{ backgroundColor: colorForGroup(group) }} />
+              <span className="promotion-dot" style={{ backgroundColor: groupColor }} />
               <span className="promotion-group-label">{group}</span>
             </div>
 
-            {expanded && (
+            <div className={"promotion-group-children-wrapper" + (expanded ? " expanded" : "")}>
               <div className="promotion-group-children">
                 {members.map((promotion) => (
                   <label className="promotion-row promotion-row-indented" key={promotion.id}>
                     <input
                       type="checkbox"
                       className="promotion-checkbox"
+                      style={{ "--accent": colorForPromotion(promotion.code) } as React.CSSProperties}
                       checked={selectedCodes.has(promotion.code)}
                       onChange={() => onToggle(promotion.code)}
                     />
@@ -130,7 +150,7 @@ export default function PromotionSidebar({ promotions, selectedCodes, onToggle, 
                   </label>
                 ))}
               </div>
-            )}
+            </div>
           </div>
         );
       })}
@@ -143,6 +163,7 @@ export default function PromotionSidebar({ promotions, selectedCodes, onToggle, 
               <input
                 type="checkbox"
                 className="promotion-checkbox"
+                style={{ "--accent": colorForPromotion(promotion.code) } as React.CSSProperties}
                 checked={selectedCodes.has(promotion.code)}
                 onChange={() => onToggle(promotion.code)}
               />

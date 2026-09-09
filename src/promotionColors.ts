@@ -1,27 +1,28 @@
 export type PromotionGroupName = "UFC" | "Boxing";
 
 interface PromotionInfo {
-  color: string;
+  color?: string; // only set for standalone (ungrouped) promotions
   group: PromotionGroupName | null;
 }
 
-// Curated palette + grouping (per product decision, not derived from the API -
-// the backend has no concept of "family of promotions"). Any promotion code
-// not listed here falls back to a deterministic hash-based color, so newly
-// added promotions never end up uncolored.
+// Curated grouping (per product decision, not derived from the API - the
+// backend has no concept of "family of promotions"). Grouped promotions all
+// share their group's color; standalone ones get their own. Any promotion
+// code not listed here falls back to a deterministic hash-based color, so
+// newly added promotions never end up uncolored.
 const PROMOTION_INFO: Record<string, PromotionInfo> = {
-  UFC: { color: "#e63946", group: "UFC" },
-  DWCS: { color: "#d4af37", group: "UFC" },
-  UFCBJJ: { color: "#8338ec", group: "UFC" },
-  MATCHROOM: { color: "#22d3ee", group: "Boxing" },
-  "TOP RANK": { color: "#1e3a8a", group: "Boxing" },
-  MVP: { color: "#fbbf24", group: "Boxing" },
-  BKFC: { color: "#f59e0b", group: "Boxing" },
-  ZUFFA: { color: "#991b1b", group: "Boxing" },
+  UFC: { group: "UFC" },
+  DWCS: { group: "UFC" },
+  UFCBJJ: { group: "UFC" },
+  MATCHROOM: { group: "Boxing" },
+  "TOP RANK": { group: "Boxing" },
+  MVP: { group: "Boxing" },
+  ZUFFA: { group: "Boxing" },
   ONE: { color: "#14b8a6", group: null },
   PFL: { color: "#3b82f6", group: null },
   RIZIN: { color: "#39ff14", group: null },
   RAF: { color: "#f97316", group: null },
+  BKFC: { color: "#f59e0b", group: null },
 };
 
 const GROUP_COLORS: Record<PromotionGroupName, string> = {
@@ -54,10 +55,15 @@ function hashCode(code: string): number {
   return hash;
 }
 
+function fallbackColor(code: string): string {
+  return FALLBACK_PALETTE[hashCode(code) % FALLBACK_PALETTE.length];
+}
+
 export function colorForPromotion(code: string): string {
   const info = PROMOTION_INFO[code];
-  if (info) return info.color;
-  return FALLBACK_PALETTE[hashCode(code) % FALLBACK_PALETTE.length];
+  if (!info) return fallbackColor(code);
+  if (info.group) return GROUP_COLORS[info.group];
+  return info.color ?? fallbackColor(code);
 }
 
 export function groupForPromotion(code: string): PromotionGroupName | null {
