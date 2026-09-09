@@ -67,7 +67,9 @@ function App() {
   return (
     <div className="container-fluid p-3">
       <header className="mb-3">
-        <h1 className="h3 mb-0">Fight Calendar</h1>
+        <h1 className="h3 mb-0">
+          <span style={{ color: "red" }}>Fight</span> <span style={{ color: "#e6c200" }}>Calendar</span>
+        </h1>
       </header>
 
       {error && <div className="alert alert-danger">Failed to load events: {error}</div>}
