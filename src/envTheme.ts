@@ -1,8 +1,9 @@
-// Purely a visual aid for telling environments apart at a glance - the logo
-// is colored differently depending on VITE_APP_ENV (set per Render service,
-// defaults to "local" for plain `npm run dev`). Falls back to production
-// colors if the value is ever missing or unrecognized, so a misconfigured
-// deploy fails safe to the real look rather than a dev-looking one.
+// Purely a visual aid for telling environments apart at a glance in the
+// browser tab - the favicon (same lightning bolt shape, recolored) is
+// swapped per VITE_APP_ENV (set per Render service, defaults to "local"
+// for plain `npm run dev`). Falls back to the production favicon if the
+// value is ever missing or unrecognized, so a misconfigured deploy fails
+// safe to the real look rather than a dev-looking one.
 type AppEnv = "local" | "staging" | "production";
 
 function resolveAppEnv(): AppEnv {
@@ -11,11 +12,11 @@ function resolveAppEnv(): AppEnv {
   return "production";
 }
 
-const LOGO_COLORS: Record<AppEnv, { fight: string; calendar: string }> = {
-  production: { fight: "#e63946", calendar: "#e6c200" },
-  staging: { fight: "#ffd60a", calendar: "#f4a300" },
-  local: { fight: "#4cc9f0", calendar: "#3a86ff" },
+const FAVICON_HREF: Record<AppEnv, string> = {
+  production: "/favicon.svg",
+  staging: "/favicon-staging.svg",
+  local: "/favicon-local.svg",
 };
 
 export const appEnv = resolveAppEnv();
-export const logoColors = LOGO_COLORS[appEnv];
+export const faviconHref = FAVICON_HREF[appEnv];
