@@ -3,6 +3,8 @@ import "./YearCalendar.css";
 import { fetchEvents, fetchPromotions } from "./api";
 import YearCalendar from "./YearCalendar";
 import PromotionSidebar from "./PromotionSidebar";
+import GoogleSignInButton from "./GoogleSignInButton";
+import { clearSession, loadSession, type Session } from "./auth";
 import { computeSubSeriesByPromotion, filterKeyForEvent, leafKeysForPromotion } from "./eventSeries";
 import { loadDeselectedKeys, saveDeselectedKeys } from "./filterStorage";
 import type { EventListItem, Promotion } from "./types";
@@ -14,6 +16,7 @@ function App() {
   const [year, setYear] = useState(() => new Date().getFullYear());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [session, setSession] = useState<Session | null>(() => loadSession());
 
   useEffect(() => {
     Promise.all([fetchPromotions(), fetchEvents()])
@@ -94,6 +97,23 @@ function App() {
           <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setYear(new Date().getFullYear())}>
             Today
           </button>
+          {session ? (
+            <div className="d-flex align-items-center gap-2">
+              <span className="small text-muted">{session.email}</span>
+              <button
+                type="button"
+                className="btn btn-outline-secondary btn-sm"
+                onClick={() => {
+                  clearSession();
+                  setSession(null);
+                }}
+              >
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <GoogleSignInButton onSignedIn={setSession} />
+          )}
         </div>
       </header>
 
