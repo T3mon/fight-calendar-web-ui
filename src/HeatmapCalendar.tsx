@@ -4,9 +4,10 @@ import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
 
 const WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-const MAX_BAR_HEIGHT = 22;
-const MIN_BAR_HEIGHT = 6;
-const SATURATION_CAP = 6; // days with this many events or more show the tallest bar
+
+function matchupLabel(event: EventListItem): string {
+  return event.mainEvent ? `${event.mainEvent.fighterA} vs ${event.mainEvent.fighterB}` : event.title;
+}
 
 function dayKey(date: Date): string {
   return format(date, "yyyy-MM-dd");
@@ -18,32 +19,13 @@ function getMonthGridDays(month: Date): Date[] {
   return eachDayOfInterval({ start, end });
 }
 
-// Instead of one dot per event (illegible past 3-4), each day gets a single
-// stacked bar: height says "how busy" (capped, not linear-to-infinity), and
-// segment widths say "which promotions" - proportion, not a count you have
-// to squint at and tally up yourself.
-interface PromotionSegment {
-  code: string;
-  color: string;
-  share: number;
-}
-
-function buildSegments(dayEvents: EventListItem[]): PromotionSegment[] {
-  const counts = new Map<string, number>();
-  for (const event of dayEvents) {
-    counts.set(event.promotion.code, (counts.get(event.promotion.code) ?? 0) + 1);
-  }
-  const total = dayEvents.length;
-  return [...counts.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .map(([code, count]) => ({ code, color: colorForPromotion(code), share: count / total }));
-}
-
 interface HeatmapMonthProps {
   month: Date;
   events: EventListItem[];
   size: "large" | "medium";
 }
+
+const MAX_MATCHUP_LINES: Record<"large" | "medium", number> = { large: 4, medium: 2 };
 
 function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
@@ -73,17 +55,18 @@ function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
           <span key={label}>{label}</span>
         ))}
       </div>
-      <div className="heatmap-days">
+      <div className="heatmap-days" style={{ gridTemplateRows: `repeat(${days.length / 7}, 1fr)` }}>
         {days.map((date) => {
           const key = dayKey(date);
           const dayEvents = eventsByDay.get(key) ?? [];
           const inMonth = isSameMonth(date, month);
           const today = isToday(date);
-          const segments = buildSegments(dayEvents);
-          const barHeight =
-            dayEvents.length === 0
-              ? 0
-              : MIN_BAR_HEIGHT + (MAX_BAR_HEIGHT - MIN_BAR_HEIGHT) * Math.min(dayEvents.length, SATURATION_CAP) / SATURATION_CAP;
+          const maxLines = MAX_MATCHUP_LINES[size];
+          // Most prominent first (bigger card = more bouts), not chronological -
+          // the point of this line is "what's the headliner", not a schedule.
+          const rankedEvents = dayEvents.slice().sort((a, b) => b.boutCount - a.boutCount);
+          const shownEvents = rankedEvents.slice(0, maxLines);
+          const hiddenCount = rankedEvents.length - shownEvents.length;
           return (
             <button
               key={key}
@@ -102,15 +85,15 @@ function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
                 <span className="heatmap-day-number">{date.getDate()}</span>
                 {dayEvents.length > 0 && <span className="heatmap-day-count">{dayEvents.length}</span>}
               </span>
-              {segments.length > 0 && (
-                <span className="heatmap-bar" style={{ height: barHeight }}>
-                  {segments.map((segment) => (
-                    <span
-                      key={segment.code}
-                      className="heatmap-bar-segment"
-                      style={{ backgroundColor: segment.color, width: `${segment.share * 100}%` }}
-                    />
+              {shownEvents.length > 0 && (
+                <span className="heatmap-matchups">
+                  {shownEvents.map((event) => (
+                    <span key={event.id} className="heatmap-matchup-line">
+                      <span className="heatmap-matchup-dot" style={{ backgroundColor: colorForPromotion(event.promotion.code) }} />
+                      <span className="heatmap-matchup-text">{matchupLabel(event)}</span>
+                    </span>
                   ))}
+                  {hiddenCount > 0 && <span className="heatmap-matchup-more">+{hiddenCount} more</span>}
                 </span>
               )}
             </button>

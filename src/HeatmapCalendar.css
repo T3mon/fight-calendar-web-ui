@@ -60,7 +60,6 @@
   min-height: 0;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(6, 1fr);
   gap: 4px;
 }
 
@@ -68,7 +67,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  justify-content: flex-end;
+  justify-content: flex-start;
   border: none;
   background: #20242c;
   border-radius: 6px;
@@ -76,6 +75,7 @@
   cursor: default;
   color: #cbd2dc;
   overflow: hidden;
+  text-align: left;
 }
 
 .heatmap-day-outside {
@@ -132,13 +132,48 @@
   outline: 1px solid #4a5568;
 }
 
-.heatmap-bar {
+.heatmap-matchups {
   margin-top: 4px;
   display: flex;
-  width: 100%;
-  border-radius: 3px;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 0;
   overflow: hidden;
+}
+
+.heatmap-matchup-line {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.heatmap-matchup-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
   flex-shrink: 0;
+}
+
+.heatmap-matchup-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #cbd2dc;
+}
+
+.heatmap-month-large .heatmap-matchup-text {
+  font-size: 11px;
+}
+
+.heatmap-month-medium .heatmap-matchup-text {
+  font-size: 10px;
+}
+
+.heatmap-matchup-more {
+  font-size: 10px;
+  color: #6b7280;
+  padding-left: 9px;
 }
 
 .heatmap-bar-segment {
