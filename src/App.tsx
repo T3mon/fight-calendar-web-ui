@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { format, isWithinInterval } from "date-fns";
+import "./App.css";
 import "./YearCalendar.css";
 import "./HeatmapCalendar.css";
 import { fetchEvents, fetchPromotions } from "./api";
@@ -28,11 +29,14 @@ function App() {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [events, setEvents] = useState<EventListItem[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
-  const [viewMode, setViewMode] = useState<ViewMode>("year");
+  // Full year's 12-up grid is unreadable on a phone screen, so start narrow
+  // viewports on month view instead - the dropdown still lets anyone switch.
+  const [viewMode, setViewMode] = useState<ViewMode>(() => (window.innerWidth < 768 ? "month" : "year"));
   const [viewDate, setViewDate] = useState(() => new Date());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [session, setSession] = useState<Session | null>(() => loadSession());
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     Promise.all([fetchPromotions(), fetchEvents()])
@@ -99,12 +103,22 @@ function App() {
   );
 
   return (
-    <div className="d-flex flex-column p-3" data-bs-theme="dark" style={{ height: "100vh", boxSizing: "border-box" }}>
-      <header className="d-flex align-items-center justify-content-between mb-2 flex-shrink-0">
-        <h1 className="h4 mb-0">
-          <span style={{ color: "#e63946" }}>Fight</span> <span style={{ color: "#e6c200" }}>Calendar</span>
-        </h1>
+    <div className="d-flex flex-column p-3 app-shell" data-bs-theme="dark" style={{ boxSizing: "border-box" }}>
+      <header className="d-flex align-items-center justify-content-between mb-2 flex-shrink-0 flex-wrap gap-2">
         <div className="d-flex align-items-center gap-2">
+          <button
+            type="button"
+            className="btn btn-outline-secondary btn-sm d-md-none"
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Show promotion filters"
+          >
+            &#9776;
+          </button>
+          <h1 className="h4 mb-0">
+            <span style={{ color: "#e63946" }}>Fight</span> <span style={{ color: "#e6c200" }}>Calendar</span>
+          </h1>
+        </div>
+        <div className="d-flex align-items-center gap-2 flex-wrap">
           <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setViewDate((d) => shiftViewDate(viewMode, d, -1))}>
             &lsaquo;
           </button>
@@ -129,7 +143,7 @@ function App() {
           </select>
           {session ? (
             <div className="d-flex align-items-center gap-2">
-              <span className="small text-muted">{session.email}</span>
+              <span className="small text-muted session-email">{session.email}</span>
               <button
                 type="button"
                 className="btn btn-outline-secondary btn-sm"
@@ -156,7 +170,8 @@ function App() {
 
       {!loading && !error && (
         <div className="d-flex flex-grow-1" style={{ minHeight: 0, gap: "1rem" }}>
-          <aside style={{ width: 250, overflowY: "auto" }} className="flex-shrink-0">
+          {sidebarOpen && <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)} />}
+          <aside className={"flex-shrink-0 sidebar" + (sidebarOpen ? " sidebar-open" : "")}>
             <PromotionSidebar
               promotions={promotions}
               events={events}
@@ -166,7 +181,7 @@ function App() {
             />
           </aside>
 
-          <main className="flex-grow-1" style={{ minHeight: 0 }}>
+          <main className="flex-grow-1 calendar-main" style={{ minHeight: 0 }}>
             {viewMode === "year" ? (
               <YearCalendar year={viewDate.getFullYear()} events={visibleEvents} />
             ) : (

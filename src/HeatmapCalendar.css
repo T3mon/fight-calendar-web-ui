@@ -4,6 +4,18 @@
   gap: 10px;
 }
 
+@media (max-width: 767.98px) {
+  /* 3 months side by side is unreadable at phone width - stack and scroll instead. */
+  .heatmap-layout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .heatmap-month-medium {
+    min-height: 360px;
+  }
+}
+
 .heatmap-month {
   position: relative;
   display: flex;
