@@ -3,6 +3,14 @@
   height: 100dvh;
 }
 
+.app-title-fight {
+  color: var(--brand-fight);
+}
+
+.app-title-calendar {
+  color: var(--brand-calendar);
+}
+
 .nav-toolbar {
   display: flex;
   align-items: center;
@@ -14,8 +22,8 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  background: #1c1f26;
-  border: 1px solid #2c303a;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 3px;
 }
@@ -23,7 +31,7 @@
 .nav-step-btn {
   background: none;
   border: none;
-  color: #9aa0aa;
+  color: var(--text-secondary);
   width: 28px;
   height: 28px;
   border-radius: 6px;
@@ -37,8 +45,8 @@
 }
 
 .nav-step-btn:hover {
-  background: #262a33;
-  color: #e8e8e8;
+  background: var(--bg-active);
+  color: var(--text-bright);
 }
 
 .nav-date-label {
@@ -46,14 +54,14 @@
   text-align: center;
   font-weight: 700;
   font-size: 14px;
-  color: #f0f0f0;
+  color: var(--text-heading);
   padding: 0 6px;
 }
 
 .nav-today-chip {
-  background: #20242c;
-  border: 1px solid #3a86ff;
-  color: #7c9cff;
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--accent);
+  color: var(--accent-light);
   font-size: 12px;
   font-weight: 600;
   border-radius: 999px;
@@ -63,13 +71,13 @@
 }
 
 .nav-today-chip:hover {
-  background: #262e40;
+  background: var(--bg-today-hover);
 }
 
 .view-switcher {
   display: flex;
-  background: #1c1f26;
-  border: 1px solid #2c303a;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 3px;
   gap: 2px;
@@ -78,7 +86,7 @@
 .view-switcher-btn {
   background: none;
   border: none;
-  color: #9aa0aa;
+  color: var(--text-secondary);
   font-size: 12px;
   font-weight: 600;
   border-radius: 6px;
@@ -88,12 +96,12 @@
 }
 
 .view-switcher-btn:hover {
-  color: #e8e8e8;
+  color: var(--text-bright);
 }
 
 .view-switcher-btn.active {
-  background: #e63946;
-  color: #fff;
+  background: var(--danger);
+  color: var(--text-on-accent);
 }
 
 .sidebar {
@@ -117,10 +125,10 @@
     left: 0;
     width: 84vw;
     max-width: 300px;
-    background: #14161b;
+    background: var(--bg-page);
     z-index: 30;
     padding: 1rem 1rem 1rem 0.75rem;
-    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+    box-shadow: 4px 0 24px var(--shadow-md);
     transform: translateX(-100%);
     transition: transform 0.2s ease;
   }
@@ -133,7 +141,7 @@
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--scrim-light);
     z-index: 25;
   }
 }

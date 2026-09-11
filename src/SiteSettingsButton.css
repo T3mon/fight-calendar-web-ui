@@ -6,18 +6,18 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #1c1f26;
-  border: 1px solid #2c303a;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
   border-radius: 999px;
   padding: 6px 10px;
-  color: #cbd2dc;
+  color: var(--text-body);
   cursor: pointer;
   transition: background-color 0.12s ease, color 0.12s ease;
 }
 
 .site-settings-trigger:hover {
-  background: #20242c;
-  color: #e8e8e8;
+  background: var(--bg-surface-hover);
+  color: var(--text-bright);
 }
 
 .site-settings-trigger-lang {
@@ -28,7 +28,7 @@
 
 .site-settings-chevron {
   font-size: 10px;
-  color: #6b7280;
+  color: var(--text-muted);
   transition: transform 0.15s ease;
   line-height: 1;
 }
@@ -48,10 +48,10 @@
   top: calc(100% + 6px);
   left: 0;
   width: 300px;
-  background: #1c1f26;
-  border: 1px solid #2c303a;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 32px var(--shadow-md);
   z-index: 36;
   padding: 6px;
 }
@@ -63,7 +63,7 @@
 }
 
 .site-settings-row:hover {
-  background: #20242c;
+  background: var(--bg-surface-hover);
 }
 
 .site-settings-row-header {
@@ -75,7 +75,7 @@
   border: none;
   padding: 10px 8px;
   border-radius: 8px;
-  color: #9aa0aa;
+  color: var(--text-secondary);
 }
 
 button.site-settings-row-header,
@@ -97,10 +97,10 @@ label.site-settings-row-header {
   margin: 0;
   padding: 4px;
   list-style: none;
-  background: #20242c;
-  border: 1px solid #2c303a;
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 8px 24px var(--shadow-sm);
   z-index: 38;
   max-height: 240px;
   overflow-y: auto;
@@ -112,7 +112,7 @@ label.site-settings-row-header {
   text-align: left;
   background: none;
   border: none;
-  color: #cbd2dc;
+  color: var(--text-body);
   font-size: 13px;
   padding: 8px 10px;
   border-radius: 6px;
@@ -120,36 +120,36 @@ label.site-settings-row-header {
 }
 
 .site-settings-submenu-option:hover {
-  background: #2c303a;
+  background: var(--border);
 }
 
 .site-settings-submenu-option.active {
-  background: #3a86ff;
-  color: #fff;
+  background: var(--accent);
+  color: var(--text-on-accent);
 }
 
 .site-settings-row-label {
   flex: 1;
   text-align: left;
   font-size: 13px;
-  color: #cbd2dc;
+  color: var(--text-body);
 }
 
 .site-settings-row-label strong {
-  color: #f0f0f0;
+  color: var(--text-heading);
   font-weight: 600;
 }
 
 .site-settings-row-prefix {
   font-size: 13px;
-  color: #cbd2dc;
+  color: var(--text-body);
 }
 
 .site-settings-inline-input {
   flex: 1;
   background: none;
   border: none;
-  color: #f0f0f0;
+  color: var(--text-heading);
   font-size: 13px;
   font-weight: 600;
   text-align: right;
@@ -162,7 +162,7 @@ label.site-settings-row-header {
 
 .site-settings-note {
   font-size: 11px;
-  color: #6b7280;
+  color: var(--text-muted);
   margin: 0 8px 8px 33px;
   line-height: 1.4;
 }
@@ -170,8 +170,8 @@ label.site-settings-row-header {
 .site-settings-segmented {
   display: inline-flex;
   margin-left: auto;
-  background: #20242c;
-  border: 1px solid #2c303a;
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 3px;
   gap: 2px;
@@ -180,7 +180,7 @@ label.site-settings-row-header {
 .site-settings-segment {
   background: none;
   border: none;
-  color: #9aa0aa;
+  color: var(--text-secondary);
   font-size: 12px;
   font-weight: 600;
   border-radius: 6px;
@@ -189,8 +189,8 @@ label.site-settings-row-header {
 }
 
 .site-settings-segment.active {
-  background: #3a86ff;
-  color: #fff;
+  background: var(--accent);
+  color: var(--text-on-accent);
 }
 
 @media (max-width: 767.98px) {

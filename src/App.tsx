@@ -124,7 +124,7 @@ function App() {
   );
 
   return (
-    <div className="d-flex flex-column p-3 app-shell" data-bs-theme="dark" style={{ boxSizing: "border-box" }}>
+    <div className="d-flex flex-column p-3 app-shell" style={{ boxSizing: "border-box" }}>
       <header className="d-flex align-items-center justify-content-between mb-2 flex-shrink-0 flex-wrap gap-2">
         <div className="d-flex align-items-center gap-2">
           <button
@@ -136,7 +136,7 @@ function App() {
             &#9776;
           </button>
           <h1 className="h4 mb-0">
-            <span style={{ color: "#e63946" }}>Fight</span> <span style={{ color: "#e6c200" }}>Calendar</span>
+            <span className="app-title-fight">Fight</span> <span className="app-title-calendar">Calendar</span>
           </h1>
         </div>
         <div className="d-flex align-items-center gap-2 flex-wrap">

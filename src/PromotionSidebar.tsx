@@ -31,7 +31,7 @@ function TriStateCheckbox({ checked, indeterminate, onChange, ariaLabel, accentC
       ref={ref}
       type="checkbox"
       className="promotion-checkbox"
-      style={{ "--accent": accentColor } as React.CSSProperties}
+      style={{ "--promotion-accent": accentColor } as React.CSSProperties}
       checked={checked}
       onChange={onChange}
       aria-label={ariaLabel}
@@ -105,7 +105,7 @@ export default function PromotionSidebar({ promotions, events, selectedKeys, onT
           <input
             type="checkbox"
             className="promotion-checkbox"
-            style={{ "--accent": color } as React.CSSProperties}
+            style={{ "--promotion-accent": color } as React.CSSProperties}
             checked={selectedKeys.has(key)}
             onChange={() => onToggle(key)}
           />
@@ -154,7 +154,7 @@ export default function PromotionSidebar({ promotions, events, selectedKeys, onT
                   <input
                     type="checkbox"
                     className="promotion-checkbox"
-                    style={{ "--accent": color } as React.CSSProperties}
+                    style={{ "--promotion-accent": color } as React.CSSProperties}
                     checked={selectedKeys.has(key)}
                     onChange={() => onToggle(key)}
                   />
@@ -189,7 +189,7 @@ export default function PromotionSidebar({ promotions, events, selectedKeys, onT
           indeterminate={!allSelected && !noneSelected}
           onChange={() => onSetMany(allKeys, !allSelected)}
           ariaLabel={t("sidebar.selectAllAria")}
-          accentColor="#e8e8e8"
+          accentColor="var(--text-bright)"
         />
         <span className="promotion-label-text">{allSelected ? t("sidebar.deselectAll") : t("sidebar.selectAll")}</span>
       </label>

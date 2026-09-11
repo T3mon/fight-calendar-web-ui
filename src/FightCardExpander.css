@@ -9,7 +9,7 @@
   gap: 4px;
   background: none;
   border: none;
-  color: #7c9cff;
+  color: var(--accent-light);
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
@@ -29,17 +29,17 @@
 .fight-card-expander-body {
   margin-top: 6px;
   padding-left: 4px;
-  border-left: 2px solid #2c303a;
+  border-left: 2px solid var(--border);
 }
 
 .fight-card-expander-status {
   font-size: 12px;
-  color: #9aa0aa;
+  color: var(--text-secondary);
   margin: 0 0 0 8px;
 }
 
 .fight-card-expander-error {
-  color: #e63946;
+  color: var(--danger);
 }
 
 .fight-card-expander-list {
@@ -59,23 +59,23 @@
 }
 
 .fight-card-expander-matchup {
-  color: #e8e8e8;
+  color: var(--text-bright);
   font-size: 12px;
 }
 
 .fight-card-expander-matchup a {
-  color: #e8e8e8;
+  color: var(--text-bright);
   text-decoration: none;
   font-weight: 600;
 }
 
 .fight-card-expander-matchup a:hover {
   text-decoration: underline;
-  color: #7c9cff;
+  color: var(--accent-light);
 }
 
 .fight-card-expander-weight {
-  color: #9aa0aa;
+  color: var(--text-secondary);
   font-size: 11px;
   flex-shrink: 0;
 }

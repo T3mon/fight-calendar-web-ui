@@ -8,17 +8,17 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  background: #1c1f26;
-  border: 1px solid #2c303a;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
   border-radius: 50%;
-  color: #9aa0aa;
+  color: var(--text-secondary);
   cursor: pointer;
   transition: background-color 0.12s ease, color 0.12s ease;
 }
 
 .search-bar-trigger:hover {
-  background: #20242c;
-  color: #e8e8e8;
+  background: var(--bg-surface-hover);
+  color: var(--text-bright);
 }
 
 .search-bar-expanded {
@@ -27,11 +27,11 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #1c1f26;
-  border: 1px solid #3a86ff;
+  background: var(--bg-surface);
+  border: 1px solid var(--accent);
   border-radius: 999px;
   padding: 6px 12px;
-  color: #6b7280;
+  color: var(--text-muted);
   width: min(280px, 55vw);
 }
 
@@ -40,7 +40,7 @@
   min-width: 0;
   background: none;
   border: none;
-  color: #e8e8e8;
+  color: var(--text-bright);
   font-size: 13px;
 }
 
@@ -49,14 +49,14 @@
 }
 
 .search-bar-input::placeholder {
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
 .search-bar-close {
   flex-shrink: 0;
   background: none;
   border: none;
-  color: #6b7280;
+  color: var(--text-muted);
   font-size: 16px;
   line-height: 1;
   cursor: pointer;
@@ -75,17 +75,17 @@
   width: min(360px, 80vw);
   max-height: 360px;
   overflow-y: auto;
-  background: #1c1f26;
-  border: 1px solid #2c303a;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 32px var(--shadow-md);
   z-index: 36;
   padding: 6px;
 }
 
 .search-bar-empty {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--text-muted);
   padding: 12px 10px;
   margin: 0;
 }
@@ -97,7 +97,7 @@
   width: 100%;
   background: none;
   border: none;
-  color: #cbd2dc;
+  color: var(--text-body);
   padding: 9px 8px;
   border-radius: 8px;
   cursor: pointer;
@@ -106,7 +106,7 @@
 }
 
 .search-bar-result:hover {
-  background: #20242c;
+  background: var(--bg-surface-hover);
 }
 
 .search-bar-result-dot {
@@ -127,7 +127,7 @@
 .search-bar-result-title {
   font-size: 13px;
   font-weight: 600;
-  color: #e8e8e8;
+  color: var(--text-bright);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -135,7 +135,7 @@
 
 .search-bar-result-matchup {
   font-size: 11px;
-  color: #9aa0aa;
+  color: var(--text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -143,7 +143,7 @@
 
 .search-bar-result-date {
   font-size: 11px;
-  color: #6b7280;
+  color: var(--text-muted);
   flex-shrink: 0;
   white-space: nowrap;
 }

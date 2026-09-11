@@ -1,5 +1,54 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
+/* Design tokens - the single source of truth for color in the app. Every
+   other stylesheet should reference these instead of hardcoding hex/rgba,
+   so a light theme (or any future theme) is a matter of overriding this
+   block, not hunting through every component's CSS. */
+:root {
+  /* Surfaces */
+  --bg-page: #14161b;
+  --bg-surface: #1c1f26;
+  --bg-surface-hover: #20242c;
+  --bg-active: #262a33;
+  --bg-recessed: #17191f;
+  --bg-highlight: #2c313d;
+  --bg-selected: #323848;
+  --bg-today-hover: #262e40;
+
+  /* Borders */
+  --border: #2c303a;
+  --border-strong: #3a3f4b;
+  --border-emphasis: #4a5568;
+
+  /* Text */
+  --text-muted: #6b7280;
+  --text-secondary: #9aa0aa;
+  --text-body: #cbd2dc;
+  --text-bright: #e8e8e8;
+  --text-heading: #f0f0f0;
+  --text-on-accent: #fff;
+  --text-faded: #3a3f4b;
+
+  /* Accent */
+  --accent: #3a86ff;
+  --accent-light: #7c9cff;
+
+  /* Semantic */
+  --danger: #e63946;
+  --danger-bg: rgba(230, 57, 70, 0.12);
+
+  /* Brand wordmark */
+  --brand-fight: #e63946;
+  --brand-calendar: #e6c200;
+
+  /* Shadows / overlays */
+  --shadow-sm: rgba(0, 0, 0, 0.45);
+  --shadow-md: rgba(0, 0, 0, 0.5);
+  --shadow-lg: rgba(0, 0, 0, 0.55);
+  --scrim: rgba(0, 0, 0, 0.65);
+  --scrim-light: rgba(0, 0, 0, 0.5);
+}
+
 html,
 body,
 #root {
@@ -8,5 +57,5 @@ body,
 }
 
 body {
-  background: #14161b;
+  background: var(--bg-page);
 }
