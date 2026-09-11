@@ -1,19 +1,15 @@
+/* Months wrap by their own min-width instead of at fixed breakpoints, so
+   this adapts to any container width - a resized desktop window or a
+   tablet included, not just the phone-vs-desktop cases a breakpoint would
+   cover. .calendar-main scrolls (see App.css) when wrapped rows don't fit
+   the available height. */
 .heatmap-layout {
   display: flex;
-  height: 100%;
+  flex-wrap: wrap;
+  align-content: flex-start;
   gap: 10px;
-}
-
-@media (max-width: 767.98px) {
-  /* 3 months side by side is unreadable at phone width - stack and scroll instead. */
-  .heatmap-layout {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .heatmap-month-medium {
-    min-height: 360px;
-  }
+  height: auto;
+  min-height: 100%;
 }
 
 .heatmap-month {
@@ -33,8 +29,9 @@
 }
 
 .heatmap-month-medium {
-  flex: 1;
-  height: 100%;
+  flex: 1 1 280px;
+  min-width: 280px;
+  min-height: 360px;
 }
 
 .heatmap-month-title {

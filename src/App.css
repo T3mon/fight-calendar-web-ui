@@ -101,6 +101,10 @@
   overflow-y: auto;
 }
 
+.calendar-main {
+  overflow-y: auto;
+}
+
 .sidebar-backdrop {
   display: none;
 }
@@ -131,10 +135,6 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
     z-index: 25;
-  }
-
-  .calendar-main {
-    overflow-y: auto;
   }
 
   .session-email {
