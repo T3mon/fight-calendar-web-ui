@@ -3,6 +3,102 @@
   height: 100dvh;
 }
 
+.nav-gcal {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nav-gcal-today {
+  background: #e63946;
+  border: none;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: opacity 0.12s ease;
+}
+
+.nav-gcal-today:hover {
+  opacity: 0.85;
+}
+
+.nav-gcal-today-current {
+  opacity: 0.6;
+}
+
+.nav-gcal-steppers {
+  display: flex;
+  gap: 0;
+}
+
+.nav-gcal-step {
+  background: none;
+  border: 1px solid #2c303a;
+  color: #cbd2dc;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.12s ease;
+}
+
+.nav-gcal-step:first-child {
+  border-radius: 6px 0 0 6px;
+  border-right: none;
+}
+
+.nav-gcal-step:last-child {
+  border-radius: 0 6px 6px 0;
+}
+
+.nav-gcal-step:hover {
+  background: #20242c;
+}
+
+.nav-gcal-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f0f0f0;
+  min-width: 130px;
+}
+
+.nav-gcal-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid #2c303a;
+  align-self: stretch;
+  align-items: flex-end;
+}
+
+.nav-gcal-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #9aa0aa;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px 8px;
+  cursor: pointer;
+  transition: color 0.12s ease, border-color 0.12s ease;
+}
+
+.nav-gcal-tab:hover {
+  color: #cbd2dc;
+}
+
+.nav-gcal-tab.active {
+  color: #f0f0f0;
+  border-bottom-color: #3a86ff;
+}
+
 .sidebar {
   width: 250px;
   overflow-y: auto;

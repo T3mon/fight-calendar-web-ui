@@ -35,3 +35,11 @@ export function monthsInView(mode: ViewMode, viewDate: Date): Date[] {
   if (mode === "quarter") return [0, 1, 2].map((i) => addMonths(startOfMonth(viewDate), i));
   return Array.from({ length: 12 }, (_, i) => new Date(viewDate.getFullYear(), i, 1));
 }
+
+// Whether today's actual date already falls inside the currently visible
+// range.
+export function isViewingToday(mode: ViewMode, viewDate: Date): boolean {
+  const { start, end } = getVisibleRange(mode, viewDate);
+  const now = new Date();
+  return now >= start && now <= end;
+}
