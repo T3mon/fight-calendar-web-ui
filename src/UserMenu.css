@@ -1,0 +1,138 @@
+.user-menu {
+  position: relative;
+}
+
+.user-menu-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1c1f26;
+  border: 1px solid #2c303a;
+  border-radius: 999px;
+  padding: 4px 12px 4px 4px;
+  cursor: pointer;
+  color: #e8e8e8;
+  transition: background-color 0.12s ease;
+}
+
+.user-menu-trigger:hover {
+  background: #20242c;
+}
+
+.user-menu-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #3a86ff;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.user-menu-avatar-lg {
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+}
+
+.user-menu-email {
+  font-size: 13px;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-menu-chevron {
+  font-size: 10px;
+  color: #6b7280;
+  transition: transform 0.15s ease;
+}
+
+.user-menu-chevron.open {
+  transform: rotate(180deg);
+}
+
+.user-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+}
+
+.user-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 240px;
+  background: #1c1f26;
+  border: 1px solid #2c303a;
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  z-index: 36;
+  padding: 8px;
+}
+
+.user-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 6px 12px;
+}
+
+.user-menu-header-email {
+  font-size: 13px;
+  color: #e8e8e8;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-menu-divider {
+  height: 1px;
+  background: #2c303a;
+  margin: 4px 0;
+}
+
+.user-menu-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #cbd2dc;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.user-menu-item:hover {
+  background: #262a33;
+  color: #f0f0f0;
+}
+
+.user-menu-item-danger {
+  color: #e63946;
+}
+
+.user-menu-item-danger:hover {
+  background: rgba(230, 57, 70, 0.12);
+}
+
+@media (max-width: 767.98px) {
+  /* The trigger wraps onto its own header row here and sits at the left
+     edge of it (a lone flex item with justify-content:space-between has
+     nothing to space against) - anchor the dropdown to match, or it hangs
+     off the left side of the screen. */
+  .user-menu-dropdown {
+    left: 0;
+    right: auto;
+  }
+}
