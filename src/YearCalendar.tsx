@@ -143,7 +143,7 @@ export default function YearCalendar({ year, events }: YearCalendarProps) {
                 </li>
               ))}
           </ul>
-          <div className="year-grid-popover-footnote">Times shown in your local timezone. End times aren't tracked - fights don't have a fixed duration.</div>
+          <div className="year-grid-popover-footnote">*Times shown in your local timezone</div>
         </div>
       )}
     </div>
