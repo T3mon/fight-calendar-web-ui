@@ -130,7 +130,13 @@ export default function YearCalendar({ year, events }: YearCalendarProps) {
                   </a>
                   {event.mainEvent && (
                     <div className="year-grid-popover-subtitle">
-                      {event.mainEvent.fighterA} vs {event.mainEvent.fighterB}
+                      <a href={event.mainEvent.fighterALink} target="_blank" rel="noreferrer">
+                        {event.mainEvent.fighterA}
+                      </a>{" "}
+                      vs{" "}
+                      <a href={event.mainEvent.fighterBLink} target="_blank" rel="noreferrer">
+                        {event.mainEvent.fighterB}
+                      </a>
                     </div>
                   )}
                   <FightCardExpander slug={event.slug} />

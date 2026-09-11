@@ -8,7 +8,9 @@ export interface Promotion {
 
 export interface Bout {
   fighterA: string;
+  fighterALink: string;
   fighterB: string;
+  fighterBLink: string;
   weightClass: string | null;
 }
 

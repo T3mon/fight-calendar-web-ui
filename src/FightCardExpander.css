@@ -63,6 +63,17 @@
   font-size: 12px;
 }
 
+.fight-card-expander-matchup a {
+  color: #e8e8e8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.fight-card-expander-matchup a:hover {
+  text-decoration: underline;
+  color: #7c9cff;
+}
+
 .fight-card-expander-weight {
   color: #9aa0aa;
   font-size: 11px;

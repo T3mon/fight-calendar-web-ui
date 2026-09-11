@@ -47,7 +47,13 @@ export default function FightCardExpander({ slug }: FightCardExpanderProps) {
               {detail.bouts.map((bout, i) => (
                 <li key={i}>
                   <span className="fight-card-expander-matchup">
-                    {bout.fighterA} vs {bout.fighterB}
+                    <a href={bout.fighterALink} target="_blank" rel="noreferrer">
+                      {bout.fighterA}
+                    </a>{" "}
+                    vs{" "}
+                    <a href={bout.fighterBLink} target="_blank" rel="noreferrer">
+                      {bout.fighterB}
+                    </a>
                   </span>
                   {bout.weightClass && <span className="fight-card-expander-weight">{bout.weightClass}</span>}
                 </li>

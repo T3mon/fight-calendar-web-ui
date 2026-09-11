@@ -124,7 +124,13 @@ function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
                   </a>
                   {event.mainEvent && (
                     <div className="heatmap-popover-subtitle">
-                      {event.mainEvent.fighterA} vs {event.mainEvent.fighterB}
+                      <a href={event.mainEvent.fighterALink} target="_blank" rel="noreferrer">
+                        {event.mainEvent.fighterA}
+                      </a>{" "}
+                      vs{" "}
+                      <a href={event.mainEvent.fighterBLink} target="_blank" rel="noreferrer">
+                        {event.mainEvent.fighterB}
+                      </a>
                     </div>
                   )}
                   <FightCardExpander slug={event.slug} />
