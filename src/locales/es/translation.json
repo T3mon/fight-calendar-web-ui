@@ -28,7 +28,6 @@
     "appearance": "Apariencia",
     "dark": "Oscuro",
     "light": "Claro",
-    "appearanceNote": "Próximamente - por ahora solo el modo oscuro está implementado.",
     "locationNote": "Detectado automáticamente desde tu navegador por ahora. Próximamente: cambia esto y los horarios se mostrarán en la zona horaria elegida."
   },
   "account": {

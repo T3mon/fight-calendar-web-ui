@@ -28,7 +28,6 @@
     "appearance": "Appearance",
     "dark": "Dark",
     "light": "Light",
-    "appearanceNote": "Coming soon - only Dark is actually implemented right now.",
     "locationNote": "Auto-detected from your browser right now. Coming soon - override this and event times will show in your chosen location's time instead."
   },
   "account": {

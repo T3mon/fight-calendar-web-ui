@@ -28,7 +28,6 @@
     "appearance": "外观",
     "dark": "深色",
     "light": "浅色",
-    "appearanceNote": "即将推出 - 目前仅实现了深色模式。",
     "locationNote": "目前根据您的浏览器自动检测。即将推出：自定义此设置后，赛事时间将显示为所选地区的时间。"
   },
   "account": {

@@ -49,6 +49,48 @@
   --scrim-light: rgba(0, 0, 0, 0.5);
 }
 
+/* Light mode "Clean Neutral" - a flat, minimal light theme: near-white
+   page, pure-white cards, a deeper blue accent than the dark palette
+   (the dark theme's #3a86ff loses contrast on white). Separation between
+   surfaces comes mostly from borders rather than heavy shadows. */
+:root[data-bs-theme="light"] {
+  --bg-page: #f7f8fa;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #eef0f3;
+  --bg-active: #e4e7ec;
+  --bg-recessed: #eef0f3;
+  --bg-highlight: #dbe4f5;
+  --bg-selected: #cfe0fb;
+  --bg-today-hover: #dce6fb;
+
+  --border: #e2e5ea;
+  --border-strong: #c9ced6;
+  --border-emphasis: #aab0bb;
+
+  --text-muted: #8a94a6;
+  --text-secondary: #5b6472;
+  --text-body: #333a45;
+  --text-bright: #20242c;
+  --text-heading: #12151a;
+  --text-on-accent: #fff;
+  --text-faded: #c9ced6;
+
+  --accent: #2563eb;
+  --accent-light: #4f7fe0;
+
+  --danger: #d9354a;
+  --danger-bg: rgba(217, 53, 74, 0.1);
+
+  --brand-fight: #d9354a;
+  --brand-calendar: #b8930a;
+
+  --shadow-sm: rgba(20, 23, 30, 0.08);
+  --shadow-md: rgba(20, 23, 30, 0.12);
+  --shadow-lg: rgba(20, 23, 30, 0.16);
+  --scrim: rgba(20, 23, 30, 0.4);
+  --scrim-light: rgba(20, 23, 30, 0.3);
+}
+
 html,
 body,
 #root {

@@ -2,18 +2,17 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./SiteSettingsButton.css";
 import { LANGUAGES, baseLanguageCode } from "./languages";
+import { applyTheme, getInitialTheme, type Theme } from "./theme";
 
 // Theme, language, and location are app-wide preferences, not account
 // features - anyone can change them without signing in. Notifications,
 // favorite fighters, and tracked promotions stay behind AccountOverlay
 // instead, since those are genuinely per-user data.
 //
-// Theme and location are still design/UX placeholders - nothing there
-// persists anywhere yet. Language is real: it's backed by i18next, so
-// switching it actually re-renders every translated string in the app and
-// is cached in localStorage.
-// TODO: theme needs a real CSS-variable token pass across every component
-// before "Light" can actually work.
+// Theme and language are both real now: every color in the app comes from
+// the CSS custom properties in index.css, so switching data-bs-theme
+// re-themes everything, the same way changing i18n.language re-translates
+// everything. Both are cached in localStorage.
 // TODO: location currently just shows the browser's own detected timezone
 // - actually letting someone override it, and having the calendar use that
 // override instead of the browser's local time, is not wired up yet.
@@ -22,7 +21,12 @@ export default function SiteSettingsButton() {
   const [open, setOpen] = useState(false);
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const [location, setLocation] = useState(() => Intl.DateTimeFormat().resolvedOptions().timeZone);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
+
+  function changeTheme(next: Theme) {
+    setTheme(next);
+    applyTheme(next);
+  }
 
   const currentLanguage = baseLanguageCode(i18n.language);
   const currentLanguageName = LANGUAGES.find((lang) => lang.code === currentLanguage)?.nativeName ?? i18n.language;
@@ -112,20 +116,19 @@ export default function SiteSettingsButton() {
                   <button
                     type="button"
                     className={"site-settings-segment" + (theme === "dark" ? " active" : "")}
-                    onClick={() => setTheme("dark")}
+                    onClick={() => changeTheme("dark")}
                   >
                     {t("settings.dark")}
                   </button>
                   <button
                     type="button"
                     className={"site-settings-segment" + (theme === "light" ? " active" : "")}
-                    onClick={() => setTheme("light")}
+                    onClick={() => changeTheme("light")}
                   >
                     {t("settings.light")}
                   </button>
                 </div>
               </div>
-              <p className="site-settings-note">{t("settings.appearanceNote")}</p>
             </div>
           </div>
         </>

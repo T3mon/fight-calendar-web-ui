@@ -28,7 +28,6 @@
     "appearance": "Apparence",
     "dark": "Sombre",
     "light": "Clair",
-    "appearanceNote": "Bientôt disponible - seul le mode sombre est actuellement implémenté.",
     "locationNote": "Détecté automatiquement depuis votre navigateur pour l'instant. Bientôt disponible : remplacez ce réglage et les horaires s'afficheront dans le fuseau choisi."
   },
   "account": {

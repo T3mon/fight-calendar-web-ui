@@ -28,7 +28,6 @@
     "appearance": "Aparência",
     "dark": "Escuro",
     "light": "Claro",
-    "appearanceNote": "Em breve - por enquanto só o modo escuro está implementado.",
     "locationNote": "Detectado automaticamente pelo seu navegador por enquanto. Em breve: altere isso e os horários serão exibidos no fuso escolhido."
   },
   "account": {
