@@ -43,19 +43,19 @@ export default function SiteSettingsButton() {
         <>
           <div className="site-settings-backdrop" onClick={() => setOpen(false)} />
           <div className="site-settings-dropdown" role="menu" aria-label={t("settings.ariaLabel")}>
-            <div className="site-settings-row">
-              <label className="site-settings-row-header" htmlFor="site-settings-language">
+            <div className="site-settings-row site-settings-row-clickable">
+              <div className="site-settings-row-header">
                 <LanguageIcon />
                 <span className="site-settings-row-label">
                   {t("settings.language")}: <strong>{currentLanguageName}</strong>
                 </span>
                 <span className="site-settings-chevron">&#9662;</span>
-              </label>
+              </div>
               <select
-                id="site-settings-language"
-                className="site-settings-select-hidden"
+                className="site-settings-select-overlay"
                 value={currentLanguage}
                 onChange={(e) => i18n.changeLanguage(e.target.value)}
+                aria-label={t("settings.language")}
               >
                 {LANGUAGES.map((lang) => (
                   <option key={lang.code} value={lang.code}>
