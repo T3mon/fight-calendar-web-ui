@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
   eachDayOfInterval,
   endOfMonth,
@@ -21,6 +21,8 @@ const MAX_DOTS_PER_DAY = 4;
 interface YearCalendarProps {
   year: number;
   events: EventListItem[];
+  selectedDay: string | null;
+  onSelectDay: (key: string | null) => void;
 }
 
 function getMonthGridDays(year: number, month: number): Date[] {
@@ -33,9 +35,7 @@ function dayKey(date: Date): string {
   return format(date, "yyyy-MM-dd");
 }
 
-export default function YearCalendar({ year, events }: YearCalendarProps) {
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
-
+export default function YearCalendar({ year, events, selectedDay, onSelectDay }: YearCalendarProps) {
   const eventsByDay = useMemo(() => {
     const map = new Map<string, EventListItem[]>();
     for (const event of events) {
@@ -83,7 +83,7 @@ export default function YearCalendar({ year, events }: YearCalendarProps) {
                       (dayEvents.length > 0 ? " year-grid-day-has-events" : "") +
                       (selectedDay === key ? " year-grid-day-selected" : "")
                     }
-                    onClick={() => (dayEvents.length > 0 ? setSelectedDay(selectedDay === key ? null : key) : undefined)}
+                    onClick={() => (dayEvents.length > 0 ? onSelectDay(selectedDay === key ? null : key) : undefined)}
                     disabled={dayEvents.length === 0}
                   >
                     <span className="year-grid-day-number">{date.getDate()}</span>
@@ -110,7 +110,7 @@ export default function YearCalendar({ year, events }: YearCalendarProps) {
         <div className="year-grid-popover" role="dialog" aria-label={`Events on ${selectedDay}`}>
           <div className="year-grid-popover-header">
             <strong>{format(new Date(selectedDay), "EEEE, MMMM d, yyyy")}</strong>
-            <button type="button" className="year-grid-popover-close" onClick={() => setSelectedDay(null)} aria-label="Close">
+            <button type="button" className="year-grid-popover-close" onClick={() => onSelectDay(null)} aria-label="Close">
               &times;
             </button>
           </div>

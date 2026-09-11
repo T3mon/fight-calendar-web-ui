@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, isToday, startOfMonth, startOfToday, startOfWeek } from "date-fns";
 import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
@@ -24,13 +24,13 @@ interface HeatmapMonthProps {
   month: Date;
   events: EventListItem[];
   size: "large" | "medium";
+  selectedDay: string | null;
+  onSelectDay: (key: string | null) => void;
 }
 
 const MAX_MATCHUP_LINES: Record<"large" | "medium", number> = { large: 4, medium: 2 };
 
-function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
-
+function HeatmapMonth({ month, events, size, selectedDay, onSelectDay }: HeatmapMonthProps) {
   const eventsByDay = useMemo(() => {
     const map = new Map<string, EventListItem[]>();
     for (const event of events) {
@@ -81,7 +81,7 @@ function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
                 (dayEvents.length > 0 ? " heatmap-day-has-events" : "") +
                 (selectedDay === key ? " heatmap-day-selected" : "")
               }
-              onClick={() => (dayEvents.length > 0 ? setSelectedDay(selectedDay === key ? null : key) : undefined)}
+              onClick={() => (dayEvents.length > 0 ? onSelectDay(selectedDay === key ? null : key) : undefined)}
               disabled={dayEvents.length === 0}
             >
               <span className="heatmap-day-top">
@@ -103,11 +103,11 @@ function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
         })}
       </div>
 
-      {selectedDay && selectedEvents.length > 0 && (
+      {selectedDay && isSameMonth(new Date(selectedDay), month) && selectedEvents.length > 0 && (
         <div className="heatmap-popover" role="dialog" aria-label={`Events on ${selectedDay}`}>
           <div className="heatmap-popover-header">
             <strong>{format(new Date(selectedDay), "EEEE, MMMM d, yyyy")}</strong>
-            <button type="button" className="heatmap-popover-close" onClick={() => setSelectedDay(null)} aria-label="Close">
+            <button type="button" className="heatmap-popover-close" onClick={() => onSelectDay(null)} aria-label="Close">
               &times;
             </button>
           </div>
@@ -146,14 +146,23 @@ function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
 interface HeatmapCalendarProps {
   months: Date[];
   events: EventListItem[];
+  selectedDay: string | null;
+  onSelectDay: (key: string | null) => void;
 }
 
-export default function HeatmapCalendar({ months, events }: HeatmapCalendarProps) {
+export default function HeatmapCalendar({ months, events, selectedDay, onSelectDay }: HeatmapCalendarProps) {
   const size = months.length === 1 ? "large" : "medium";
   return (
     <div className="heatmap-layout">
       {months.map((month) => (
-        <HeatmapMonth key={month.toISOString()} month={month} events={events} size={size} />
+        <HeatmapMonth
+          key={month.toISOString()}
+          month={month}
+          events={events}
+          size={size}
+          selectedDay={selectedDay}
+          onSelectDay={onSelectDay}
+        />
       ))}
     </div>
   );

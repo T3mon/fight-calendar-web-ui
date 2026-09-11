@@ -10,6 +10,7 @@ import PromotionSidebar from "./PromotionSidebar";
 import GoogleSignInButton from "./GoogleSignInButton";
 import AccountOverlay from "./AccountOverlay";
 import SiteSettingsButton from "./SiteSettingsButton";
+import SearchBar from "./SearchBar";
 import { clearSession, loadSession, type Session } from "./auth";
 import { getVisibleRange, isViewingToday, monthsInView, shiftViewDate, type ViewMode } from "./calendarView";
 import { computeSubSeriesByPromotion, filterKeyForEvent, leafKeysForPromotion } from "./eventSeries";
@@ -39,6 +40,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [session, setSession] = useState<Session | null>(() => loadSession());
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
   useEffect(() => {
     Promise.all([fetchPromotions(), fetchEvents()])
@@ -82,6 +84,18 @@ function App() {
 
   const subSeriesByPromotion = useMemo(() => computeSubSeriesByPromotion(events), [events]);
 
+  // Search runs over every fetched event, not just what the sidebar
+  // currently shows - jumping to a result should never come up empty
+  // just because its promotion happened to be unchecked.
+  function jumpToEvent(event: EventListItem) {
+    const key = filterKeyForEvent(event, subSeriesByPromotion);
+    setSelectedKeys((prev) => (prev.has(key) ? prev : new Set(prev).add(key)));
+    const date = new Date(event.startsAt);
+    setViewMode("month");
+    setViewDate(date);
+    setSelectedDay(format(date, "yyyy-MM-dd"));
+  }
+
   // Persist only the user's explicit unchecks (see filterStorage.ts) once
   // real data has loaded - skip the initial empty-Set render before the
   // fetch above resolves, which would otherwise wipe a returning visitor's
@@ -121,6 +135,7 @@ function App() {
           </h1>
         </div>
         <div className="d-flex align-items-center gap-2 flex-wrap">
+          <SearchBar events={events} onJumpToEvent={jumpToEvent} />
           <SiteSettingsButton />
           <div className="nav-toolbar">
             <div className="nav-stepper">
@@ -205,9 +220,19 @@ function App() {
 
           <main className="flex-grow-1 calendar-main" style={{ minHeight: 0 }}>
             {viewMode === "year" ? (
-              <YearCalendar year={viewDate.getFullYear()} events={visibleEvents} />
+              <YearCalendar
+                year={viewDate.getFullYear()}
+                events={visibleEvents}
+                selectedDay={selectedDay}
+                onSelectDay={setSelectedDay}
+              />
             ) : (
-              <HeatmapCalendar months={monthsInView(viewMode, viewDate)} events={visibleEvents} />
+              <HeatmapCalendar
+                months={monthsInView(viewMode, viewDate)}
+                events={visibleEvents}
+                selectedDay={selectedDay}
+                onSelectDay={setSelectedDay}
+              />
             )}
           </main>
         </div>
