@@ -8,6 +8,7 @@ import YearCalendar from "./YearCalendar";
 import HeatmapCalendar from "./HeatmapCalendar";
 import PromotionSidebar from "./PromotionSidebar";
 import GoogleSignInButton from "./GoogleSignInButton";
+import AccountOverlay from "./AccountOverlay";
 import { clearSession, loadSession, type Session } from "./auth";
 import { getVisibleRange, isViewingToday, monthsInView, shiftViewDate, type ViewMode } from "./calendarView";
 import { computeSubSeriesByPromotion, filterKeyForEvent, leafKeysForPromotion } from "./eventSeries";
@@ -166,19 +167,14 @@ function App() {
             </div>
           </div>
           {session ? (
-            <div className="d-flex align-items-center gap-2">
-              <span className="small text-muted session-email">{session.email}</span>
-              <button
-                type="button"
-                className="btn btn-outline-secondary btn-sm"
-                onClick={() => {
-                  clearSession();
-                  setSession(null);
-                }}
-              >
-                Sign out
-              </button>
-            </div>
+            <AccountOverlay
+              session={session}
+              promotions={promotions}
+              onSignOut={() => {
+                clearSession();
+                setSession(null);
+              }}
+            />
           ) : (
             <GoogleSignInButton onSignedIn={setSession} />
           )}
