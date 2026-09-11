@@ -28,7 +28,9 @@
     "appearance": "Aparência",
     "dark": "Escuro",
     "light": "Claro",
-    "locationNote": "Detectado automaticamente pelo seu navegador por enquanto. Em breve: altere isso e os horários serão exibidos no fuso escolhido."
+    "locationAuto": "Automático ({{zone}})",
+    "locationSearchPlaceholder": "Buscar fusos horários…",
+    "locationNoResults": "Nenhum fuso horário encontrado."
   },
   "account": {
     "ariaLabel": "Configurações da conta",
@@ -51,7 +53,7 @@
     "noResults": "Nenhum evento encontrado."
   },
   "calendar": {
-    "localTimezoneNote": "*Horários exibidos no seu fuso horário local",
+    "localTimezoneNote": "*Horários exibidos em {{zone}}",
     "close": "Fechar",
     "fullCard": "Card completo",
     "loading": "Carregando…",

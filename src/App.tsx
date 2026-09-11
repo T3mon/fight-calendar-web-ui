@@ -18,6 +18,7 @@ import { getVisibleRange, isViewingToday, monthsInView, shiftViewDate, type View
 import { computeSubSeriesByPromotion, filterKeyForEvent, leafKeysForPromotion } from "./eventSeries";
 import { loadDeselectedKeys, saveDeselectedKeys } from "./filterStorage";
 import { getDateLocale } from "./dateLocale";
+import { dayKeyInZone, useTimezone, zonedDate } from "./timezone";
 import type { EventListItem, Promotion } from "./types";
 
 function formatViewLabel(mode: ViewMode, viewDate: Date, locale: Locale): string {
@@ -34,6 +35,7 @@ function formatViewLabel(mode: ViewMode, viewDate: Date, locale: Locale): string
 function App() {
   const { t, i18n } = useTranslation();
   const dateLocale = getDateLocale(i18n.language);
+  const timeZone = useTimezone();
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [events, setEvents] = useState<EventListItem[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
@@ -95,10 +97,12 @@ function App() {
   function jumpToEvent(event: EventListItem) {
     const key = filterKeyForEvent(event, subSeriesByPromotion);
     setSelectedKeys((prev) => (prev.has(key) ? prev : new Set(prev).add(key)));
-    const date = new Date(event.startsAt);
+    // Zone-aware so the day we open matches the square the calendar put the
+    // event on - a late-night card can sit on a different date per zone.
+    const date = zonedDate(event.startsAt, timeZone);
     setViewMode("month");
-    setViewDate(date);
-    setSelectedDay(format(date, "yyyy-MM-dd"));
+    setViewDate(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
+    setSelectedDay(dayKeyInZone(event.startsAt, timeZone));
   }
 
   // Persist only the user's explicit unchecks (see filterStorage.ts) once
@@ -118,9 +122,9 @@ function App() {
       events.filter(
         (event) =>
           selectedKeys.has(filterKeyForEvent(event, subSeriesByPromotion)) &&
-          isWithinInterval(new Date(event.startsAt), visibleRange),
+          isWithinInterval(zonedDate(event.startsAt, timeZone), visibleRange),
       ),
-    [events, selectedKeys, subSeriesByPromotion, visibleRange],
+    [events, selectedKeys, subSeriesByPromotion, visibleRange, timeZone],
   );
 
   return (

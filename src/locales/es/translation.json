@@ -28,7 +28,9 @@
     "appearance": "Apariencia",
     "dark": "Oscuro",
     "light": "Claro",
-    "locationNote": "Detectado automáticamente desde tu navegador por ahora. Próximamente: cambia esto y los horarios se mostrarán en la zona horaria elegida."
+    "locationAuto": "Automático ({{zone}})",
+    "locationSearchPlaceholder": "Buscar zonas horarias…",
+    "locationNoResults": "No se encontraron zonas horarias."
   },
   "account": {
     "ariaLabel": "Configuración de la cuenta",
@@ -51,7 +53,7 @@
     "noResults": "No se encontraron eventos."
   },
   "calendar": {
-    "localTimezoneNote": "*Horarios mostrados en tu zona horaria local",
+    "localTimezoneNote": "*Horarios mostrados en {{zone}}",
     "close": "Cerrar",
     "fullCard": "Cartelera completa",
     "loading": "Cargando…",

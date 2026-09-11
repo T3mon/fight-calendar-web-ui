@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import "./SearchBar.css";
 import { getDateLocale } from "./dateLocale";
+import { useTimezone, zonedDate } from "./timezone";
 import { colorForPromotion } from "./promotionColors";
 import type { EventListItem } from "./types";
 
@@ -35,6 +36,7 @@ function matchesQuery(event: EventListItem, query: string): boolean {
 export default function SearchBar({ events, onJumpToEvent }: SearchBarProps) {
   const { t, i18n } = useTranslation();
   const dateLocale = getDateLocale(i18n.language);
+  const timeZone = useTimezone();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -102,7 +104,7 @@ export default function SearchBar({ events, onJumpToEvent }: SearchBarProps) {
                         </span>
                       )}
                     </span>
-                    <span className="search-bar-result-date">{format(new Date(event.startsAt), "MMM d, yyyy", { locale: dateLocale })}</span>
+                    <span className="search-bar-result-date">{format(zonedDate(event.startsAt, timeZone), "MMM d, yyyy", { locale: dateLocale })}</span>
                   </button>
                 ))
               )}

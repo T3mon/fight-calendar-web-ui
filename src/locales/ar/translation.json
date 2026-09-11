@@ -28,7 +28,9 @@
     "appearance": "المظهر",
     "dark": "داكن",
     "light": "فاتح",
-    "locationNote": "يُكتشف تلقائيًا من متصفحك حاليًا. قريبًا: يمكنك تغيير هذا وستُعرض أوقات الفعاليات بالمنطقة الزمنية المختارة."
+    "locationAuto": "تلقائي ({{zone}})",
+    "locationSearchPlaceholder": "ابحث عن المناطق الزمنية…",
+    "locationNoResults": "لم يتم العثور على مناطق زمنية."
   },
   "account": {
     "ariaLabel": "إعدادات الحساب",
@@ -51,7 +53,7 @@
     "noResults": "لم يتم العثور على فعاليات."
   },
   "calendar": {
-    "localTimezoneNote": "*الأوقات معروضة بتوقيتك المحلي",
+    "localTimezoneNote": "*الأوقات معروضة بتوقيت {{zone}}",
     "close": "إغلاق",
     "fullCard": "البطاقة الكاملة",
     "loading": "جارٍ التحميل…",

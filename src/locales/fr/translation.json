@@ -28,7 +28,9 @@
     "appearance": "Apparence",
     "dark": "Sombre",
     "light": "Clair",
-    "locationNote": "Détecté automatiquement depuis votre navigateur pour l'instant. Bientôt disponible : remplacez ce réglage et les horaires s'afficheront dans le fuseau choisi."
+    "locationAuto": "Automatique ({{zone}})",
+    "locationSearchPlaceholder": "Rechercher des fuseaux horaires…",
+    "locationNoResults": "Aucun fuseau horaire trouvé."
   },
   "account": {
     "ariaLabel": "Paramètres du compte",
@@ -51,7 +53,7 @@
     "noResults": "Aucun événement trouvé."
   },
   "calendar": {
-    "localTimezoneNote": "*Horaires affichés dans votre fuseau local",
+    "localTimezoneNote": "*Horaires affichés en {{zone}}",
     "close": "Fermer",
     "fullCard": "Carte complète",
     "loading": "Chargement…",

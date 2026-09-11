@@ -28,7 +28,9 @@
     "appearance": "外观",
     "dark": "深色",
     "light": "浅色",
-    "locationNote": "目前根据您的浏览器自动检测。即将推出：自定义此设置后，赛事时间将显示为所选地区的时间。"
+    "locationAuto": "自动（{{zone}}）",
+    "locationSearchPlaceholder": "搜索时区…",
+    "locationNoResults": "未找到时区。"
   },
   "account": {
     "ariaLabel": "账户设置",
@@ -51,7 +53,7 @@
     "noResults": "未找到相关赛事。"
   },
   "calendar": {
-    "localTimezoneNote": "*时间以您的本地时区显示",
+    "localTimezoneNote": "*时间以 {{zone}} 显示",
     "close": "关闭",
     "fullCard": "完整赛事卡",
     "loading": "加载中…",

@@ -1,9 +1,10 @@
 import { useMemo } from "react";
-import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, isToday, startOfMonth, startOfToday, startOfWeek } from "date-fns";
+import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, startOfMonth, startOfWeek } from "date-fns";
 import { useTranslation } from "react-i18next";
 import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
 import { getDateLocale, getWeekdayLabels } from "./dateLocale";
+import { dayKeyInZone, useTimezone, zonedDate } from "./timezone";
 import FightCardExpander from "./FightCardExpander";
 
 function matchupLabel(event: EventListItem): string {
@@ -33,12 +34,15 @@ const MAX_MATCHUP_LINES: Record<"large" | "medium", number> = { large: 4, medium
 function HeatmapMonth({ month, events, size, selectedDay, onSelectDay }: HeatmapMonthProps) {
   const { t, i18n } = useTranslation();
   const dateLocale = getDateLocale(i18n.language);
+  const timeZone = useTimezone();
   const weekdayLabels = useMemo(() => getWeekdayLabels(dateLocale), [dateLocale]);
+
+  const todayKey = dayKeyInZone(new Date(), timeZone);
 
   const eventsByDay = useMemo(() => {
     const map = new Map<string, EventListItem[]>();
     for (const event of events) {
-      const key = dayKey(new Date(event.startsAt));
+      const key = dayKeyInZone(event.startsAt, timeZone);
       const existing = map.get(key);
       if (existing) {
         existing.push(event);
@@ -47,7 +51,7 @@ function HeatmapMonth({ month, events, size, selectedDay, onSelectDay }: Heatmap
       }
     }
     return map;
-  }, [events]);
+  }, [events, timeZone]);
 
   const days = getMonthGridDays(month);
   const selectedEvents = selectedDay ? (eventsByDay.get(selectedDay) ?? []) : [];
@@ -65,8 +69,8 @@ function HeatmapMonth({ month, events, size, selectedDay, onSelectDay }: Heatmap
           const key = dayKey(date);
           const dayEvents = eventsByDay.get(key) ?? [];
           const inMonth = isSameMonth(date, month);
-          const today = isToday(date);
-          const isPast = date < startOfToday();
+          const today = key === todayKey;
+          const isPast = key < todayKey;
           const maxLines = MAX_MATCHUP_LINES[size];
           // Most prominent first (bigger card = more bouts), not chronological -
           // the point of this line is "what's the headliner", not a schedule.
@@ -107,10 +111,10 @@ function HeatmapMonth({ month, events, size, selectedDay, onSelectDay }: Heatmap
         })}
       </div>
 
-      {selectedDay && isSameMonth(new Date(selectedDay), month) && selectedEvents.length > 0 && (
+      {selectedDay && isSameMonth(new Date(selectedDay + "T00:00:00"), month) && selectedEvents.length > 0 && (
         <div className="heatmap-popover" role="dialog" aria-label={`Events on ${selectedDay}`}>
           <div className="heatmap-popover-header">
-            <strong>{format(new Date(selectedDay), "EEEE, MMMM d, yyyy", { locale: dateLocale })}</strong>
+            <strong>{format(new Date(selectedDay + "T00:00:00"), "EEEE, MMMM d, yyyy", { locale: dateLocale })}</strong>
             <button type="button" className="heatmap-popover-close" onClick={() => onSelectDay(null)} aria-label={t("calendar.close")}>
               &times;
             </button>
@@ -123,7 +127,7 @@ function HeatmapMonth({ month, events, size, selectedDay, onSelectDay }: Heatmap
                 <li key={event.id}>
                   <a href={event.link} target="_blank" rel="noreferrer">
                     <span className="heatmap-dot" style={{ backgroundColor: colorForPromotion(event.promotion.code) }} />
-                    <span className="heatmap-popover-time">{format(new Date(event.startsAt), "h:mm a", { locale: dateLocale })}</span>
+                    <span className="heatmap-popover-time">{format(zonedDate(event.startsAt, timeZone), "h:mm a", { locale: dateLocale })}</span>
                     <span className="heatmap-popover-title">{event.title}</span>
                   </a>
                   {event.mainEvent && (

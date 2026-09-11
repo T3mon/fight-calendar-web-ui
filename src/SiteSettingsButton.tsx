@@ -1,31 +1,64 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./SiteSettingsButton.css";
 import { LANGUAGES, baseLanguageCode } from "./languages";
 import { applyTheme, getInitialTheme, type Theme } from "./theme";
+import {
+  AUTO_TIMEZONE,
+  getDeviceTimezone,
+  getSupportedTimezones,
+  setTimezone,
+  useTimezone,
+  useTimezoneSetting,
+} from "./timezone";
+
+// IANA ids are underscored ("America/New_York"); spaces read better in a list.
+function timezoneLabel(id: string): string {
+  return id.replace(/_/g, " ");
+}
 
 // Theme, language, and location are app-wide preferences, not account
 // features - anyone can change them without signing in. Notifications,
 // favorite fighters, and tracked promotions stay behind AccountOverlay
 // instead, since those are genuinely per-user data.
 //
-// Theme and language are both real now: every color in the app comes from
-// the CSS custom properties in index.css, so switching data-bs-theme
-// re-themes everything, the same way changing i18n.language re-translates
-// everything. Both are cached in localStorage.
-// TODO: location currently just shows the browser's own detected timezone
-// - actually letting someone override it, and having the calendar use that
-// override instead of the browser's local time, is not wired up yet.
+// All three are real and cached in localStorage: theme swaps the CSS custom
+// properties in index.css, language re-translates via i18next, and location
+// re-formats every event date/time through @date-fns/tz. Location defaults
+// to the device zone but can be pinned - useful when travelling, or when
+// you want a card's times in the venue's local time.
 export default function SiteSettingsButton() {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
-  const [location, setLocation] = useState(() => Intl.DateTimeFormat().resolvedOptions().timeZone);
+  const [locationMenuOpen, setLocationMenuOpen] = useState(false);
+  const [timezoneQuery, setTimezoneQuery] = useState("");
   const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
+
+  const timezoneSetting = useTimezoneSetting();
+  const effectiveTimezone = useTimezone();
+  const deviceTimezone = getDeviceTimezone();
+
+  const filteredTimezones = useMemo(() => {
+    const zones = getSupportedTimezones();
+    const query = timezoneQuery.trim().toLowerCase().replace(/\s+/g, "_");
+    if (!query) return zones;
+    return zones.filter((zone) => zone.toLowerCase().includes(query));
+  }, [timezoneQuery]);
 
   function changeTheme(next: Theme) {
     setTheme(next);
     applyTheme(next);
+  }
+
+  function closeLocationMenu() {
+    setLocationMenuOpen(false);
+    setTimezoneQuery("");
+  }
+
+  function changeTimezone(next: string) {
+    setTimezone(next);
+    closeLocationMenu();
   }
 
   const currentLanguage = baseLanguageCode(i18n.language);
@@ -39,6 +72,7 @@ export default function SiteSettingsButton() {
         onClick={() => {
           setOpen((o) => !o);
           setLanguageMenuOpen(false);
+          closeLocationMenu();
         }}
         aria-label={t("settings.ariaLabel")}
       >
@@ -54,6 +88,7 @@ export default function SiteSettingsButton() {
             onClick={() => {
               setOpen(false);
               setLanguageMenuOpen(false);
+              closeLocationMenu();
             }}
           />
           <div className="site-settings-dropdown" role="menu" aria-label={t("settings.ariaLabel")}>
@@ -61,7 +96,10 @@ export default function SiteSettingsButton() {
               <button
                 type="button"
                 className="site-settings-row-header"
-                onClick={() => setLanguageMenuOpen((o) => !o)}
+                onClick={() => {
+                  setLanguageMenuOpen((o) => !o);
+                  closeLocationMenu();
+                }}
               >
                 <LanguageIcon />
                 <span className="site-settings-row-label">
@@ -72,7 +110,7 @@ export default function SiteSettingsButton() {
               {languageMenuOpen && (
                 <>
                   <div className="site-settings-submenu-backdrop" onClick={() => setLanguageMenuOpen(false)} />
-                  <ul className="site-settings-submenu" role="listbox" aria-label={t("settings.language")}>
+                  <ul className="site-settings-submenu site-settings-submenu-list" role="listbox" aria-label={t("settings.language")}>
                     {LANGUAGES.map((lang) => (
                       <li key={lang.code}>
                         <button
@@ -95,17 +133,70 @@ export default function SiteSettingsButton() {
             </div>
 
             <div className="site-settings-row">
-              <label className="site-settings-row-header">
+              <button
+                type="button"
+                className="site-settings-row-header"
+                onClick={() => {
+                  setLanguageMenuOpen(false);
+                  if (locationMenuOpen) closeLocationMenu();
+                  else setLocationMenuOpen(true);
+                }}
+              >
                 <LocationIcon />
-                <span className="site-settings-row-prefix">{t("settings.location")}:</span>
-                <input
-                  type="text"
-                  className="site-settings-inline-input"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                />
-              </label>
-              <p className="site-settings-note">{t("settings.locationNote")}</p>
+                <span className="site-settings-row-label">
+                  {t("settings.location")}: <strong>{timezoneLabel(effectiveTimezone)}</strong>
+                </span>
+                <span className={"site-settings-chevron" + (locationMenuOpen ? " open" : "")}>&#9662;</span>
+              </button>
+              {locationMenuOpen && (
+                <>
+                  <div className="site-settings-submenu-backdrop" onClick={closeLocationMenu} />
+                  <div className="site-settings-submenu">
+                    <input
+                      type="text"
+                      className="site-settings-submenu-search"
+                      placeholder={t("settings.locationSearchPlaceholder")}
+                      value={timezoneQuery}
+                      onChange={(e) => setTimezoneQuery(e.target.value)}
+                      autoFocus
+                      onKeyDown={(e) => {
+                        if (e.key === "Escape") closeLocationMenu();
+                      }}
+                    />
+                    <ul className="site-settings-submenu-list" role="listbox" aria-label={t("settings.location")}>
+                      <li>
+                        <button
+                          type="button"
+                          className={
+                            "site-settings-submenu-option" + (timezoneSetting === AUTO_TIMEZONE ? " active" : "")
+                          }
+                          role="option"
+                          aria-selected={timezoneSetting === AUTO_TIMEZONE}
+                          onClick={() => changeTimezone(AUTO_TIMEZONE)}
+                        >
+                          {t("settings.locationAuto", { zone: timezoneLabel(deviceTimezone) })}
+                        </button>
+                      </li>
+                      {filteredTimezones.map((zone) => (
+                        <li key={zone}>
+                          <button
+                            type="button"
+                            className={"site-settings-submenu-option" + (timezoneSetting === zone ? " active" : "")}
+                            role="option"
+                            aria-selected={timezoneSetting === zone}
+                            onClick={() => changeTimezone(zone)}
+                          >
+                            {timezoneLabel(zone)}
+                          </button>
+                        </li>
+                      ))}
+                      {filteredTimezones.length === 0 && (
+                        <li className="site-settings-submenu-empty">{t("settings.locationNoResults")}</li>
+                      )}
+                    </ul>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="site-settings-row">

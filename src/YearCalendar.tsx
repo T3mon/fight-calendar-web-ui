@@ -5,15 +5,14 @@ import {
   endOfWeek,
   format,
   isSameMonth,
-  isToday,
   startOfMonth,
-  startOfToday,
   startOfWeek,
 } from "date-fns";
 import { useTranslation } from "react-i18next";
 import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
 import { getDateLocale, getWeekdayLabels } from "./dateLocale";
+import { dayKeyInZone, useTimezone, zonedDate } from "./timezone";
 import FightCardExpander from "./FightCardExpander";
 
 const MAX_DOTS_PER_DAY = 4;
@@ -38,16 +37,21 @@ function dayKey(date: Date): string {
 export default function YearCalendar({ year, events, selectedDay, onSelectDay }: YearCalendarProps) {
   const { t, i18n } = useTranslation();
   const dateLocale = getDateLocale(i18n.language);
+  const timeZone = useTimezone();
   const monthNames = useMemo(
     () => Array.from({ length: 12 }, (_, m) => format(new Date(2000, m, 1), "MMMM", { locale: dateLocale })),
     [dateLocale],
   );
   const weekdayLabels = useMemo(() => getWeekdayLabels(dateLocale), [dateLocale]);
 
+  // "Today" and "past" follow the selected zone too - if you've pinned Tokyo
+  // it would be odd for the highlight to sit on your device's date instead.
+  const todayKey = dayKeyInZone(new Date(), timeZone);
+
   const eventsByDay = useMemo(() => {
     const map = new Map<string, EventListItem[]>();
     for (const event of events) {
-      const key = dayKey(new Date(event.startsAt));
+      const key = dayKeyInZone(event.startsAt, timeZone);
       const existing = map.get(key);
       if (existing) {
         existing.push(event);
@@ -56,7 +60,7 @@ export default function YearCalendar({ year, events, selectedDay, onSelectDay }:
       }
     }
     return map;
-  }, [events]);
+  }, [events, timeZone]);
 
   const selectedEvents = selectedDay ? (eventsByDay.get(selectedDay) ?? []) : [];
 
@@ -77,8 +81,8 @@ export default function YearCalendar({ year, events, selectedDay, onSelectDay }:
                 const key = dayKey(date);
                 const dayEvents = eventsByDay.get(key) ?? [];
                 const inMonth = isSameMonth(date, new Date(year, month, 1));
-                const today = isToday(date);
-                const isPast = date < startOfToday();
+                const today = key === todayKey;
+                const isPast = key < todayKey;
                 return (
                   <button
                     key={key}
@@ -117,7 +121,7 @@ export default function YearCalendar({ year, events, selectedDay, onSelectDay }:
       {selectedDay && selectedEvents.length > 0 && (
         <div className="year-grid-popover" role="dialog" aria-label={`Events on ${selectedDay}`}>
           <div className="year-grid-popover-header">
-            <strong>{format(new Date(selectedDay), "EEEE, MMMM d, yyyy", { locale: dateLocale })}</strong>
+            <strong>{format(new Date(selectedDay + "T00:00:00"), "EEEE, MMMM d, yyyy", { locale: dateLocale })}</strong>
             <button type="button" className="year-grid-popover-close" onClick={() => onSelectDay(null)} aria-label={t("calendar.close")}>
               &times;
             </button>
@@ -133,7 +137,7 @@ export default function YearCalendar({ year, events, selectedDay, onSelectDay }:
                       className="year-grid-dot"
                       style={{ backgroundColor: colorForPromotion(event.promotion.code) }}
                     />
-                    <span className="year-grid-popover-time">{format(new Date(event.startsAt), "h:mm a", { locale: dateLocale })}</span>
+                    <span className="year-grid-popover-time">{format(zonedDate(event.startsAt, timeZone), "h:mm a", { locale: dateLocale })}</span>
                     <span className="year-grid-popover-title">{event.title}</span>
                   </a>
                   {event.mainEvent && (
@@ -151,7 +155,9 @@ export default function YearCalendar({ year, events, selectedDay, onSelectDay }:
                 </li>
               ))}
           </ul>
-          <div className="year-grid-popover-footnote">{t("calendar.localTimezoneNote")}</div>
+          <div className="year-grid-popover-footnote">
+            {t("calendar.localTimezoneNote", { zone: timeZone.replace(/_/g, " ") })}
+          </div>
         </div>
       )}
     </div>
