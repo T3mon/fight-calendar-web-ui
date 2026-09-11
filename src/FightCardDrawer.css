@@ -1,0 +1,117 @@
+.fight-card-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 40;
+}
+
+.fight-card-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(380px, 90vw);
+  background: #1c1f26;
+  border-left: 1px solid #3a3f4b;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
+  z-index: 41;
+  padding: 20px;
+  overflow-y: auto;
+  animation: fight-card-drawer-slide-in 0.2s ease;
+}
+
+@keyframes fight-card-drawer-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.fight-card-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #2c303a;
+}
+
+.fight-card-drawer-title {
+  color: #f0f0f0;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.fight-card-drawer-venue {
+  color: #9aa0aa;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.fight-card-drawer-close {
+  background: none;
+  border: none;
+  color: #9aa0aa;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.fight-card-drawer-status {
+  color: #9aa0aa;
+  font-size: 13px;
+}
+
+.fight-card-drawer-error {
+  color: #e63946;
+}
+
+.fight-card-drawer-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fight-card-drawer-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 14px;
+  background: #20242c;
+  border-radius: 8px;
+}
+
+.fight-card-drawer-main-event {
+  background: #2c313d !important;
+  border: 1px solid #4a5568;
+}
+
+.fight-card-drawer-order {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+
+.fight-card-drawer-matchup {
+  color: #e8e8e8;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.fight-card-drawer-weight {
+  color: #9aa0aa;
+  font-size: 12px;
+}
+
+.fight-card-drawer-empty {
+  color: #6b7280;
+  font-size: 13px;
+}

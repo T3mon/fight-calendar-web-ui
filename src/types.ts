@@ -27,3 +27,18 @@ export interface EventListItem {
   mainEvent: Bout | null;
   boutCount: number;
 }
+
+// From GET /api/events/{slug} - same as EventListItem but with the full
+// ordered card instead of just the headliner.
+export interface EventDetail {
+  id: number;
+  slug: string;
+  title: string;
+  promotion: Promotion;
+  startsAt: string;
+  venue: string | null;
+  location: string | null;
+  link: string;
+  subSeries: string | null;
+  bouts: Bout[];
+}

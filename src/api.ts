@@ -1,5 +1,5 @@
 import { addYears, subYears } from "date-fns";
-import type { EventListItem, Promotion } from "./types";
+import type { EventDetail, EventListItem, Promotion } from "./types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:5080";
 
@@ -24,4 +24,8 @@ export function fetchEvents(): Promise<EventListItem[]> {
   const from = subYears(now, 1).toISOString();
   const to = addYears(now, 1).toISOString();
   return getJson<EventListItem[]>(`/api/events?from=${from}&to=${to}&take=500`);
+}
+
+export function fetchEventDetail(slug: string): Promise<EventDetail> {
+  return getJson<EventDetail>(`/api/events/${slug}`);
 }

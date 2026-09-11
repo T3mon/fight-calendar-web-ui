@@ -166,6 +166,13 @@
   gap: 10px;
 }
 
+.year-grid-popover-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .year-grid-popover-list a {
   display: flex;
   align-items: center;
@@ -174,10 +181,28 @@
   color: #e8e8e8;
   font-size: 13px;
   font-weight: 600;
+  min-width: 0;
 }
 
 .year-grid-popover-list a:hover {
   text-decoration: underline;
+}
+
+.fight-card-trigger {
+  flex-shrink: 0;
+  background: #262a33;
+  border: 1px solid #3a3f4b;
+  color: #cbd2dc;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.fight-card-trigger:hover {
+  background: #323848;
 }
 
 .year-grid-popover-list .year-grid-dot {
