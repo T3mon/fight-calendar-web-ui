@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, isToday, startOfMonth, startOfToday, startOfWeek } from "date-fns";
 import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
+import FightCardExpander from "./FightCardExpander";
 
 const WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
@@ -126,6 +127,7 @@ function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
                       {event.mainEvent.fighterA} vs {event.mainEvent.fighterB}
                     </div>
                   )}
+                  <FightCardExpander slug={event.slug} />
                 </li>
               ))}
           </ul>

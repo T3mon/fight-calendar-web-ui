@@ -1,0 +1,70 @@
+.fight-card-expander {
+  margin-top: 4px;
+  margin-left: 20px;
+}
+
+.fight-card-expander-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #7c9cff;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.fight-card-expander-chevron {
+  display: inline-block;
+  transition: transform 0.15s ease;
+  font-size: 9px;
+}
+
+.fight-card-expander-chevron.expanded {
+  transform: rotate(90deg);
+}
+
+.fight-card-expander-body {
+  margin-top: 6px;
+  padding-left: 4px;
+  border-left: 2px solid #2c303a;
+}
+
+.fight-card-expander-status {
+  font-size: 12px;
+  color: #9aa0aa;
+  margin: 0 0 0 8px;
+}
+
+.fight-card-expander-error {
+  color: #e63946;
+}
+
+.fight-card-expander-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fight-card-expander-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.fight-card-expander-matchup {
+  color: #e8e8e8;
+  font-size: 12px;
+}
+
+.fight-card-expander-weight {
+  color: #9aa0aa;
+  font-size: 11px;
+  flex-shrink: 0;
+}

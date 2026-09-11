@@ -12,6 +12,7 @@ import {
 } from "date-fns";
 import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
+import FightCardExpander from "./FightCardExpander";
 
 const MONTH_NAMES = Array.from({ length: 12 }, (_, m) => format(new Date(2000, m, 1), "MMMM"));
 const WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -132,6 +133,7 @@ export default function YearCalendar({ year, events }: YearCalendarProps) {
                       {event.mainEvent.fighterA} vs {event.mainEvent.fighterB}
                     </div>
                   )}
+                  <FightCardExpander slug={event.slug} />
                 </li>
               ))}
           </ul>
