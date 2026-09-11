@@ -10,11 +10,9 @@ interface AccountOverlayProps {
   onSignOut: () => void;
 }
 
-type Section = "appearance" | "language" | "notifications" | "fighters" | "promotions";
+type Section = "notifications" | "fighters" | "promotions";
 
 const NAV_ITEMS: { key: Section; label: string }[] = [
-  { key: "appearance", label: "Appearance" },
-  { key: "language", label: "Language" },
   { key: "notifications", label: "Notifications" },
   { key: "fighters", label: "Favorite Fighters" },
   { key: "promotions", label: "Tracked Promotions" },
@@ -30,17 +28,18 @@ const NOTIFICATION_OPTIONS = [
 // into one large settings-page-style overlay with a left sub-nav, the way
 // a dedicated account page would look rather than a menu or a drawer.
 //
+// Appearance/Language live in SiteSettingsButton instead, not here - those
+// are app-wide preferences anyone can change, signed in or not. Everything
+// in this overlay is genuinely per-account, so it stays gated behind
+// having a session.
+//
 // Design/UX placeholder only - nothing here persists anywhere yet.
-// TODO: theme needs a real CSS-variable token pass across every component
-// before "Light" can actually work. TODO: language needs an i18n library.
 // TODO: notifications/favorites/promotions need JWT-bearer auth wired into
 // FightCalendar.Web plus endpoints extending UserFollow and a new
 // favorite-fighters table before any of it saves.
 export default function AccountOverlay({ session, promotions, onSignOut }: AccountOverlayProps) {
   const [open, setOpen] = useState(false);
-  const [section, setSection] = useState<Section>("appearance");
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [language, setLanguage] = useState("en");
+  const [section, setSection] = useState<Section>("notifications");
   const [notifications, setNotifications] = useState<Set<string>>(new Set(["new-events"]));
   const [trackedPromotions, setTrackedPromotions] = useState<Set<number>>(new Set());
   const [fighterSearch, setFighterSearch] = useState("");
@@ -108,39 +107,6 @@ export default function AccountOverlay({ session, promotions, onSignOut }: Accou
             </nav>
 
             <div className="account-overlay-content">
-              {section === "appearance" && (
-                <div className="account-overlay-panel">
-                  <h2 className="account-overlay-panel-title">Appearance</h2>
-                  <div className="account-overlay-segmented">
-                    <button
-                      type="button"
-                      className={"account-overlay-segment" + (theme === "dark" ? " active" : "")}
-                      onClick={() => setTheme("dark")}
-                    >
-                      Dark
-                    </button>
-                    <button
-                      type="button"
-                      className={"account-overlay-segment" + (theme === "light" ? " active" : "")}
-                      onClick={() => setTheme("light")}
-                    >
-                      Light
-                    </button>
-                  </div>
-                  <p className="account-overlay-note">Coming soon - only Dark is actually implemented right now.</p>
-                </div>
-              )}
-
-              {section === "language" && (
-                <div className="account-overlay-panel">
-                  <h2 className="account-overlay-panel-title">Language</h2>
-                  <select className="account-overlay-select" value={language} onChange={(e) => setLanguage(e.target.value)}>
-                    <option value="en">English</option>
-                  </select>
-                  <p className="account-overlay-note">Coming soon - more languages later.</p>
-                </div>
-              )}
-
               {section === "notifications" && (
                 <div className="account-overlay-panel">
                   <h2 className="account-overlay-panel-title">

@@ -1,0 +1,115 @@
+.site-settings-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #1c1f26;
+  border: 1px solid #2c303a;
+  border-radius: 50%;
+  color: #9aa0aa;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.site-settings-trigger:hover {
+  background: #20242c;
+  color: #e8e8e8;
+}
+
+.site-settings-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site-settings-modal {
+  width: min(380px, 92vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  background: #1c1f26;
+  border: 1px solid #3a3f4b;
+  border-radius: 10px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  padding: 18px 20px;
+}
+
+.site-settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #f0f0f0;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.site-settings-close {
+  background: none;
+  border: none;
+  color: #9aa0aa;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.site-settings-section {
+  margin-bottom: 20px;
+}
+
+.site-settings-section:last-child {
+  margin-bottom: 0;
+}
+
+.site-settings-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9aa0aa;
+  margin-bottom: 8px;
+}
+
+.site-settings-segmented {
+  display: inline-flex;
+  background: #20242c;
+  border: 1px solid #2c303a;
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.site-settings-segment {
+  background: none;
+  border: none;
+  color: #9aa0aa;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.site-settings-segment.active {
+  background: #3a86ff;
+  color: #fff;
+}
+
+.site-settings-select {
+  background: #20242c;
+  border: 1px solid #2c303a;
+  color: #cbd2dc;
+  font-size: 13px;
+  border-radius: 6px;
+  padding: 7px 10px;
+  width: 100%;
+}
+
+.site-settings-note {
+  font-size: 11px;
+  color: #6b7280;
+  margin: 8px 0 0;
+}

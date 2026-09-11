@@ -9,6 +9,7 @@ import HeatmapCalendar from "./HeatmapCalendar";
 import PromotionSidebar from "./PromotionSidebar";
 import GoogleSignInButton from "./GoogleSignInButton";
 import AccountOverlay from "./AccountOverlay";
+import SiteSettingsButton from "./SiteSettingsButton";
 import { clearSession, loadSession, type Session } from "./auth";
 import { getVisibleRange, isViewingToday, monthsInView, shiftViewDate, type ViewMode } from "./calendarView";
 import { computeSubSeriesByPromotion, filterKeyForEvent, leafKeysForPromotion } from "./eventSeries";
@@ -166,6 +167,7 @@ function App() {
               ))}
             </div>
           </div>
+          <SiteSettingsButton />
           {session ? (
             <AccountOverlay
               session={session}
