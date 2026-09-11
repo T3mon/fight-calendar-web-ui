@@ -3,7 +3,7 @@ import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, isToday,
 import { useTranslation } from "react-i18next";
 import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
-import { getDateLocale } from "./dateLocale";
+import { getDateLocale, getWeekdayLabels } from "./dateLocale";
 import FightCardExpander from "./FightCardExpander";
 
 function matchupLabel(event: EventListItem): string {
@@ -33,12 +33,7 @@ const MAX_MATCHUP_LINES: Record<"large" | "medium", number> = { large: 4, medium
 function HeatmapMonth({ month, events, size, selectedDay, onSelectDay }: HeatmapMonthProps) {
   const { t, i18n } = useTranslation();
   const dateLocale = getDateLocale(i18n.language);
-  // Jan 2, 2000 was a Sunday - short weekday names, Sunday-first to match
-  // date-fns' own default week start used by getMonthGridDays below.
-  const weekdayLabels = useMemo(
-    () => Array.from({ length: 7 }, (_, d) => format(new Date(2000, 0, 2 + d), "EEEEEE", { locale: dateLocale })),
-    [dateLocale],
-  );
+  const weekdayLabels = useMemo(() => getWeekdayLabels(dateLocale), [dateLocale]);
 
   const eventsByDay = useMemo(() => {
     const map = new Map<string, EventListItem[]>();

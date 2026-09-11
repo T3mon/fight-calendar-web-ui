@@ -9,6 +9,7 @@ export const LANGUAGES: { code: string; nativeName: string }[] = [
   { code: "ru", nativeName: "Русский" },
   { code: "uk", nativeName: "Українська" },
   { code: "zh", nativeName: "中文" },
+  { code: "ar", nativeName: "العربية" },
 ];
 
 // The detector can report a region-tagged code like "en-US" - normalize to

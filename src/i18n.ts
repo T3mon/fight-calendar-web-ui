@@ -8,6 +8,7 @@ import fr from "./locales/fr/translation.json";
 import ru from "./locales/ru/translation.json";
 import uk from "./locales/uk/translation.json";
 import zh from "./locales/zh/translation.json";
+import ar from "./locales/ar/translation.json";
 
 // Adding another language later is just dropping in another
 // `locales/<lng>/translation.json`, registering it in `resources` below,
@@ -24,12 +25,13 @@ void i18n
       ru: { translation: ru },
       uk: { translation: uk },
       zh: { translation: zh },
+      ar: { translation: ar },
     },
     fallbackLng: "en",
     // Only base language codes are registered above - without this, a
     // browser reporting "en-US" would detect as "en-US" and silently miss
     // the "en" resources (falling back to raw keys instead of English text).
-    supportedLngs: ["en", "es", "pt", "fr", "ru", "uk", "zh"],
+    supportedLngs: ["en", "es", "pt", "fr", "ru", "uk", "zh", "ar"],
     nonExplicitSupportedLngs: true,
     interpolation: {
       escapeValue: false, // React already escapes interpolated values.

@@ -13,7 +13,7 @@ import {
 import { useTranslation } from "react-i18next";
 import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
-import { getDateLocale } from "./dateLocale";
+import { getDateLocale, getWeekdayLabels } from "./dateLocale";
 import FightCardExpander from "./FightCardExpander";
 
 const MAX_DOTS_PER_DAY = 4;
@@ -42,12 +42,7 @@ export default function YearCalendar({ year, events, selectedDay, onSelectDay }:
     () => Array.from({ length: 12 }, (_, m) => format(new Date(2000, m, 1), "MMMM", { locale: dateLocale })),
     [dateLocale],
   );
-  // Jan 2, 2000 was a Sunday - short weekday names, Sunday-first to match
-  // date-fns' own default week start used by getMonthGridDays below.
-  const weekdayLabels = useMemo(
-    () => Array.from({ length: 7 }, (_, d) => format(new Date(2000, 0, 2 + d), "EEEEEE", { locale: dateLocale })),
-    [dateLocale],
-  );
+  const weekdayLabels = useMemo(() => getWeekdayLabels(dateLocale), [dateLocale]);
 
   const eventsByDay = useMemo(() => {
     const map = new Map<string, EventListItem[]>();

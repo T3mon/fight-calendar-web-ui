@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "showFilters": "إظهار فلاتر الجهات المنظمة",
+    "previous": "السابق",
+    "next": "التالي",
+    "today": "اليوم",
+    "year": "سنة",
+    "quarter": "ربع سنة",
+    "month": "شهر"
+  },
+  "sidebar": {
+    "promotions": "الجهات المنظمة",
+    "selectAll": "تحديد الكل",
+    "deselectAll": "إلغاء تحديد الكل",
+    "selectAllAria": "تحديد أو إلغاء تحديد جميع الجهات المنظمة",
+    "selectGroupAria": "تحديد أو إلغاء تحديد جميع جهات {{name}}",
+    "selectPromotionAria": "تحديد أو إلغاء تحديد {{name}}",
+    "collapseAria": "طي {{name}}",
+    "expandAria": "توسيع {{name}}",
+    "other": "أخرى",
+    "numberedEvents": "الفعاليات المرقمة"
+  },
+  "settings": {
+    "ariaLabel": "الإعدادات",
+    "title": "الإعدادات",
+    "language": "اللغة",
+    "location": "الموقع",
+    "appearance": "المظهر",
+    "dark": "داكن",
+    "light": "فاتح",
+    "appearanceNote": "قريبًا - الوضع الداكن هو المُفعّل حاليًا فقط.",
+    "locationNote": "يُكتشف تلقائيًا من متصفحك حاليًا. قريبًا: يمكنك تغيير هذا وستُعرض أوقات الفعاليات بالمنطقة الزمنية المختارة."
+  },
+  "account": {
+    "ariaLabel": "إعدادات الحساب",
+    "close": "إغلاق",
+    "notifications": "الإشعارات",
+    "favoriteFighters": "المقاتلون المفضلون",
+    "trackedPromotions": "الجهات المنظمة المتابَعة",
+    "comingSoon": "قريبًا",
+    "searchFightersPlaceholder": "ابحث عن مقاتلين…",
+    "noFavoritesYet": "لا توجد مفضلات بعد.",
+    "signOut": "تسجيل الخروج",
+    "notificationNewEvents": "إضافة فعاليات جديدة",
+    "notificationCardUpdates": "تحديثات بطاقة المواجهات",
+    "notificationStartingSoon": "الفعالية على وشك البدء"
+  },
+  "search": {
+    "ariaLabel": "البحث عن الفعاليات",
+    "placeholder": "ابحث عن فعاليات، مقاتلين، جهات منظمة…",
+    "close": "إغلاق البحث",
+    "noResults": "لم يتم العثور على فعاليات."
+  },
+  "calendar": {
+    "localTimezoneNote": "*الأوقات معروضة بتوقيتك المحلي",
+    "close": "إغلاق",
+    "fullCard": "البطاقة الكاملة",
+    "loading": "جارٍ التحميل…",
+    "failedToLoad": "فشل التحميل: {{message}}",
+    "noCardDetailsYet": "لا توجد تفاصيل للبطاقة بعد.",
+    "noFightCardYet": "تفاصيل بطاقة المواجهات غير متوفرة بعد.",
+    "mainEvent": "المواجهة الرئيسية",
+    "bout": "المواجهة {{number}}",
+    "moreCount": "+{{count}} المزيد"
+  },
+  "app": {
+    "loading": "جارٍ التحميل…",
+    "failedToLoadEvents": "فشل تحميل الفعاليات: {{message}}"
+  },
+  "auth": {
+    "signInNotConfigured": "تسجيل الدخول غير مُهيأ"
+  }
+}
