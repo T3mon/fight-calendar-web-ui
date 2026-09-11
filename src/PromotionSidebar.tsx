@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "./PromotionSidebar.css";
 import { colorForGroup, colorForPromotion, groupForPromotion, GROUP_ORDER } from "./promotionColors";
 import { computeSubSeriesByPromotion, filterKey, leafKeysForPromotion, subSeriesValuesFor } from "./eventSeries";
 import type { EventListItem, Promotion } from "./types";
-
-const FLAGSHIP_LABEL = "Numbered Events";
 
 interface PromotionSidebarProps {
   promotions: Promotion[];
@@ -55,6 +54,7 @@ function ChevronIcon({ expanded }: { expanded: boolean }) {
 }
 
 export default function PromotionSidebar({ promotions, events, selectedKeys, onToggle, onSetMany }: PromotionSidebarProps) {
+  const { t } = useTranslation();
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(GROUP_ORDER));
   const [expandedPromotions, setExpandedPromotions] = useState<Set<string>>(new Set());
 
@@ -130,7 +130,7 @@ export default function PromotionSidebar({ promotions, events, selectedKeys, onT
             type="button"
             className="promotion-group-caret"
             onClick={() => toggleExpandedPromotion(promotion.code)}
-            aria-label={expanded ? `Collapse ${promotion.name}` : `Expand ${promotion.name}`}
+            aria-label={expanded ? t("sidebar.collapseAria", { name: promotion.name }) : t("sidebar.expandAria", { name: promotion.name })}
           >
             <ChevronIcon expanded={expanded} />
           </button>
@@ -138,7 +138,7 @@ export default function PromotionSidebar({ promotions, events, selectedKeys, onT
             checked={allSelected}
             indeterminate={!allSelected && !noneSelected}
             onChange={() => onSetMany(keys, !allSelected)}
-            ariaLabel={`Select or deselect all ${promotion.name}`}
+            ariaLabel={t("sidebar.selectPromotionAria", { name: promotion.name })}
             accentColor={color}
           />
           <span className="promotion-dot" style={{ backgroundColor: color }} />
@@ -159,7 +159,7 @@ export default function PromotionSidebar({ promotions, events, selectedKeys, onT
                     onChange={() => onToggle(key)}
                   />
                   <span className="promotion-dot" style={{ backgroundColor: color }} />
-                  <span className="promotion-label-text">{value ?? FLAGSHIP_LABEL}</span>
+                  <span className="promotion-label-text">{value ?? t("sidebar.numberedEvents")}</span>
                 </label>
               );
             })}
@@ -180,7 +180,7 @@ export default function PromotionSidebar({ promotions, events, selectedKeys, onT
   return (
     <div className="promotion-sidebar">
       <div className="promotion-sidebar-title-row">
-        <h2 className="promotion-sidebar-title">Promotions</h2>
+        <h2 className="promotion-sidebar-title">{t("sidebar.promotions")}</h2>
       </div>
 
       <label className="promotion-row promotion-select-all">
@@ -188,10 +188,10 @@ export default function PromotionSidebar({ promotions, events, selectedKeys, onT
           checked={allSelected}
           indeterminate={!allSelected && !noneSelected}
           onChange={() => onSetMany(allKeys, !allSelected)}
-          ariaLabel="Select or deselect all promotions"
+          ariaLabel={t("sidebar.selectAllAria")}
           accentColor="#e8e8e8"
         />
-        <span className="promotion-label-text">{allSelected ? "Deselect all" : "Select all"}</span>
+        <span className="promotion-label-text">{allSelected ? t("sidebar.deselectAll") : t("sidebar.selectAll")}</span>
       </label>
 
       {GROUP_ORDER.filter((group) => byGroup.has(group)).map((group) => {
@@ -210,7 +210,7 @@ export default function PromotionSidebar({ promotions, events, selectedKeys, onT
                 type="button"
                 className="promotion-group-caret"
                 onClick={() => toggleExpandedGroup(group)}
-                aria-label={expanded ? `Collapse ${group}` : `Expand ${group}`}
+                aria-label={expanded ? t("sidebar.collapseAria", { name: group }) : t("sidebar.expandAria", { name: group })}
               >
                 <ChevronIcon expanded={expanded} />
               </button>
@@ -218,7 +218,7 @@ export default function PromotionSidebar({ promotions, events, selectedKeys, onT
                 checked={groupAllSelected}
                 indeterminate={!groupAllSelected && !groupNoneSelected}
                 onChange={() => onSetMany(memberKeys, !groupAllSelected)}
-                ariaLabel={`Select or deselect all ${group} promotions`}
+                ariaLabel={t("sidebar.selectGroupAria", { name: group })}
                 accentColor={groupColor}
               />
               <span className="promotion-dot" style={{ backgroundColor: groupColor }} />
@@ -234,7 +234,7 @@ export default function PromotionSidebar({ promotions, events, selectedKeys, onT
 
       {standalone.length > 0 && (
         <div className="promotion-group">
-          {byGroup.size > 0 && <div className="promotion-standalone-label">Other</div>}
+          {byGroup.size > 0 && <div className="promotion-standalone-label">{t("sidebar.other")}</div>}
           {standalone.map((m) => renderPromotionEntry(m, false))}
         </div>
       )}

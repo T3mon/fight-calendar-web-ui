@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { signInWithGoogle, type Session } from "./auth";
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -43,6 +44,7 @@ interface GoogleSignInButtonProps {
 }
 
 export default function GoogleSignInButton({ onSignedIn }: GoogleSignInButtonProps) {
+  const { t } = useTranslation();
   const buttonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -71,7 +73,7 @@ export default function GoogleSignInButton({ onSignedIn }: GoogleSignInButtonPro
   if (!GOOGLE_CLIENT_ID) {
     return (
       <span className="text-muted small" title="Set VITE_GOOGLE_CLIENT_ID to enable sign-in">
-        Sign-in not configured
+        {t("auth.signInNotConfigured")}
       </span>
     );
   }

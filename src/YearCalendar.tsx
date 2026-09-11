@@ -10,12 +10,12 @@ import {
   startOfToday,
   startOfWeek,
 } from "date-fns";
+import { useTranslation } from "react-i18next";
 import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
+import { getDateLocale } from "./dateLocale";
 import FightCardExpander from "./FightCardExpander";
 
-const MONTH_NAMES = Array.from({ length: 12 }, (_, m) => format(new Date(2000, m, 1), "MMMM"));
-const WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const MAX_DOTS_PER_DAY = 4;
 
 interface YearCalendarProps {
@@ -36,6 +36,19 @@ function dayKey(date: Date): string {
 }
 
 export default function YearCalendar({ year, events, selectedDay, onSelectDay }: YearCalendarProps) {
+  const { t, i18n } = useTranslation();
+  const dateLocale = getDateLocale(i18n.language);
+  const monthNames = useMemo(
+    () => Array.from({ length: 12 }, (_, m) => format(new Date(2000, m, 1), "MMMM", { locale: dateLocale })),
+    [dateLocale],
+  );
+  // Jan 2, 2000 was a Sunday - short weekday names, Sunday-first to match
+  // date-fns' own default week start used by getMonthGridDays below.
+  const weekdayLabels = useMemo(
+    () => Array.from({ length: 7 }, (_, d) => format(new Date(2000, 0, 2 + d), "EEEEEE", { locale: dateLocale })),
+    [dateLocale],
+  );
+
   const eventsByDay = useMemo(() => {
     const map = new Map<string, EventListItem[]>();
     for (const event of events) {
@@ -54,14 +67,14 @@ export default function YearCalendar({ year, events, selectedDay, onSelectDay }:
 
   return (
     <div className="year-grid">
-      {MONTH_NAMES.map((monthName, month) => {
+      {monthNames.map((monthName, month) => {
         const days = getMonthGridDays(year, month);
         return (
           <div className="year-grid-month" key={monthName}>
             <div className="year-grid-month-title">{monthName}</div>
             <div className="year-grid-weekdays">
-              {WEEKDAY_LABELS.map((label) => (
-                <span key={label}>{label}</span>
+              {weekdayLabels.map((label, i) => (
+                <span key={i}>{label}</span>
               ))}
             </div>
             <div className="year-grid-days">
@@ -109,8 +122,8 @@ export default function YearCalendar({ year, events, selectedDay, onSelectDay }:
       {selectedDay && selectedEvents.length > 0 && (
         <div className="year-grid-popover" role="dialog" aria-label={`Events on ${selectedDay}`}>
           <div className="year-grid-popover-header">
-            <strong>{format(new Date(selectedDay), "EEEE, MMMM d, yyyy")}</strong>
-            <button type="button" className="year-grid-popover-close" onClick={() => onSelectDay(null)} aria-label="Close">
+            <strong>{format(new Date(selectedDay), "EEEE, MMMM d, yyyy", { locale: dateLocale })}</strong>
+            <button type="button" className="year-grid-popover-close" onClick={() => onSelectDay(null)} aria-label={t("calendar.close")}>
               &times;
             </button>
           </div>
@@ -125,7 +138,7 @@ export default function YearCalendar({ year, events, selectedDay, onSelectDay }:
                       className="year-grid-dot"
                       style={{ backgroundColor: colorForPromotion(event.promotion.code) }}
                     />
-                    <span className="year-grid-popover-time">{format(new Date(event.startsAt), "h:mm a")}</span>
+                    <span className="year-grid-popover-time">{format(new Date(event.startsAt), "h:mm a", { locale: dateLocale })}</span>
                     <span className="year-grid-popover-title">{event.title}</span>
                   </a>
                   {event.mainEvent && (
@@ -143,7 +156,7 @@ export default function YearCalendar({ year, events, selectedDay, onSelectDay }:
                 </li>
               ))}
           </ul>
-          <div className="year-grid-popover-footnote">*Times shown in your local timezone</div>
+          <div className="year-grid-popover-footnote">{t("calendar.localTimezoneNote")}</div>
         </div>
       )}
     </div>

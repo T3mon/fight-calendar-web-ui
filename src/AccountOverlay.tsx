@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import "./AccountOverlay.css";
 import type { Session } from "./auth";
 import { colorForPromotion } from "./promotionColors";
@@ -12,17 +13,7 @@ interface AccountOverlayProps {
 
 type Section = "notifications" | "fighters" | "promotions";
 
-const NAV_ITEMS: { key: Section; label: string }[] = [
-  { key: "notifications", label: "Notifications" },
-  { key: "fighters", label: "Favorite Fighters" },
-  { key: "promotions", label: "Tracked Promotions" },
-];
-
-const NOTIFICATION_OPTIONS = [
-  { key: "new-events", label: "New events added" },
-  { key: "card-updates", label: "Fight card updates" },
-  { key: "starting-soon", label: "Event starting soon" },
-];
+const NOTIFICATION_KEYS = ["new-events", "card-updates", "starting-soon"] as const;
 
 // Concept 3: no dropdown step at all - clicking the trigger goes straight
 // into one large settings-page-style overlay with a left sub-nav, the way
@@ -38,6 +29,17 @@ const NOTIFICATION_OPTIONS = [
 // FightCalendar.Web plus endpoints extending UserFollow and a new
 // favorite-fighters table before any of it saves.
 export default function AccountOverlay({ session, promotions, onSignOut }: AccountOverlayProps) {
+  const { t } = useTranslation();
+  const NAV_ITEMS: { key: Section; label: string }[] = [
+    { key: "notifications", label: t("account.notifications") },
+    { key: "fighters", label: t("account.favoriteFighters") },
+    { key: "promotions", label: t("account.trackedPromotions") },
+  ];
+  const NOTIFICATION_LABELS: Record<(typeof NOTIFICATION_KEYS)[number], string> = {
+    "new-events": t("account.notificationNewEvents"),
+    "card-updates": t("account.notificationCardUpdates"),
+    "starting-soon": t("account.notificationStartingSoon"),
+  };
   const [open, setOpen] = useState(false);
   const [section, setSection] = useState<Section>("notifications");
   const [notifications, setNotifications] = useState<Set<string>>(new Set(["new-events"]));
@@ -72,8 +74,8 @@ export default function AccountOverlay({ session, promotions, onSignOut }: Accou
 
       {open && (
         <div className="account-overlay-backdrop" onClick={() => setOpen(false)}>
-          <div className="account-overlay" role="dialog" aria-label="Account settings" onClick={(e) => e.stopPropagation()}>
-            <button type="button" className="account-overlay-close" onClick={() => setOpen(false)} aria-label="Close">
+          <div className="account-overlay" role="dialog" aria-label={t("account.ariaLabel")} onClick={(e) => e.stopPropagation()}>
+            <button type="button" className="account-overlay-close" onClick={() => setOpen(false)} aria-label={t("account.close")}>
               &times;
             </button>
 
@@ -102,7 +104,7 @@ export default function AccountOverlay({ session, promotions, onSignOut }: Accou
                   onSignOut();
                 }}
               >
-                Sign out
+                {t("account.signOut")}
               </button>
             </nav>
 
@@ -110,13 +112,13 @@ export default function AccountOverlay({ session, promotions, onSignOut }: Accou
               {section === "notifications" && (
                 <div className="account-overlay-panel">
                   <h2 className="account-overlay-panel-title">
-                    Notifications <span className="account-overlay-badge">Coming soon</span>
+                    {t("account.notifications")} <span className="account-overlay-badge">{t("account.comingSoon")}</span>
                   </h2>
                   <div className="account-overlay-list">
-                    {NOTIFICATION_OPTIONS.map((option) => (
-                      <label className="account-overlay-toggle-row" key={option.key}>
-                        <span>{option.label}</span>
-                        <input type="checkbox" checked={notifications.has(option.key)} onChange={() => toggleNotification(option.key)} />
+                    {NOTIFICATION_KEYS.map((key) => (
+                      <label className="account-overlay-toggle-row" key={key}>
+                        <span>{NOTIFICATION_LABELS[key]}</span>
+                        <input type="checkbox" checked={notifications.has(key)} onChange={() => toggleNotification(key)} />
                       </label>
                     ))}
                   </div>
@@ -126,23 +128,23 @@ export default function AccountOverlay({ session, promotions, onSignOut }: Accou
               {section === "fighters" && (
                 <div className="account-overlay-panel">
                   <h2 className="account-overlay-panel-title">
-                    Favorite Fighters <span className="account-overlay-badge">Coming soon</span>
+                    {t("account.favoriteFighters")} <span className="account-overlay-badge">{t("account.comingSoon")}</span>
                   </h2>
                   <input
                     type="text"
                     className="account-overlay-search"
-                    placeholder="Search fighters…"
+                    placeholder={t("account.searchFightersPlaceholder")}
                     value={fighterSearch}
                     onChange={(e) => setFighterSearch(e.target.value)}
                   />
-                  <p className="account-overlay-empty">No favorites yet.</p>
+                  <p className="account-overlay-empty">{t("account.noFavoritesYet")}</p>
                 </div>
               )}
 
               {section === "promotions" && (
                 <div className="account-overlay-panel">
                   <h2 className="account-overlay-panel-title">
-                    Tracked Promotions <span className="account-overlay-badge">Coming soon</span>
+                    {t("account.trackedPromotions")} <span className="account-overlay-badge">{t("account.comingSoon")}</span>
                   </h2>
                   <div className="account-overlay-list">
                     {promotions.map((promotion) => (

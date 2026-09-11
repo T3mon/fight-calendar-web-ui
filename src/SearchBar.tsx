@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
 import "./SearchBar.css";
+import { getDateLocale } from "./dateLocale";
 import { colorForPromotion } from "./promotionColors";
 import type { EventListItem } from "./types";
 
@@ -31,6 +33,8 @@ function matchesQuery(event: EventListItem, query: string): boolean {
 }
 
 export default function SearchBar({ events, onJumpToEvent }: SearchBarProps) {
+  const { t, i18n } = useTranslation();
+  const dateLocale = getDateLocale(i18n.language);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -61,7 +65,7 @@ export default function SearchBar({ events, onJumpToEvent }: SearchBarProps) {
           <input
             type="text"
             className="search-bar-input"
-            placeholder="Search events, fighters, promotions…"
+            placeholder={t("search.placeholder")}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             autoFocus
@@ -69,12 +73,12 @@ export default function SearchBar({ events, onJumpToEvent }: SearchBarProps) {
               if (e.key === "Escape") close();
             }}
           />
-          <button type="button" className="search-bar-close" onClick={close} aria-label="Close search">
+          <button type="button" className="search-bar-close" onClick={close} aria-label={t("search.close")}>
             &times;
           </button>
         </div>
       ) : (
-        <button type="button" className="search-bar-trigger" onClick={() => setOpen(true)} aria-label="Search events">
+        <button type="button" className="search-bar-trigger" onClick={() => setOpen(true)} aria-label={t("search.ariaLabel")}>
           <SearchIcon />
         </button>
       )}
@@ -85,7 +89,7 @@ export default function SearchBar({ events, onJumpToEvent }: SearchBarProps) {
           {query.trim() && (
             <div className="search-bar-results" role="listbox">
               {results.length === 0 ? (
-                <p className="search-bar-empty">No events found.</p>
+                <p className="search-bar-empty">{t("search.noResults")}</p>
               ) : (
                 results.map((event) => (
                   <button type="button" className="search-bar-result" key={event.id} onClick={() => handleSelect(event)}>
@@ -98,7 +102,7 @@ export default function SearchBar({ events, onJumpToEvent }: SearchBarProps) {
                         </span>
                       )}
                     </span>
-                    <span className="search-bar-result-date">{format(new Date(event.startsAt), "MMM d, yyyy")}</span>
+                    <span className="search-bar-result-date">{format(new Date(event.startsAt), "MMM d, yyyy", { locale: dateLocale })}</span>
                   </button>
                 ))
               )}

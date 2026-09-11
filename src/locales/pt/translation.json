@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "showFilters": "Mostrar filtros de promotoras",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "today": "Hoje",
+    "year": "Ano",
+    "quarter": "Trimestre",
+    "month": "Mês"
+  },
+  "sidebar": {
+    "promotions": "Promotoras",
+    "selectAll": "Selecionar tudo",
+    "deselectAll": "Desmarcar tudo",
+    "selectAllAria": "Selecionar ou desmarcar todas as promotoras",
+    "selectGroupAria": "Selecionar ou desmarcar todas as promotoras de {{name}}",
+    "selectPromotionAria": "Selecionar ou desmarcar {{name}}",
+    "collapseAria": "Recolher {{name}}",
+    "expandAria": "Expandir {{name}}",
+    "other": "Outras",
+    "numberedEvents": "Eventos numerados"
+  },
+  "settings": {
+    "ariaLabel": "Configurações",
+    "title": "Configurações",
+    "language": "Idioma",
+    "location": "Localização",
+    "appearance": "Aparência",
+    "dark": "Escuro",
+    "light": "Claro",
+    "appearanceNote": "Em breve - por enquanto só o modo escuro está implementado.",
+    "locationNote": "Detectado automaticamente pelo seu navegador por enquanto. Em breve: altere isso e os horários serão exibidos no fuso escolhido."
+  },
+  "account": {
+    "ariaLabel": "Configurações da conta",
+    "close": "Fechar",
+    "notifications": "Notificações",
+    "favoriteFighters": "Lutadores favoritos",
+    "trackedPromotions": "Promotoras seguidas",
+    "comingSoon": "Em breve",
+    "searchFightersPlaceholder": "Buscar lutadores…",
+    "noFavoritesYet": "Ainda sem favoritos.",
+    "signOut": "Sair",
+    "notificationNewEvents": "Novos eventos adicionados",
+    "notificationCardUpdates": "Atualizações do card",
+    "notificationStartingSoon": "Evento prestes a começar"
+  },
+  "search": {
+    "ariaLabel": "Buscar eventos",
+    "placeholder": "Buscar eventos, lutadores, promotoras…",
+    "close": "Fechar busca",
+    "noResults": "Nenhum evento encontrado."
+  },
+  "calendar": {
+    "localTimezoneNote": "*Horários exibidos no seu fuso horário local",
+    "close": "Fechar",
+    "fullCard": "Card completo",
+    "loading": "Carregando…",
+    "failedToLoad": "Falha ao carregar: {{message}}",
+    "noCardDetailsYet": "Ainda sem detalhes do card.",
+    "noFightCardYet": "Detalhes do card ainda não disponíveis.",
+    "mainEvent": "Luta principal",
+    "bout": "Luta {{number}}",
+    "moreCount": "+{{count}} mais"
+  },
+  "app": {
+    "loading": "Carregando…",
+    "failedToLoadEvents": "Falha ao carregar eventos: {{message}}"
+  },
+  "auth": {
+    "signInNotConfigured": "Login não configurado"
+  }
+}

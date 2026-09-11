@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "showFilters": "Show promotion filters",
+    "previous": "Previous",
+    "next": "Next",
+    "today": "Today",
+    "year": "Year",
+    "quarter": "Quarter",
+    "month": "Month"
+  },
+  "sidebar": {
+    "promotions": "Promotions",
+    "selectAll": "Select all",
+    "deselectAll": "Deselect all",
+    "selectAllAria": "Select or deselect all promotions",
+    "selectGroupAria": "Select or deselect all {{name}} promotions",
+    "selectPromotionAria": "Select or deselect all {{name}}",
+    "collapseAria": "Collapse {{name}}",
+    "expandAria": "Expand {{name}}",
+    "other": "Other",
+    "numberedEvents": "Numbered Events"
+  },
+  "settings": {
+    "ariaLabel": "Settings",
+    "title": "Settings",
+    "language": "Language",
+    "location": "Location",
+    "appearance": "Appearance",
+    "dark": "Dark",
+    "light": "Light",
+    "appearanceNote": "Coming soon - only Dark is actually implemented right now.",
+    "locationNote": "Auto-detected from your browser right now. Coming soon - override this and event times will show in your chosen location's time instead."
+  },
+  "account": {
+    "ariaLabel": "Account settings",
+    "close": "Close",
+    "notifications": "Notifications",
+    "favoriteFighters": "Favorite Fighters",
+    "trackedPromotions": "Tracked Promotions",
+    "comingSoon": "Coming soon",
+    "searchFightersPlaceholder": "Search fighters…",
+    "noFavoritesYet": "No favorites yet.",
+    "signOut": "Sign out",
+    "notificationNewEvents": "New events added",
+    "notificationCardUpdates": "Fight card updates",
+    "notificationStartingSoon": "Event starting soon"
+  },
+  "search": {
+    "ariaLabel": "Search events",
+    "placeholder": "Search events, fighters, promotions…",
+    "close": "Close search",
+    "noResults": "No events found."
+  },
+  "calendar": {
+    "localTimezoneNote": "*Times shown in your local timezone",
+    "close": "Close",
+    "fullCard": "Full card",
+    "loading": "Loading…",
+    "failedToLoad": "Failed to load: {{message}}",
+    "noCardDetailsYet": "No card details yet.",
+    "noFightCardYet": "No fight card details available yet.",
+    "mainEvent": "Main Event",
+    "bout": "Bout {{number}}",
+    "moreCount": "+{{count}} more"
+  },
+  "app": {
+    "loading": "Loading…",
+    "failedToLoadEvents": "Failed to load events: {{message}}"
+  },
+  "auth": {
+    "signInNotConfigured": "Sign-in not configured"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "showFilters": "显示赛事推广方筛选",
+    "previous": "上一个",
+    "next": "下一个",
+    "today": "今天",
+    "year": "年",
+    "quarter": "季度",
+    "month": "月"
+  },
+  "sidebar": {
+    "promotions": "推广方",
+    "selectAll": "全选",
+    "deselectAll": "取消全选",
+    "selectAllAria": "全选或取消全选所有推广方",
+    "selectGroupAria": "全选或取消全选所有 {{name}} 推广方",
+    "selectPromotionAria": "全选或取消全选 {{name}}",
+    "collapseAria": "折叠 {{name}}",
+    "expandAria": "展开 {{name}}",
+    "other": "其他",
+    "numberedEvents": "编号赛事"
+  },
+  "settings": {
+    "ariaLabel": "设置",
+    "title": "设置",
+    "language": "语言",
+    "location": "位置",
+    "appearance": "外观",
+    "dark": "深色",
+    "light": "浅色",
+    "appearanceNote": "即将推出 - 目前仅实现了深色模式。",
+    "locationNote": "目前根据您的浏览器自动检测。即将推出：自定义此设置后，赛事时间将显示为所选地区的时间。"
+  },
+  "account": {
+    "ariaLabel": "账户设置",
+    "close": "关闭",
+    "notifications": "通知",
+    "favoriteFighters": "收藏选手",
+    "trackedPromotions": "关注的推广方",
+    "comingSoon": "即将推出",
+    "searchFightersPlaceholder": "搜索选手…",
+    "noFavoritesYet": "暂无收藏。",
+    "signOut": "退出登录",
+    "notificationNewEvents": "新增赛事",
+    "notificationCardUpdates": "赛事卡更新",
+    "notificationStartingSoon": "赛事即将开始"
+  },
+  "search": {
+    "ariaLabel": "搜索赛事",
+    "placeholder": "搜索赛事、选手、推广方…",
+    "close": "关闭搜索",
+    "noResults": "未找到相关赛事。"
+  },
+  "calendar": {
+    "localTimezoneNote": "*时间以您的本地时区显示",
+    "close": "关闭",
+    "fullCard": "完整赛事卡",
+    "loading": "加载中…",
+    "failedToLoad": "加载失败：{{message}}",
+    "noCardDetailsYet": "暂无赛事卡详情。",
+    "noFightCardYet": "赛事卡详情暂不可用。",
+    "mainEvent": "主赛事",
+    "bout": "第 {{number}} 场",
+    "moreCount": "还有 {{count}} 场"
+  },
+  "app": {
+    "loading": "加载中…",
+    "failedToLoadEvents": "赛事加载失败：{{message}}"
+  },
+  "auth": {
+    "signInNotConfigured": "登录未配置"
+  }
+}

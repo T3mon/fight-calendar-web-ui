@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "showFilters": "Показати фільтри промоушенів",
+    "previous": "Назад",
+    "next": "Вперед",
+    "today": "Сьогодні",
+    "year": "Рік",
+    "quarter": "Квартал",
+    "month": "Місяць"
+  },
+  "sidebar": {
+    "promotions": "Промоушени",
+    "selectAll": "Вибрати всі",
+    "deselectAll": "Зняти вибір",
+    "selectAllAria": "Вибрати або зняти вибір з усіх промоушенів",
+    "selectGroupAria": "Вибрати або зняти вибір з усіх промоушенів {{name}}",
+    "selectPromotionAria": "Вибрати або зняти вибір з {{name}}",
+    "collapseAria": "Згорнути {{name}}",
+    "expandAria": "Розгорнути {{name}}",
+    "other": "Інше",
+    "numberedEvents": "Номерні турніри"
+  },
+  "settings": {
+    "ariaLabel": "Налаштування",
+    "title": "Налаштування",
+    "language": "Мова",
+    "location": "Розташування",
+    "appearance": "Вигляд",
+    "dark": "Темна",
+    "light": "Світла",
+    "appearanceNote": "Незабаром - наразі реалізована лише темна тема.",
+    "locationNote": "Наразі визначається автоматично за вашим браузером. Незабаром можна буде змінити, і час подій показуватиметься у вибраному часовому поясі."
+  },
+  "account": {
+    "ariaLabel": "Налаштування облікового запису",
+    "close": "Закрити",
+    "notifications": "Сповіщення",
+    "favoriteFighters": "Улюблені бійці",
+    "trackedPromotions": "Відстежувані промоушени",
+    "comingSoon": "Незабаром",
+    "searchFightersPlaceholder": "Пошук бійців…",
+    "noFavoritesYet": "Поки що немає обраного.",
+    "signOut": "Вийти",
+    "notificationNewEvents": "Додано нові події",
+    "notificationCardUpdates": "Оновлення карти боїв",
+    "notificationStartingSoon": "Подія скоро розпочнеться"
+  },
+  "search": {
+    "ariaLabel": "Пошук подій",
+    "placeholder": "Пошук подій, бійців, промоушенів…",
+    "close": "Закрити пошук",
+    "noResults": "Подій не знайдено."
+  },
+  "calendar": {
+    "localTimezoneNote": "*Час показано у вашому місцевому часовому поясі",
+    "close": "Закрити",
+    "fullCard": "Повна карта",
+    "loading": "Завантаження…",
+    "failedToLoad": "Не вдалося завантажити: {{message}}",
+    "noCardDetailsYet": "Поки що немає деталей карти.",
+    "noFightCardYet": "Деталі карти боїв поки недоступні.",
+    "mainEvent": "Головний бій",
+    "bout": "Бій {{number}}",
+    "moreCount": "ще +{{count}}"
+  },
+  "app": {
+    "loading": "Завантаження…",
+    "failedToLoadEvents": "Не вдалося завантажити події: {{message}}"
+  },
+  "auth": {
+    "signInNotConfigured": "Вхід не налаштовано"
+  }
+}

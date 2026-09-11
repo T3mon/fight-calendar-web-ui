@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import "./SiteSettingsButton.css";
+import { LANGUAGES, baseLanguageCode } from "./languages";
 
 type SettingKey = "language" | "location" | "appearance";
 
@@ -8,22 +10,28 @@ type SettingKey = "language" | "location" | "appearance";
 // favorite fighters, and tracked promotions stay behind AccountOverlay
 // instead, since those are genuinely per-user data.
 //
-// Design/UX placeholder only - nothing here persists anywhere yet.
+// Theme and location are still design/UX placeholders - nothing there
+// persists anywhere yet. Language is real: it's backed by i18next, so
+// switching it actually re-renders every translated string in the app and
+// is cached in localStorage.
 // TODO: theme needs a real CSS-variable token pass across every component
-// before "Light" can actually work. TODO: language needs an i18n library.
+// before "Light" can actually work.
 // TODO: location currently just shows the browser's own detected timezone
 // - actually letting someone override it, and having the calendar use that
 // override instead of the browser's local time, is not wired up yet.
 export default function SiteSettingsButton() {
+  const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState<SettingKey | null>(null);
-  const [language, setLanguage] = useState("en");
   const [location, setLocation] = useState(() => Intl.DateTimeFormat().resolvedOptions().timeZone);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   function toggleRow(key: SettingKey) {
     setExpanded((prev) => (prev === key ? null : key));
   }
+
+  const currentLanguage = baseLanguageCode(i18n.language);
+  const currentLanguageName = LANGUAGES.find((lang) => lang.code === currentLanguage)?.nativeName ?? i18n.language;
 
   return (
     <div className="site-settings">
@@ -34,31 +42,34 @@ export default function SiteSettingsButton() {
           setOpen((o) => !o);
           setExpanded(null);
         }}
-        aria-label="Settings"
+        aria-label={t("settings.ariaLabel")}
       >
         <GearIcon />
-        <span className="site-settings-trigger-lang">{language.toUpperCase()}</span>
+        <span className="site-settings-trigger-lang">{currentLanguage.toUpperCase()}</span>
         <span className={"site-settings-chevron" + (open ? " open" : "")}>&#9662;</span>
       </button>
 
       {open && (
         <>
           <div className="site-settings-backdrop" onClick={() => setOpen(false)} />
-          <div className="site-settings-dropdown" role="menu" aria-label="Settings">
+          <div className="site-settings-dropdown" role="menu" aria-label={t("settings.ariaLabel")}>
             <div className="site-settings-row">
               <button type="button" className="site-settings-row-header" onClick={() => toggleRow("language")}>
                 <LanguageIcon />
                 <span className="site-settings-row-label">
-                  Language: <strong>English</strong>
+                  {t("settings.language")}: <strong>{currentLanguageName}</strong>
                 </span>
                 <span className={"site-settings-chevron" + (expanded === "language" ? " open" : "")}>&#9662;</span>
               </button>
               {expanded === "language" && (
                 <div className="site-settings-row-body">
-                  <select className="site-settings-select" value={language} onChange={(e) => setLanguage(e.target.value)}>
-                    <option value="en">English</option>
+                  <select className="site-settings-select" value={currentLanguage} onChange={(e) => i18n.changeLanguage(e.target.value)}>
+                    {LANGUAGES.map((lang) => (
+                      <option key={lang.code} value={lang.code}>
+                        {lang.nativeName}
+                      </option>
+                    ))}
                   </select>
-                  <p className="site-settings-note">Coming soon - more languages later.</p>
                 </div>
               )}
             </div>
@@ -67,7 +78,7 @@ export default function SiteSettingsButton() {
               <button type="button" className="site-settings-row-header" onClick={() => toggleRow("location")}>
                 <LocationIcon />
                 <span className="site-settings-row-label">
-                  Location: <strong>{location}</strong>
+                  {t("settings.location")}: <strong>{location}</strong>
                 </span>
                 <span className={"site-settings-chevron" + (expanded === "location" ? " open" : "")}>&#9662;</span>
               </button>
@@ -79,10 +90,7 @@ export default function SiteSettingsButton() {
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                   />
-                  <p className="site-settings-note">
-                    Auto-detected from your browser right now. Coming soon - override this and event times will show in your chosen
-                    location's time instead.
-                  </p>
+                  <p className="site-settings-note">{t("settings.locationNote")}</p>
                 </div>
               )}
             </div>
@@ -91,7 +99,7 @@ export default function SiteSettingsButton() {
               <button type="button" className="site-settings-row-header" onClick={() => toggleRow("appearance")}>
                 <AppearanceIcon />
                 <span className="site-settings-row-label">
-                  Appearance: <strong>{theme === "dark" ? "Dark" : "Light"}</strong>
+                  {t("settings.appearance")}: <strong>{theme === "dark" ? t("settings.dark") : t("settings.light")}</strong>
                 </span>
                 <span className={"site-settings-chevron" + (expanded === "appearance" ? " open" : "")}>&#9662;</span>
               </button>
@@ -103,17 +111,17 @@ export default function SiteSettingsButton() {
                       className={"site-settings-segment" + (theme === "dark" ? " active" : "")}
                       onClick={() => setTheme("dark")}
                     >
-                      Dark
+                      {t("settings.dark")}
                     </button>
                     <button
                       type="button"
                       className={"site-settings-segment" + (theme === "light" ? " active" : "")}
                       onClick={() => setTheme("light")}
                     >
-                      Light
+                      {t("settings.light")}
                     </button>
                   </div>
-                  <p className="site-settings-note">Coming soon - only Dark is actually implemented right now.</p>
+                  <p className="site-settings-note">{t("settings.appearanceNote")}</p>
                 </div>
               )}
             </div>

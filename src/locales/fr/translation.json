@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "showFilters": "Afficher les filtres de promotion",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "today": "Aujourd'hui",
+    "year": "Année",
+    "quarter": "Trimestre",
+    "month": "Mois"
+  },
+  "sidebar": {
+    "promotions": "Promotions",
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner",
+    "selectAllAria": "Sélectionner ou désélectionner toutes les promotions",
+    "selectGroupAria": "Sélectionner ou désélectionner toutes les promotions {{name}}",
+    "selectPromotionAria": "Sélectionner ou désélectionner {{name}}",
+    "collapseAria": "Réduire {{name}}",
+    "expandAria": "Développer {{name}}",
+    "other": "Autre",
+    "numberedEvents": "Événements numérotés"
+  },
+  "settings": {
+    "ariaLabel": "Paramètres",
+    "title": "Paramètres",
+    "language": "Langue",
+    "location": "Emplacement",
+    "appearance": "Apparence",
+    "dark": "Sombre",
+    "light": "Clair",
+    "appearanceNote": "Bientôt disponible - seul le mode sombre est actuellement implémenté.",
+    "locationNote": "Détecté automatiquement depuis votre navigateur pour l'instant. Bientôt disponible : remplacez ce réglage et les horaires s'afficheront dans le fuseau choisi."
+  },
+  "account": {
+    "ariaLabel": "Paramètres du compte",
+    "close": "Fermer",
+    "notifications": "Notifications",
+    "favoriteFighters": "Combattants favoris",
+    "trackedPromotions": "Promotions suivies",
+    "comingSoon": "Bientôt disponible",
+    "searchFightersPlaceholder": "Rechercher des combattants…",
+    "noFavoritesYet": "Aucun favori pour le moment.",
+    "signOut": "Se déconnecter",
+    "notificationNewEvents": "Nouveaux événements ajoutés",
+    "notificationCardUpdates": "Mises à jour de la carte des combats",
+    "notificationStartingSoon": "Événement sur le point de commencer"
+  },
+  "search": {
+    "ariaLabel": "Rechercher des événements",
+    "placeholder": "Rechercher événements, combattants, promotions…",
+    "close": "Fermer la recherche",
+    "noResults": "Aucun événement trouvé."
+  },
+  "calendar": {
+    "localTimezoneNote": "*Horaires affichés dans votre fuseau local",
+    "close": "Fermer",
+    "fullCard": "Carte complète",
+    "loading": "Chargement…",
+    "failedToLoad": "Échec du chargement : {{message}}",
+    "noCardDetailsYet": "Aucun détail de carte pour le moment.",
+    "noFightCardYet": "Aucun détail de carte de combat disponible pour le moment.",
+    "mainEvent": "Événement principal",
+    "bout": "Combat {{number}}",
+    "moreCount": "+{{count}} de plus"
+  },
+  "app": {
+    "loading": "Chargement…",
+    "failedToLoadEvents": "Échec du chargement des événements : {{message}}"
+  },
+  "auth": {
+    "signInNotConfigured": "Connexion non configurée"
+  }
+}

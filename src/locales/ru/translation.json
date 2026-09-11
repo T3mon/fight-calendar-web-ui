@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "showFilters": "Показать фильтры промоушенов",
+    "previous": "Назад",
+    "next": "Вперёд",
+    "today": "Сегодня",
+    "year": "Год",
+    "quarter": "Квартал",
+    "month": "Месяц"
+  },
+  "sidebar": {
+    "promotions": "Промоушены",
+    "selectAll": "Выбрать все",
+    "deselectAll": "Снять выбор",
+    "selectAllAria": "Выбрать или снять выбор со всех промоушенов",
+    "selectGroupAria": "Выбрать или снять выбор со всех промоушенов {{name}}",
+    "selectPromotionAria": "Выбрать или снять выбор с {{name}}",
+    "collapseAria": "Свернуть {{name}}",
+    "expandAria": "Развернуть {{name}}",
+    "other": "Другое",
+    "numberedEvents": "Номерные турниры"
+  },
+  "settings": {
+    "ariaLabel": "Настройки",
+    "title": "Настройки",
+    "language": "Язык",
+    "location": "Местоположение",
+    "appearance": "Оформление",
+    "dark": "Тёмная",
+    "light": "Светлая",
+    "appearanceNote": "Скоро - пока реализована только тёмная тема.",
+    "locationNote": "Сейчас определяется автоматически по вашему браузеру. Скоро можно будет изменить, и время событий будет показываться в выбранном часовом поясе."
+  },
+  "account": {
+    "ariaLabel": "Настройки аккаунта",
+    "close": "Закрыть",
+    "notifications": "Уведомления",
+    "favoriteFighters": "Любимые бойцы",
+    "trackedPromotions": "Отслеживаемые промоушены",
+    "comingSoon": "Скоро",
+    "searchFightersPlaceholder": "Поиск бойцов…",
+    "noFavoritesYet": "Пока нет избранного.",
+    "signOut": "Выйти",
+    "notificationNewEvents": "Добавлены новые события",
+    "notificationCardUpdates": "Обновления карты боёв",
+    "notificationStartingSoon": "Событие скоро начнётся"
+  },
+  "search": {
+    "ariaLabel": "Поиск событий",
+    "placeholder": "Поиск событий, бойцов, промоушенов…",
+    "close": "Закрыть поиск",
+    "noResults": "События не найдены."
+  },
+  "calendar": {
+    "localTimezoneNote": "*Время показано в вашем часовом поясе",
+    "close": "Закрыть",
+    "fullCard": "Полная карта",
+    "loading": "Загрузка…",
+    "failedToLoad": "Не удалось загрузить: {{message}}",
+    "noCardDetailsYet": "Пока нет деталей карты.",
+    "noFightCardYet": "Детали карты боёв пока недоступны.",
+    "mainEvent": "Главный бой",
+    "bout": "Бой {{number}}",
+    "moreCount": "ещё +{{count}}"
+  },
+  "app": {
+    "loading": "Загрузка…",
+    "failedToLoadEvents": "Не удалось загрузить события: {{message}}"
+  },
+  "auth": {
+    "signInNotConfigured": "Вход не настроен"
+  }
+}

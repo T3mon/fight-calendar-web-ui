@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "showFilters": "Mostrar filtros de promotoras",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "today": "Hoy",
+    "year": "Año",
+    "quarter": "Trimestre",
+    "month": "Mes"
+  },
+  "sidebar": {
+    "promotions": "Promotoras",
+    "selectAll": "Seleccionar todo",
+    "deselectAll": "Deseleccionar todo",
+    "selectAllAria": "Seleccionar o deseleccionar todas las promotoras",
+    "selectGroupAria": "Seleccionar o deseleccionar todas las promotoras de {{name}}",
+    "selectPromotionAria": "Seleccionar o deseleccionar {{name}}",
+    "collapseAria": "Contraer {{name}}",
+    "expandAria": "Expandir {{name}}",
+    "other": "Otras",
+    "numberedEvents": "Eventos numerados"
+  },
+  "settings": {
+    "ariaLabel": "Configuración",
+    "title": "Configuración",
+    "language": "Idioma",
+    "location": "Ubicación",
+    "appearance": "Apariencia",
+    "dark": "Oscuro",
+    "light": "Claro",
+    "appearanceNote": "Próximamente - por ahora solo el modo oscuro está implementado.",
+    "locationNote": "Detectado automáticamente desde tu navegador por ahora. Próximamente: cambia esto y los horarios se mostrarán en la zona horaria elegida."
+  },
+  "account": {
+    "ariaLabel": "Configuración de la cuenta",
+    "close": "Cerrar",
+    "notifications": "Notificaciones",
+    "favoriteFighters": "Luchadores favoritos",
+    "trackedPromotions": "Promotoras seguidas",
+    "comingSoon": "Próximamente",
+    "searchFightersPlaceholder": "Buscar luchadores…",
+    "noFavoritesYet": "Aún no hay favoritos.",
+    "signOut": "Cerrar sesión",
+    "notificationNewEvents": "Nuevos eventos añadidos",
+    "notificationCardUpdates": "Actualizaciones de la cartelera",
+    "notificationStartingSoon": "El evento está por comenzar"
+  },
+  "search": {
+    "ariaLabel": "Buscar eventos",
+    "placeholder": "Buscar eventos, luchadores, promotoras…",
+    "close": "Cerrar búsqueda",
+    "noResults": "No se encontraron eventos."
+  },
+  "calendar": {
+    "localTimezoneNote": "*Horarios mostrados en tu zona horaria local",
+    "close": "Cerrar",
+    "fullCard": "Cartelera completa",
+    "loading": "Cargando…",
+    "failedToLoad": "Error al cargar: {{message}}",
+    "noCardDetailsYet": "Aún no hay detalles de la cartelera.",
+    "noFightCardYet": "Los detalles de la cartelera aún no están disponibles.",
+    "mainEvent": "Evento principal",
+    "bout": "Combate {{number}}",
+    "moreCount": "+{{count}} más"
+  },
+  "app": {
+    "loading": "Cargando…",
+    "failedToLoadEvents": "Error al cargar eventos: {{message}}"
+  },
+  "auth": {
+    "signInNotConfigured": "Inicio de sesión no configurado"
+  }
+}

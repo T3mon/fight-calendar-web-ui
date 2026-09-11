@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { format, isWithinInterval } from "date-fns";
+import type { Locale } from "date-fns";
+import { useTranslation } from "react-i18next";
 import "./App.css";
 import "./YearCalendar.css";
 import "./HeatmapCalendar.css";
@@ -15,20 +17,23 @@ import { clearSession, loadSession, type Session } from "./auth";
 import { getVisibleRange, isViewingToday, monthsInView, shiftViewDate, type ViewMode } from "./calendarView";
 import { computeSubSeriesByPromotion, filterKeyForEvent, leafKeysForPromotion } from "./eventSeries";
 import { loadDeselectedKeys, saveDeselectedKeys } from "./filterStorage";
+import { getDateLocale } from "./dateLocale";
 import type { EventListItem, Promotion } from "./types";
 
-function formatViewLabel(mode: ViewMode, viewDate: Date): string {
+function formatViewLabel(mode: ViewMode, viewDate: Date, locale: Locale): string {
   if (mode === "year") return String(viewDate.getFullYear());
-  if (mode === "month") return format(viewDate, "MMMM yyyy");
+  if (mode === "month") return format(viewDate, "MMMM yyyy", { locale });
   const months = monthsInView("quarter", viewDate);
   const first = months[0]!;
   const last = months[months.length - 1]!;
   return first.getFullYear() === last.getFullYear()
-    ? `${format(first, "MMM")} – ${format(last, "MMM yyyy")}`
-    : `${format(first, "MMM yyyy")} – ${format(last, "MMM yyyy")}`;
+    ? `${format(first, "MMM", { locale })} – ${format(last, "MMM yyyy", { locale })}`
+    : `${format(first, "MMM yyyy", { locale })} – ${format(last, "MMM yyyy", { locale })}`;
 }
 
 function App() {
+  const { t, i18n } = useTranslation();
+  const dateLocale = getDateLocale(i18n.language);
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [events, setEvents] = useState<EventListItem[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
@@ -126,7 +131,7 @@ function App() {
             type="button"
             className="btn btn-outline-secondary btn-sm d-md-none"
             onClick={() => setSidebarOpen(true)}
-            aria-label="Show promotion filters"
+            aria-label={t("nav.showFilters")}
           >
             &#9776;
           </button>
@@ -143,16 +148,16 @@ function App() {
                 type="button"
                 className="nav-step-btn"
                 onClick={() => setViewDate((d) => shiftViewDate(viewMode, d, -1))}
-                aria-label="Previous"
+                aria-label={t("nav.previous")}
               >
                 &lsaquo;
               </button>
-              <span className="nav-date-label">{formatViewLabel(viewMode, viewDate)}</span>
+              <span className="nav-date-label">{formatViewLabel(viewMode, viewDate, dateLocale)}</span>
               <button
                 type="button"
                 className="nav-step-btn"
                 onClick={() => setViewDate((d) => shiftViewDate(viewMode, d, 1))}
-                aria-label="Next"
+                aria-label={t("nav.next")}
               >
                 &rsaquo;
               </button>
@@ -160,15 +165,15 @@ function App() {
 
             {!isViewingToday(viewMode, viewDate) && (
               <button type="button" className="nav-today-chip" onClick={() => setViewDate(new Date())}>
-                Today
+                {t("nav.today")}
               </button>
             )}
 
             <div className="view-switcher" role="tablist">
               {([
-                ["year", "Year"],
-                ["quarter", "Quarter"],
-                ["month", "Month"],
+                ["year", t("nav.year")],
+                ["quarter", t("nav.quarter")],
+                ["month", t("nav.month")],
               ] as const).map(([mode, label]) => (
                 <button
                   key={mode}
@@ -176,7 +181,7 @@ function App() {
                   role="tab"
                   aria-selected={viewMode === mode}
                   className={"view-switcher-btn" + (viewMode === mode ? " active" : "")}
-                  onClick={() => setViewMode(mode)}
+                  onClick={() => setViewMode(mode as ViewMode)}
                 >
                   {label}
                 </button>
@@ -200,10 +205,10 @@ function App() {
 
       {error && (
         <div className="alert alert-danger flex-shrink-0" role="alert">
-          Failed to load events: {error}
+          {t("app.failedToLoadEvents", { message: error })}
         </div>
       )}
-      {loading && <p className="text-muted flex-shrink-0">Loading…</p>}
+      {loading && <p className="text-muted flex-shrink-0">{t("app.loading")}</p>}
 
       {!loading && !error && (
         <div className="d-flex flex-grow-1" style={{ minHeight: 0, gap: "1rem" }}>

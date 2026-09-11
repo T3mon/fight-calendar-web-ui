@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, isToday, startOfMonth, startOfToday, startOfWeek } from "date-fns";
+import { useTranslation } from "react-i18next";
 import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
+import { getDateLocale } from "./dateLocale";
 import FightCardExpander from "./FightCardExpander";
-
-const WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
 function matchupLabel(event: EventListItem): string {
   return event.mainEvent ? `${event.mainEvent.fighterA} vs ${event.mainEvent.fighterB}` : event.title;
@@ -31,6 +31,15 @@ interface HeatmapMonthProps {
 const MAX_MATCHUP_LINES: Record<"large" | "medium", number> = { large: 4, medium: 2 };
 
 function HeatmapMonth({ month, events, size, selectedDay, onSelectDay }: HeatmapMonthProps) {
+  const { t, i18n } = useTranslation();
+  const dateLocale = getDateLocale(i18n.language);
+  // Jan 2, 2000 was a Sunday - short weekday names, Sunday-first to match
+  // date-fns' own default week start used by getMonthGridDays below.
+  const weekdayLabels = useMemo(
+    () => Array.from({ length: 7 }, (_, d) => format(new Date(2000, 0, 2 + d), "EEEEEE", { locale: dateLocale })),
+    [dateLocale],
+  );
+
   const eventsByDay = useMemo(() => {
     const map = new Map<string, EventListItem[]>();
     for (const event of events) {
@@ -50,10 +59,10 @@ function HeatmapMonth({ month, events, size, selectedDay, onSelectDay }: Heatmap
 
   return (
     <div className={"heatmap-month heatmap-month-" + size}>
-      <div className="heatmap-month-title">{format(month, "MMMM yyyy")}</div>
+      <div className="heatmap-month-title">{format(month, "MMMM yyyy", { locale: dateLocale })}</div>
       <div className="heatmap-weekdays">
-        {WEEKDAY_LABELS.map((label) => (
-          <span key={label}>{label}</span>
+        {weekdayLabels.map((label, i) => (
+          <span key={i}>{label}</span>
         ))}
       </div>
       <div className="heatmap-days" style={{ gridTemplateRows: `repeat(${days.length / 7}, 1fr)` }}>
@@ -95,7 +104,7 @@ function HeatmapMonth({ month, events, size, selectedDay, onSelectDay }: Heatmap
                       <span className="heatmap-matchup-text">{matchupLabel(event)}</span>
                     </span>
                   ))}
-                  {hiddenCount > 0 && <span className="heatmap-matchup-more">+{hiddenCount} more</span>}
+                  {hiddenCount > 0 && <span className="heatmap-matchup-more">{t("calendar.moreCount", { count: hiddenCount })}</span>}
                 </span>
               )}
             </button>
@@ -106,8 +115,8 @@ function HeatmapMonth({ month, events, size, selectedDay, onSelectDay }: Heatmap
       {selectedDay && isSameMonth(new Date(selectedDay), month) && selectedEvents.length > 0 && (
         <div className="heatmap-popover" role="dialog" aria-label={`Events on ${selectedDay}`}>
           <div className="heatmap-popover-header">
-            <strong>{format(new Date(selectedDay), "EEEE, MMMM d, yyyy")}</strong>
-            <button type="button" className="heatmap-popover-close" onClick={() => onSelectDay(null)} aria-label="Close">
+            <strong>{format(new Date(selectedDay), "EEEE, MMMM d, yyyy", { locale: dateLocale })}</strong>
+            <button type="button" className="heatmap-popover-close" onClick={() => onSelectDay(null)} aria-label={t("calendar.close")}>
               &times;
             </button>
           </div>
@@ -119,7 +128,7 @@ function HeatmapMonth({ month, events, size, selectedDay, onSelectDay }: Heatmap
                 <li key={event.id}>
                   <a href={event.link} target="_blank" rel="noreferrer">
                     <span className="heatmap-dot" style={{ backgroundColor: colorForPromotion(event.promotion.code) }} />
-                    <span className="heatmap-popover-time">{format(new Date(event.startsAt), "h:mm a")}</span>
+                    <span className="heatmap-popover-time">{format(new Date(event.startsAt), "h:mm a", { locale: dateLocale })}</span>
                     <span className="heatmap-popover-title">{event.title}</span>
                   </a>
                   {event.mainEvent && (
