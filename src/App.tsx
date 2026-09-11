@@ -121,6 +121,7 @@ function App() {
           </h1>
         </div>
         <div className="d-flex align-items-center gap-2 flex-wrap">
+          <SiteSettingsButton />
           <div className="nav-toolbar">
             <div className="nav-stepper">
               <button
@@ -167,7 +168,6 @@ function App() {
               ))}
             </div>
           </div>
-          <SiteSettingsButton />
           {session ? (
             <AccountOverlay
               session={session}
