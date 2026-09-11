@@ -9,7 +9,7 @@ import HeatmapCalendar from "./HeatmapCalendar";
 import PromotionSidebar from "./PromotionSidebar";
 import GoogleSignInButton from "./GoogleSignInButton";
 import { clearSession, loadSession, type Session } from "./auth";
-import { getVisibleRange, monthsInView, shiftViewDate, type ViewMode } from "./calendarView";
+import { getVisibleRange, isViewingToday, monthsInView, shiftViewDate, type ViewMode } from "./calendarView";
 import { computeSubSeriesByPromotion, filterKeyForEvent, leafKeysForPromotion } from "./eventSeries";
 import { loadDeselectedKeys, saveDeselectedKeys } from "./filterStorage";
 import type { EventListItem, Promotion } from "./types";
@@ -119,28 +119,40 @@ function App() {
           </h1>
         </div>
         <div className="d-flex align-items-center gap-2 flex-wrap">
-          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setViewDate((d) => shiftViewDate(viewMode, d, -1))}>
-            &lsaquo;
-          </button>
-          <span className="fw-semibold" style={{ minWidth: 120, textAlign: "center" }}>
-            {formatViewLabel(viewMode, viewDate)}
-          </span>
-          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setViewDate((d) => shiftViewDate(viewMode, d, 1))}>
-            &rsaquo;
-          </button>
-          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => setViewDate(new Date())}>
-            Today
-          </button>
-          <select
-            className="form-select form-select-sm"
-            style={{ width: "auto" }}
-            value={viewMode}
-            onChange={(e) => setViewMode(e.target.value as ViewMode)}
-          >
-            <option value="year">Full Year</option>
-            <option value="quarter">3 Months</option>
-            <option value="month">1 Month</option>
-          </select>
+          <div className="nav-minimal">
+            <button
+              type="button"
+              className="nav-chevron"
+              onClick={() => setViewDate((d) => shiftViewDate(viewMode, d, -1))}
+              aria-label="Previous"
+            >
+              &lsaquo;
+            </button>
+            <span className="nav-big-label">{formatViewLabel(viewMode, viewDate)}</span>
+            <button
+              type="button"
+              className="nav-chevron"
+              onClick={() => setViewDate((d) => shiftViewDate(viewMode, d, 1))}
+              aria-label="Next"
+            >
+              &rsaquo;
+            </button>
+            <button
+              type="button"
+              className={"nav-today-dot" + (isViewingToday(viewMode, viewDate) ? " nav-today-dot-inactive" : "")}
+              onClick={() => setViewDate(new Date())}
+              disabled={isViewingToday(viewMode, viewDate)}
+              aria-label="Jump to today"
+              title="Jump to today"
+            >
+              &#8226;
+            </button>
+            <select className="nav-mode-select" value={viewMode} onChange={(e) => setViewMode(e.target.value as ViewMode)}>
+              <option value="year">Full Year</option>
+              <option value="quarter">3 Months</option>
+              <option value="month">1 Month</option>
+            </select>
+          </div>
           {session ? (
             <div className="d-flex align-items-center gap-2">
               <span className="small text-muted session-email">{session.email}</span>
