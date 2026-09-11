@@ -1,0 +1,267 @@
+.user-panel-trigger {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.user-panel-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #3a86ff;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.user-panel-avatar-lg {
+  width: 44px;
+  height: 44px;
+  font-size: 17px;
+}
+
+.user-panel-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 40;
+}
+
+.user-panel-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(380px, 90vw);
+  background: #1c1f26;
+  border-left: 1px solid #3a3f4b;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
+  z-index: 41;
+  display: flex;
+  flex-direction: column;
+  animation: user-panel-slide-in 0.2s ease;
+}
+
+@keyframes user-panel-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.user-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid #2c303a;
+  flex-shrink: 0;
+}
+
+.user-panel-email {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8e8e8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-panel-close {
+  background: none;
+  border: none;
+  color: #9aa0aa;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.user-panel-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 16px;
+  border-bottom: 1px solid #2c303a;
+  flex-shrink: 0;
+}
+
+.user-panel-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #9aa0aa;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 10px;
+  cursor: pointer;
+  transition: color 0.12s ease, border-color 0.12s ease;
+}
+
+.user-panel-tab:hover {
+  color: #cbd2dc;
+}
+
+.user-panel-tab.active {
+  color: #f0f0f0;
+  border-bottom-color: #3a86ff;
+}
+
+.user-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.user-panel-section {
+  margin-bottom: 22px;
+}
+
+.user-panel-section:last-child {
+  margin-bottom: 0;
+}
+
+.user-panel-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9aa0aa;
+  margin-bottom: 10px;
+}
+
+.user-panel-badge {
+  background: #2c313d;
+  color: #7c9cff;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.user-panel-segmented {
+  display: inline-flex;
+  background: #20242c;
+  border: 1px solid #2c303a;
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.user-panel-segment {
+  background: none;
+  border: none;
+  color: #9aa0aa;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.user-panel-segment.active {
+  background: #3a86ff;
+  color: #fff;
+}
+
+.user-panel-select {
+  background: #20242c;
+  border: 1px solid #2c303a;
+  color: #cbd2dc;
+  font-size: 13px;
+  border-radius: 6px;
+  padding: 7px 10px;
+  width: 100%;
+}
+
+.user-panel-note {
+  font-size: 11px;
+  color: #6b7280;
+  margin: 8px 0 0;
+}
+
+.user-panel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-panel-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 4px;
+  font-size: 13px;
+  color: #cbd2dc;
+  cursor: pointer;
+}
+
+.user-panel-promotion-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-panel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.user-panel-search {
+  width: 100%;
+  background: #20242c;
+  border: 1px solid #2c303a;
+  color: #cbd2dc;
+  font-size: 13px;
+  border-radius: 6px;
+  padding: 7px 10px;
+  margin-bottom: 8px;
+}
+
+.user-panel-empty {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.user-panel-footnote {
+  font-size: 11px;
+  color: #6b7280;
+  margin: 0;
+  padding-top: 14px;
+  border-top: 1px solid #2c303a;
+}
+
+.user-panel-signout {
+  flex-shrink: 0;
+  margin: 0 20px 20px;
+  background: none;
+  border: 1px solid #3a3f4b;
+  color: #e63946;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.user-panel-signout:hover {
+  background: rgba(230, 57, 70, 0.12);
+}
