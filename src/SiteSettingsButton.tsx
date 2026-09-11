@@ -20,6 +20,7 @@ import { LANGUAGES, baseLanguageCode } from "./languages";
 export default function SiteSettingsButton() {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const [location, setLocation] = useState(() => Intl.DateTimeFormat().resolvedOptions().timeZone);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
@@ -31,7 +32,10 @@ export default function SiteSettingsButton() {
       <button
         type="button"
         className="site-settings-trigger"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => {
+          setOpen((o) => !o);
+          setLanguageMenuOpen(false);
+        }}
         aria-label={t("settings.ariaLabel")}
       >
         <GearIcon />
@@ -41,28 +45,49 @@ export default function SiteSettingsButton() {
 
       {open && (
         <>
-          <div className="site-settings-backdrop" onClick={() => setOpen(false)} />
+          <div
+            className="site-settings-backdrop"
+            onClick={() => {
+              setOpen(false);
+              setLanguageMenuOpen(false);
+            }}
+          />
           <div className="site-settings-dropdown" role="menu" aria-label={t("settings.ariaLabel")}>
-            <div className="site-settings-row site-settings-row-clickable">
-              <div className="site-settings-row-header">
+            <div className="site-settings-row">
+              <button
+                type="button"
+                className="site-settings-row-header"
+                onClick={() => setLanguageMenuOpen((o) => !o)}
+              >
                 <LanguageIcon />
                 <span className="site-settings-row-label">
                   {t("settings.language")}: <strong>{currentLanguageName}</strong>
                 </span>
-                <span className="site-settings-chevron">&#9662;</span>
-              </div>
-              <select
-                className="site-settings-select-overlay"
-                value={currentLanguage}
-                onChange={(e) => i18n.changeLanguage(e.target.value)}
-                aria-label={t("settings.language")}
-              >
-                {LANGUAGES.map((lang) => (
-                  <option key={lang.code} value={lang.code}>
-                    {lang.nativeName}
-                  </option>
-                ))}
-              </select>
+                <span className={"site-settings-chevron" + (languageMenuOpen ? " open" : "")}>&#9662;</span>
+              </button>
+              {languageMenuOpen && (
+                <>
+                  <div className="site-settings-submenu-backdrop" onClick={() => setLanguageMenuOpen(false)} />
+                  <ul className="site-settings-submenu" role="listbox" aria-label={t("settings.language")}>
+                    {LANGUAGES.map((lang) => (
+                      <li key={lang.code}>
+                        <button
+                          type="button"
+                          className={"site-settings-submenu-option" + (lang.code === currentLanguage ? " active" : "")}
+                          role="option"
+                          aria-selected={lang.code === currentLanguage}
+                          onClick={() => {
+                            i18n.changeLanguage(lang.code);
+                            setLanguageMenuOpen(false);
+                          }}
+                        >
+                          {lang.nativeName}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </div>
 
             <div className="site-settings-row">
