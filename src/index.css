@@ -49,46 +49,47 @@
   --scrim-light: rgba(0, 0, 0, 0.5);
 }
 
-/* Light mode "Warm Paper" - a softer, cream-toned light theme meant to
-   read like paper rather than a screen: warm off-white surfaces, warm
-   grays for text/borders instead of neutral ones, and an amber/terracotta
-   accent instead of blue to match the warm palette throughout. */
+/* Light mode "Cool Contrast" - leans on a two-tier surface hierarchy for
+   depth instead of relying on shadows alone: a pale blue-gray page with
+   crisp white cards sitting visibly on top of it, plus a punchier, more
+   saturated accent blue and deeper cool-toned shadows to reinforce the
+   lift. The most structurally different of the three light concepts. */
 :root[data-bs-theme="light"] {
-  --bg-page: #f5f1e8;
-  --bg-surface: #fffdf8;
-  --bg-surface-hover: #ede7d8;
-  --bg-active: #e3dbc6;
-  --bg-recessed: #ede7d8;
-  --bg-highlight: #f0e2c0;
-  --bg-selected: #e8d19a;
-  --bg-today-hover: #f0e2c0;
+  --bg-page: #e8edf5;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #f1f4f9;
+  --bg-active: #e1e8f5;
+  --bg-recessed: #eef2f9;
+  --bg-highlight: #dbe6fa;
+  --bg-selected: #c4d8f7;
+  --bg-today-hover: #e1e8f5;
 
-  --border: #e5ddc8;
-  --border-strong: #d1c6a8;
-  --border-emphasis: #b5a684;
+  --border: #d3dbe8;
+  --border-strong: #b8c4d9;
+  --border-emphasis: #94a3bd;
 
-  --text-muted: #9c9078;
-  --text-secondary: #6b6250;
-  --text-body: #4a4335;
-  --text-bright: #2e2920;
-  --text-heading: #1c1810;
+  --text-muted: #7787a0;
+  --text-secondary: #4d5c74;
+  --text-body: #2c3648;
+  --text-bright: #16202f;
+  --text-heading: #0b121d;
   --text-on-accent: #fff;
-  --text-faded: #d1c6a8;
+  --text-faded: #b8c4d9;
 
-  --accent: #b5651d;
-  --accent-light: #c97f3d;
+  --accent: #1d5fd6;
+  --accent-light: #4b7fe0;
 
-  --danger: #b8412e;
-  --danger-bg: rgba(184, 65, 46, 0.1);
+  --danger: #d0324a;
+  --danger-bg: rgba(208, 50, 74, 0.1);
 
-  --brand-fight: #b8412e;
-  --brand-calendar: #8a6d1f;
+  --brand-fight: #d0324a;
+  --brand-calendar: #a6790a;
 
-  --shadow-sm: rgba(60, 50, 30, 0.08);
-  --shadow-md: rgba(60, 50, 30, 0.12);
-  --shadow-lg: rgba(60, 50, 30, 0.16);
-  --scrim: rgba(40, 34, 20, 0.4);
-  --scrim-light: rgba(40, 34, 20, 0.3);
+  --shadow-sm: rgba(20, 35, 60, 0.1);
+  --shadow-md: rgba(20, 35, 60, 0.16);
+  --shadow-lg: rgba(20, 35, 60, 0.22);
+  --scrim: rgba(15, 25, 40, 0.45);
+  --scrim-light: rgba(15, 25, 40, 0.35);
 }
 
 html,
