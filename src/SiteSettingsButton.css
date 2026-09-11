@@ -58,7 +58,6 @@
 
 .site-settings-row {
   border-radius: 8px;
-  overflow: hidden;
 }
 
 .site-settings-row-header {
@@ -66,16 +65,16 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  background: none;
-  border: none;
-  color: #9aa0aa;
   padding: 10px 8px;
-  cursor: pointer;
   border-radius: 8px;
   transition: background-color 0.12s ease;
 }
 
-.site-settings-row-header:hover {
+label.site-settings-row-header {
+  cursor: pointer;
+}
+
+label.site-settings-row-header:hover {
   background: #20242c;
 }
 
@@ -91,29 +90,47 @@
   font-weight: 600;
 }
 
-.site-settings-row-body {
-  padding: 4px 12px 12px 34px;
+.site-settings-row-prefix {
+  font-size: 13px;
+  color: #cbd2dc;
 }
 
-.site-settings-select {
-  background: #20242c;
-  border: 1px solid #2c303a;
-  color: #cbd2dc;
+/* Visually hidden but still focusable/clickable - the associated <label>
+   opens this select's native dropdown directly on a single click, instead
+   of an intermediate "expand row" step before the dropdown even appears. */
+.site-settings-select-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.site-settings-inline-input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #f0f0f0;
   font-size: 13px;
-  border-radius: 6px;
-  padding: 7px 10px;
-  width: 100%;
+  font-weight: 600;
+  text-align: right;
+  padding: 0;
+}
+
+.site-settings-inline-input:focus {
+  outline: none;
 }
 
 .site-settings-note {
   font-size: 11px;
   color: #6b7280;
-  margin: 8px 0 0;
+  margin: 0 8px 8px 33px;
   line-height: 1.4;
 }
 
 .site-settings-segmented {
   display: inline-flex;
+  margin-left: auto;
   background: #20242c;
   border: 1px solid #2c303a;
   border-radius: 8px;

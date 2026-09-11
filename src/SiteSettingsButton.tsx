@@ -3,8 +3,6 @@ import { useTranslation } from "react-i18next";
 import "./SiteSettingsButton.css";
 import { LANGUAGES, baseLanguageCode } from "./languages";
 
-type SettingKey = "language" | "location" | "appearance";
-
 // Theme, language, and location are app-wide preferences, not account
 // features - anyone can change them without signing in. Notifications,
 // favorite fighters, and tracked promotions stay behind AccountOverlay
@@ -22,13 +20,8 @@ type SettingKey = "language" | "location" | "appearance";
 export default function SiteSettingsButton() {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
-  const [expanded, setExpanded] = useState<SettingKey | null>(null);
   const [location, setLocation] = useState(() => Intl.DateTimeFormat().resolvedOptions().timeZone);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
-
-  function toggleRow(key: SettingKey) {
-    setExpanded((prev) => (prev === key ? null : key));
-  }
 
   const currentLanguage = baseLanguageCode(i18n.language);
   const currentLanguageName = LANGUAGES.find((lang) => lang.code === currentLanguage)?.nativeName ?? i18n.language;
@@ -38,10 +31,7 @@ export default function SiteSettingsButton() {
       <button
         type="button"
         className="site-settings-trigger"
-        onClick={() => {
-          setOpen((o) => !o);
-          setExpanded(null);
-        }}
+        onClick={() => setOpen((o) => !o)}
         aria-label={t("settings.ariaLabel")}
       >
         <GearIcon />
@@ -54,76 +44,63 @@ export default function SiteSettingsButton() {
           <div className="site-settings-backdrop" onClick={() => setOpen(false)} />
           <div className="site-settings-dropdown" role="menu" aria-label={t("settings.ariaLabel")}>
             <div className="site-settings-row">
-              <button type="button" className="site-settings-row-header" onClick={() => toggleRow("language")}>
+              <label className="site-settings-row-header" htmlFor="site-settings-language">
                 <LanguageIcon />
                 <span className="site-settings-row-label">
                   {t("settings.language")}: <strong>{currentLanguageName}</strong>
                 </span>
-                <span className={"site-settings-chevron" + (expanded === "language" ? " open" : "")}>&#9662;</span>
-              </button>
-              {expanded === "language" && (
-                <div className="site-settings-row-body">
-                  <select className="site-settings-select" value={currentLanguage} onChange={(e) => i18n.changeLanguage(e.target.value)}>
-                    {LANGUAGES.map((lang) => (
-                      <option key={lang.code} value={lang.code}>
-                        {lang.nativeName}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
+                <span className="site-settings-chevron">&#9662;</span>
+              </label>
+              <select
+                id="site-settings-language"
+                className="site-settings-select-hidden"
+                value={currentLanguage}
+                onChange={(e) => i18n.changeLanguage(e.target.value)}
+              >
+                {LANGUAGES.map((lang) => (
+                  <option key={lang.code} value={lang.code}>
+                    {lang.nativeName}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="site-settings-row">
-              <button type="button" className="site-settings-row-header" onClick={() => toggleRow("location")}>
+              <label className="site-settings-row-header">
                 <LocationIcon />
-                <span className="site-settings-row-label">
-                  {t("settings.location")}: <strong>{location}</strong>
-                </span>
-                <span className={"site-settings-chevron" + (expanded === "location" ? " open" : "")}>&#9662;</span>
-              </button>
-              {expanded === "location" && (
-                <div className="site-settings-row-body">
-                  <input
-                    type="text"
-                    className="site-settings-select"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                  />
-                  <p className="site-settings-note">{t("settings.locationNote")}</p>
-                </div>
-              )}
+                <span className="site-settings-row-prefix">{t("settings.location")}:</span>
+                <input
+                  type="text"
+                  className="site-settings-inline-input"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
+              </label>
+              <p className="site-settings-note">{t("settings.locationNote")}</p>
             </div>
 
             <div className="site-settings-row">
-              <button type="button" className="site-settings-row-header" onClick={() => toggleRow("appearance")}>
+              <div className="site-settings-row-header">
                 <AppearanceIcon />
-                <span className="site-settings-row-label">
-                  {t("settings.appearance")}: <strong>{theme === "dark" ? t("settings.dark") : t("settings.light")}</strong>
-                </span>
-                <span className={"site-settings-chevron" + (expanded === "appearance" ? " open" : "")}>&#9662;</span>
-              </button>
-              {expanded === "appearance" && (
-                <div className="site-settings-row-body">
-                  <div className="site-settings-segmented">
-                    <button
-                      type="button"
-                      className={"site-settings-segment" + (theme === "dark" ? " active" : "")}
-                      onClick={() => setTheme("dark")}
-                    >
-                      {t("settings.dark")}
-                    </button>
-                    <button
-                      type="button"
-                      className={"site-settings-segment" + (theme === "light" ? " active" : "")}
-                      onClick={() => setTheme("light")}
-                    >
-                      {t("settings.light")}
-                    </button>
-                  </div>
-                  <p className="site-settings-note">{t("settings.appearanceNote")}</p>
+                <span className="site-settings-row-prefix">{t("settings.appearance")}:</span>
+                <div className="site-settings-segmented">
+                  <button
+                    type="button"
+                    className={"site-settings-segment" + (theme === "dark" ? " active" : "")}
+                    onClick={() => setTheme("dark")}
+                  >
+                    {t("settings.dark")}
+                  </button>
+                  <button
+                    type="button"
+                    className={"site-settings-segment" + (theme === "light" ? " active" : "")}
+                    onClick={() => setTheme("light")}
+                  >
+                    {t("settings.light")}
+                  </button>
                 </div>
-              )}
+              </div>
+              <p className="site-settings-note">{t("settings.appearanceNote")}</p>
             </div>
           </div>
         </>
