@@ -7,6 +7,7 @@ import {
   isSameMonth,
   isToday,
   startOfMonth,
+  startOfToday,
   startOfWeek,
 } from "date-fns";
 import type { EventListItem } from "./types";
@@ -68,6 +69,7 @@ export default function YearCalendar({ year, events }: YearCalendarProps) {
                 const dayEvents = eventsByDay.get(key) ?? [];
                 const inMonth = isSameMonth(date, new Date(year, month, 1));
                 const today = isToday(date);
+                const isPast = date < startOfToday();
                 return (
                   <button
                     key={key}
@@ -76,6 +78,7 @@ export default function YearCalendar({ year, events }: YearCalendarProps) {
                       "year-grid-day" +
                       (inMonth ? "" : " year-grid-day-outside") +
                       (today ? " year-grid-day-today" : "") +
+                      (isPast ? " year-grid-day-past" : "") +
                       (dayEvents.length > 0 ? " year-grid-day-has-events" : "") +
                       (selectedDay === key ? " year-grid-day-selected" : "")
                     }

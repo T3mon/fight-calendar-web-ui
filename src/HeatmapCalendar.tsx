@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, isToday, startOfMonth, startOfWeek } from "date-fns";
+import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, isToday, startOfMonth, startOfToday, startOfWeek } from "date-fns";
 import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
 
@@ -61,6 +61,7 @@ function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
           const dayEvents = eventsByDay.get(key) ?? [];
           const inMonth = isSameMonth(date, month);
           const today = isToday(date);
+          const isPast = date < startOfToday();
           const maxLines = MAX_MATCHUP_LINES[size];
           // Most prominent first (bigger card = more bouts), not chronological -
           // the point of this line is "what's the headliner", not a schedule.
@@ -75,6 +76,7 @@ function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
                 "heatmap-day" +
                 (inMonth ? "" : " heatmap-day-outside") +
                 (today ? " heatmap-day-today" : "") +
+                (isPast ? " heatmap-day-past" : "") +
                 (dayEvents.length > 0 ? " heatmap-day-has-events" : "") +
                 (selectedDay === key ? " heatmap-day-selected" : "")
               }
@@ -83,7 +85,6 @@ function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
             >
               <span className="heatmap-day-top">
                 <span className="heatmap-day-number">{date.getDate()}</span>
-                {dayEvents.length > 0 && <span className="heatmap-day-count">{dayEvents.length}</span>}
               </span>
               {shownEvents.length > 0 && (
                 <span className="heatmap-matchups">

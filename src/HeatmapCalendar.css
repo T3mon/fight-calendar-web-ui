@@ -125,10 +125,8 @@
   min-width: 1.6em;
 }
 
-.heatmap-day-count {
-  font-size: 10px;
-  color: #9aa0aa;
-  font-variant-numeric: tabular-nums;
+.heatmap-day-past {
+  opacity: 0.55;
 }
 
 .heatmap-day-has-events {
