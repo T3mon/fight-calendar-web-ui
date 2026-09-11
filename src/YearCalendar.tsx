@@ -12,6 +12,7 @@ import {
 } from "date-fns";
 import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
+import FightCardModal from "./FightCardModal";
 
 const MONTH_NAMES = Array.from({ length: 12 }, (_, m) => format(new Date(2000, m, 1), "MMMM"));
 const WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -34,6 +35,7 @@ function dayKey(date: Date): string {
 
 export default function YearCalendar({ year, events }: YearCalendarProps) {
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [fightCardSlug, setFightCardSlug] = useState<string | null>(null);
 
   const eventsByDay = useMemo(() => {
     const map = new Map<string, EventListItem[]>();
@@ -119,14 +121,24 @@ export default function YearCalendar({ year, events }: YearCalendarProps) {
               .sort((a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime())
               .map((event) => (
                 <li key={event.id}>
-                  <a href={event.link} target="_blank" rel="noreferrer">
-                    <span
-                      className="year-grid-dot"
-                      style={{ backgroundColor: colorForPromotion(event.promotion.code) }}
-                    />
-                    <span className="year-grid-popover-time">{format(new Date(event.startsAt), "h:mm a")}</span>
-                    <span className="year-grid-popover-title">{event.title}</span>
-                  </a>
+                  <div className="year-grid-popover-row">
+                    <a href={event.link} target="_blank" rel="noreferrer">
+                      <span
+                        className="year-grid-dot"
+                        style={{ backgroundColor: colorForPromotion(event.promotion.code) }}
+                      />
+                      <span className="year-grid-popover-time">{format(new Date(event.startsAt), "h:mm a")}</span>
+                      <span className="year-grid-popover-title">{event.title}</span>
+                    </a>
+                    <button
+                      type="button"
+                      className="fight-card-trigger"
+                      onClick={() => setFightCardSlug(event.slug)}
+                      aria-label={`View full fight card for ${event.title}`}
+                    >
+                      Card
+                    </button>
+                  </div>
                   {event.mainEvent && (
                     <div className="year-grid-popover-subtitle">
                       {event.mainEvent.fighterA} vs {event.mainEvent.fighterB}
@@ -138,6 +150,8 @@ export default function YearCalendar({ year, events }: YearCalendarProps) {
           <div className="year-grid-popover-footnote">Times shown in your local timezone. End times aren't tracked - fights don't have a fixed duration.</div>
         </div>
       )}
+
+      {fightCardSlug && <FightCardModal slug={fightCardSlug} onClose={() => setFightCardSlug(null)} />}
     </div>
   );
 }

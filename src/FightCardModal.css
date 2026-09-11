@@ -1,0 +1,96 @@
+.fight-card-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fight-card-modal {
+  width: min(480px, 92vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  background: #1c1f26;
+  border: 1px solid #3a3f4b;
+  border-radius: 10px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  padding: 18px 20px;
+}
+
+.fight-card-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #f0f0f0;
+  font-size: 16px;
+  margin-bottom: 14px;
+  gap: 12px;
+}
+
+.fight-card-modal-close {
+  background: none;
+  border: none;
+  color: #9aa0aa;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.fight-card-modal-loading,
+.fight-card-modal-error {
+  color: #9aa0aa;
+  font-size: 13px;
+}
+
+.fight-card-modal-error {
+  color: #e63946;
+}
+
+.fight-card-modal-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fight-card-modal-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  background: #20242c;
+  border-radius: 8px;
+}
+
+.fight-card-modal-main-event {
+  background: #2c313d !important;
+  border: 1px solid #4a5568;
+}
+
+.fight-card-modal-order {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+
+.fight-card-modal-matchup {
+  color: #e8e8e8;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.fight-card-modal-weight {
+  color: #9aa0aa;
+  font-size: 12px;
+}
+
+.fight-card-modal-empty {
+  color: #6b7280;
+  font-size: 13px;
+}

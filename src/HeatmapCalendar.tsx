@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { eachDayOfInterval, endOfMonth, endOfWeek, format, isSameMonth, isToday, startOfMonth, startOfToday, startOfWeek } from "date-fns";
 import type { EventListItem } from "./types";
 import { colorForPromotion } from "./promotionColors";
+import FightCardModal from "./FightCardModal";
 
 const WEEKDAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
@@ -29,6 +30,7 @@ const MAX_MATCHUP_LINES: Record<"large" | "medium", number> = { large: 4, medium
 
 function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [fightCardSlug, setFightCardSlug] = useState<string | null>(null);
 
   const eventsByDay = useMemo(() => {
     const map = new Map<string, EventListItem[]>();
@@ -116,11 +118,21 @@ function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
               .sort((a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime())
               .map((event) => (
                 <li key={event.id}>
-                  <a href={event.link} target="_blank" rel="noreferrer">
-                    <span className="heatmap-dot" style={{ backgroundColor: colorForPromotion(event.promotion.code) }} />
-                    <span className="heatmap-popover-time">{format(new Date(event.startsAt), "h:mm a")}</span>
-                    <span className="heatmap-popover-title">{event.title}</span>
-                  </a>
+                  <div className="heatmap-popover-row">
+                    <a href={event.link} target="_blank" rel="noreferrer">
+                      <span className="heatmap-dot" style={{ backgroundColor: colorForPromotion(event.promotion.code) }} />
+                      <span className="heatmap-popover-time">{format(new Date(event.startsAt), "h:mm a")}</span>
+                      <span className="heatmap-popover-title">{event.title}</span>
+                    </a>
+                    <button
+                      type="button"
+                      className="fight-card-trigger"
+                      onClick={() => setFightCardSlug(event.slug)}
+                      aria-label={`View full fight card for ${event.title}`}
+                    >
+                      Card
+                    </button>
+                  </div>
                   {event.mainEvent && (
                     <div className="heatmap-popover-subtitle">
                       {event.mainEvent.fighterA} vs {event.mainEvent.fighterB}
@@ -131,6 +143,8 @@ function HeatmapMonth({ month, events, size }: HeatmapMonthProps) {
           </ul>
         </div>
       )}
+
+      {fightCardSlug && <FightCardModal slug={fightCardSlug} onClose={() => setFightCardSlug(null)} />}
     </div>
   );
 }
