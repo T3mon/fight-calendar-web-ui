@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import "./SearchBar.css";
@@ -40,6 +40,24 @@ export default function SearchBar({ events, onJumpToEvent }: SearchBarProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
 
+  // YouTube-style "/" shortcut - only when nothing else is capturing text
+  // input, so it doesn't hijack typing into another field (the timezone
+  // search box, a future text input, etc).
+  useEffect(() => {
+    if (open) return;
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey) return;
+      const target = e.target as HTMLElement | null;
+      const isTyping =
+        target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target?.isContentEditable;
+      if (isTyping) return;
+      e.preventDefault();
+      setOpen(true);
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open]);
+
   const results = useMemo(() => {
     const trimmed = query.trim().toLowerCase();
     if (!trimmed) return [];
@@ -80,7 +98,13 @@ export default function SearchBar({ events, onJumpToEvent }: SearchBarProps) {
           </button>
         </div>
       ) : (
-        <button type="button" className="search-bar-trigger" onClick={() => setOpen(true)} aria-label={t("search.ariaLabel")}>
+        <button
+          type="button"
+          className="search-bar-trigger"
+          onClick={() => setOpen(true)}
+          aria-label={t("search.ariaLabel")}
+          title={`${t("search.ariaLabel")} (/)`}
+        >
           <SearchIcon />
         </button>
       )}
