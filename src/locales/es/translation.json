@@ -87,7 +87,7 @@
   },
   "confirmEmail": {
     "confirming": "Confirmando tu correo…",
-    "success": "Tu correo está confirmado. Ya puedes iniciar sesión.",
+    "success": "Tu correo está confirmado. Iniciando sesión…",
     "error": "Este enlace de confirmación no es válido o ha caducado.",
     "invalidLink": "A este enlace de confirmación le falta información.",
     "backToCalendar": "Volver a Fight Calendar"

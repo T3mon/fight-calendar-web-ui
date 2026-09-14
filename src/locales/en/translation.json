@@ -87,7 +87,7 @@
   },
   "confirmEmail": {
     "confirming": "Confirming your email…",
-    "success": "Your email is confirmed. You can sign in now.",
+    "success": "Your email is confirmed. Signing you in…",
     "error": "This confirmation link is invalid or has expired.",
     "invalidLink": "This confirmation link is missing information.",
     "backToCalendar": "Back to Fight Calendar"

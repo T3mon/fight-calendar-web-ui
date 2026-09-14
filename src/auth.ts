@@ -99,7 +99,9 @@ export async function login(email: string, password: string): Promise<Session> {
   return session;
 }
 
-export async function confirmEmail(userId: string, token: string): Promise<void> {
+// Confirming returns a session too - the link proves control of the inbox, so
+// the user is signed in rather than being sent back to the form.
+export async function confirmEmail(userId: string, token: string): Promise<Session> {
   const response = await fetch(`${AUTH_BASE_URL}/auth/confirm-email`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -109,6 +111,11 @@ export async function confirmEmail(userId: string, token: string): Promise<void>
   if (!response.ok) {
     throw new Error(await extractErrorMessage(response, "Email confirmation failed."));
   }
+
+  const data = (await response.json()) as { token: string; expiresAt: string; email: string };
+  const session: Session = { token: data.token, expiresAt: data.expiresAt, email: data.email };
+  saveSession(session);
+  return session;
 }
 
 export async function resendConfirmation(email: string): Promise<void> {

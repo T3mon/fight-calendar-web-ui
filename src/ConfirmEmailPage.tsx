@@ -25,7 +25,12 @@ export default function ConfirmEmailPage() {
   useEffect(() => {
     if (!params) return;
     confirmEmail(params.userId, params.token)
-      .then(() => setStatus("success"))
+      .then(() => {
+        setStatus("success");
+        // The session is saved by now, so send them into the calendar already
+        // signed in. replace() keeps the token-bearing URL out of history.
+        window.location.replace("/");
+      })
       .catch((err: Error) => {
         setError(err.message);
         setStatus("error");
