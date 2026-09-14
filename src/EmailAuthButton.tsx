@@ -177,7 +177,7 @@ export default function EmailAuthButton({ onSignedIn }: EmailAuthButtonProps) {
                   )}
 
                   <button type="submit" className="email-auth-submit" disabled={submitting}>
-                    {mode === "signin" ? t("auth.submitSignIn") : t("auth.submitRegister")}
+                    {submitting ? t("app.loading") : mode === "signin" ? t("auth.submitSignIn") : t("auth.submitRegister")}
                   </button>
                 </form>
               </>
