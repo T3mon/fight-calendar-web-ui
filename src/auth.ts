@@ -30,6 +30,28 @@ export function clearSession(): void {
   }
 }
 
+function saveSession(session: Session): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+  } catch {
+    // Session still works for this page load, it just won't survive a reload.
+  }
+}
+
+// The API answers errors two ways depending on which endpoint hit them: a
+// plain string body for Conflict/Unauthorized/BadRequest("some message"),
+// or a ProblemDetails JSON object for Problem(...) validation failures.
+// Try JSON first and fall back to the raw text either way.
+async function extractErrorMessage(response: Response, fallback: string): Promise<string> {
+  const text = await response.text();
+  try {
+    const problem = JSON.parse(text) as { detail?: string; title?: string };
+    return problem.detail ?? problem.title ?? text;
+  } catch {
+    return text || fallback;
+  }
+}
+
 // Exchanges a Google ID token (from GoogleSignInButton) for our own session.
 export async function signInWithGoogle(idToken: string): Promise<Session> {
   const response = await fetch(`${AUTH_BASE_URL}/auth/google`, {
@@ -44,12 +66,59 @@ export async function signInWithGoogle(idToken: string): Promise<Session> {
 
   const data = (await response.json()) as { token: string; expiresAt: string; email: string };
   const session: Session = { token: data.token, expiresAt: data.expiresAt, email: data.email };
+  saveSession(session);
+  return session;
+}
 
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
-  } catch {
-    // Session still works for this page load, it just won't survive a reload.
+export async function register(email: string, password: string): Promise<void> {
+  const response = await fetch(`${AUTH_BASE_URL}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!response.ok) {
+    throw new Error(await extractErrorMessage(response, "Registration failed."));
+  }
+}
+
+export async function login(email: string, password: string): Promise<Session> {
+  const response = await fetch(`${AUTH_BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!response.ok) {
+    throw new Error(await extractErrorMessage(response, "Sign in failed."));
   }
 
+  const data = (await response.json()) as { token: string; expiresAt: string; email: string };
+  const session: Session = { token: data.token, expiresAt: data.expiresAt, email: data.email };
+  saveSession(session);
   return session;
+}
+
+export async function confirmEmail(userId: string, token: string): Promise<void> {
+  const response = await fetch(`${AUTH_BASE_URL}/auth/confirm-email`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId, token }),
+  });
+
+  if (!response.ok) {
+    throw new Error(await extractErrorMessage(response, "Email confirmation failed."));
+  }
+}
+
+export async function resendConfirmation(email: string): Promise<void> {
+  const response = await fetch(`${AUTH_BASE_URL}/auth/resend-confirmation`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+
+  if (!response.ok) {
+    throw new Error(await extractErrorMessage(response, "Could not resend the confirmation email."));
+  }
 }

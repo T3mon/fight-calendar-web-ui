@@ -69,6 +69,27 @@
     "failedToLoadEvents": "Не удалось загрузить события: {{message}}"
   },
   "auth": {
-    "signInNotConfigured": "Вход не настроен"
+    "signInNotConfigured": "Вход не настроен",
+    "emailSignIn": "Войти",
+    "close": "Закрыть",
+    "signIn": "Войти",
+    "register": "Регистрация",
+    "email": "Email",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "passwordMismatch": "Пароли не совпадают.",
+    "submitSignIn": "Войти",
+    "submitRegister": "Создать аккаунт",
+    "checkEmailTitle": "Проверьте почту",
+    "registerSuccess": "Мы отправили ссылку для подтверждения на {{email}}. Подтвердите email перед входом.",
+    "resendConfirmation": "Отправить письмо повторно",
+    "resendConfirmationSent": "Письмо отправлено - проверьте почту."
+  },
+  "confirmEmail": {
+    "confirming": "Подтверждаем ваш email…",
+    "success": "Email подтверждён. Теперь вы можете войти.",
+    "error": "Ссылка для подтверждения недействительна или истекла.",
+    "invalidLink": "В этой ссылке для подтверждения не хватает данных.",
+    "backToCalendar": "Назад в Fight Calendar"
   }
 }

@@ -69,6 +69,27 @@
     "failedToLoadEvents": "Error al cargar eventos: {{message}}"
   },
   "auth": {
-    "signInNotConfigured": "Inicio de sesión no configurado"
+    "signInNotConfigured": "Inicio de sesión no configurado",
+    "emailSignIn": "Iniciar sesión",
+    "close": "Cerrar",
+    "signIn": "Iniciar sesión",
+    "register": "Registrarse",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "passwordMismatch": "Las contraseñas no coinciden.",
+    "submitSignIn": "Iniciar sesión",
+    "submitRegister": "Crear cuenta",
+    "checkEmailTitle": "Revisa tu correo",
+    "registerSuccess": "Enviamos un enlace de confirmación a {{email}}. Confirma tu correo antes de iniciar sesión.",
+    "resendConfirmation": "Reenviar correo de confirmación",
+    "resendConfirmationSent": "Correo de confirmación enviado - revisa tu bandeja de entrada."
+  },
+  "confirmEmail": {
+    "confirming": "Confirmando tu correo…",
+    "success": "Tu correo está confirmado. Ya puedes iniciar sesión.",
+    "error": "Este enlace de confirmación no es válido o ha caducado.",
+    "invalidLink": "A este enlace de confirmación le falta información.",
+    "backToCalendar": "Volver a Fight Calendar"
   }
 }

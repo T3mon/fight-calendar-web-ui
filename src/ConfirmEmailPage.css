@@ -1,0 +1,56 @@
+.confirm-email-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-page);
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.confirm-email-card {
+  width: min(400px, 100%);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  box-shadow: 0 24px 60px var(--shadow-lg);
+  padding: 32px;
+  text-align: center;
+}
+
+.confirm-email-title {
+  font-size: 22px;
+  margin: 0 0 20px;
+}
+
+.confirm-email-title-fight {
+  color: var(--brand-fight);
+}
+
+.confirm-email-title-calendar {
+  color: var(--brand-calendar);
+}
+
+.confirm-email-message {
+  font-size: 15px;
+  color: var(--text-body);
+  line-height: 1.5;
+  margin: 0 0 20px;
+}
+
+.confirm-email-error {
+  color: var(--danger);
+}
+
+.confirm-email-back {
+  display: inline-block;
+  color: var(--accent-light);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.confirm-email-back:hover {
+  text-decoration: underline;
+}

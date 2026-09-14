@@ -69,6 +69,27 @@
     "failedToLoadEvents": "فشل تحميل الفعاليات: {{message}}"
   },
   "auth": {
-    "signInNotConfigured": "تسجيل الدخول غير مُهيأ"
+    "signInNotConfigured": "تسجيل الدخول غير مُهيأ",
+    "emailSignIn": "تسجيل الدخول",
+    "close": "إغلاق",
+    "signIn": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "passwordMismatch": "كلمتا المرور غير متطابقتين.",
+    "submitSignIn": "تسجيل الدخول",
+    "submitRegister": "إنشاء حساب",
+    "checkEmailTitle": "تحقق من بريدك الإلكتروني",
+    "registerSuccess": "أرسلنا رابط تأكيد إلى {{email}}. يرجى تأكيد بريدك الإلكتروني قبل تسجيل الدخول.",
+    "resendConfirmation": "إعادة إرسال رسالة التأكيد",
+    "resendConfirmationSent": "تم إرسال رسالة التأكيد - تحقق من بريدك الوارد."
+  },
+  "confirmEmail": {
+    "confirming": "جارٍ تأكيد بريدك الإلكتروني…",
+    "success": "تم تأكيد بريدك الإلكتروني. يمكنك الآن تسجيل الدخول.",
+    "error": "رابط التأكيد هذا غير صالح أو منتهي الصلاحية.",
+    "invalidLink": "رابط التأكيد هذا ناقص المعلومات.",
+    "backToCalendar": "العودة إلى Fight Calendar"
   }
 }

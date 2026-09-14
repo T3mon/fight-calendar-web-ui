@@ -69,6 +69,27 @@
     "failedToLoadEvents": "Failed to load events: {{message}}"
   },
   "auth": {
-    "signInNotConfigured": "Sign-in not configured"
+    "signInNotConfigured": "Sign-in not configured",
+    "emailSignIn": "Sign in",
+    "close": "Close",
+    "signIn": "Sign in",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "passwordMismatch": "Passwords don't match.",
+    "submitSignIn": "Sign in",
+    "submitRegister": "Create account",
+    "checkEmailTitle": "Check your email",
+    "registerSuccess": "We sent a confirmation link to {{email}}. Confirm your email before signing in.",
+    "resendConfirmation": "Resend confirmation email",
+    "resendConfirmationSent": "Confirmation email sent - check your inbox."
+  },
+  "confirmEmail": {
+    "confirming": "Confirming your email…",
+    "success": "Your email is confirmed. You can sign in now.",
+    "error": "This confirmation link is invalid or has expired.",
+    "invalidLink": "This confirmation link is missing information.",
+    "backToCalendar": "Back to Fight Calendar"
   }
 }

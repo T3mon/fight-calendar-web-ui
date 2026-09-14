@@ -69,6 +69,27 @@
     "failedToLoadEvents": "Échec du chargement des événements : {{message}}"
   },
   "auth": {
-    "signInNotConfigured": "Connexion non configurée"
+    "signInNotConfigured": "Connexion non configurée",
+    "emailSignIn": "Se connecter",
+    "close": "Fermer",
+    "signIn": "Se connecter",
+    "register": "S'inscrire",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "passwordMismatch": "Les mots de passe ne correspondent pas.",
+    "submitSignIn": "Se connecter",
+    "submitRegister": "Créer un compte",
+    "checkEmailTitle": "Vérifiez vos e-mails",
+    "registerSuccess": "Nous avons envoyé un lien de confirmation à {{email}}. Confirmez votre e-mail avant de vous connecter.",
+    "resendConfirmation": "Renvoyer l'e-mail de confirmation",
+    "resendConfirmationSent": "E-mail de confirmation envoyé - vérifiez votre boîte de réception."
+  },
+  "confirmEmail": {
+    "confirming": "Confirmation de votre e-mail…",
+    "success": "Votre e-mail est confirmé. Vous pouvez maintenant vous connecter.",
+    "error": "Ce lien de confirmation est invalide ou a expiré.",
+    "invalidLink": "Ce lien de confirmation manque d'informations.",
+    "backToCalendar": "Retour à Fight Calendar"
   }
 }

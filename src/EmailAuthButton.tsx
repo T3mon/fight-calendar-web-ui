@@ -1,0 +1,190 @@
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "./EmailAuthButton.css";
+import { login, register, resendConfirmation, type Session } from "./auth";
+
+type Mode = "signin" | "register";
+type View = "form" | "check-email";
+
+interface EmailAuthButtonProps {
+  onSignedIn: (session: Session) => void;
+}
+
+export default function EmailAuthButton({ onSignedIn }: EmailAuthButtonProps) {
+  const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState<Mode>("signin");
+  const [view, setView] = useState<View>("form");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [resendState, setResendState] = useState<"idle" | "sending" | "sent">("idle");
+
+  function close() {
+    setOpen(false);
+    setMode("signin");
+    setView("form");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setError(null);
+    setSubmitting(false);
+    setResendState("idle");
+  }
+
+  function switchMode(next: Mode) {
+    setMode(next);
+    setError(null);
+    setPassword("");
+    setConfirmPassword("");
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+
+    if (mode === "register" && password !== confirmPassword) {
+      setError(t("auth.passwordMismatch"));
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      if (mode === "signin") {
+        const session = await login(email, password);
+        onSignedIn(session);
+        close();
+      } else {
+        await register(email, password);
+        setView("check-email");
+      }
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function handleResend() {
+    setResendState("sending");
+    try {
+      await resendConfirmation(email);
+      setResendState("sent");
+    } catch {
+      // resend-confirmation never reports failure to the caller by design
+      // (it always looks identical whether the email exists or not) - if
+      // the request itself failed (network, etc.) just let them retry.
+      setResendState("idle");
+    }
+  }
+
+  // The backend can't hand back a structured "which kind of error" code, so
+  // this is the same trick used for confirmation status - the one error
+  // message that actually names email confirmation is checked for by text.
+  const isUnconfirmedError = mode === "signin" && error?.toLowerCase().includes("confirm");
+
+  return (
+    <div className="email-auth">
+      <button type="button" className="email-auth-trigger" onClick={() => setOpen(true)} aria-label={t("auth.emailSignIn")}>
+        {t("auth.emailSignIn")}
+      </button>
+
+      {open && (
+        <div className="email-auth-backdrop" onClick={close}>
+          <div
+            className="email-auth-modal"
+            role="dialog"
+            aria-label={t("auth.emailSignIn")}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button type="button" className="email-auth-close" onClick={close} aria-label={t("auth.close")}>
+              &times;
+            </button>
+
+            {view === "check-email" ? (
+              <div className="email-auth-check">
+                <h2 className="email-auth-title">{t("auth.checkEmailTitle")}</h2>
+                <p className="email-auth-note">{t("auth.registerSuccess", { email })}</p>
+                {resendState === "sent" ? (
+                  <p className="email-auth-note">{t("auth.resendConfirmationSent")}</p>
+                ) : (
+                  <button type="button" className="email-auth-link" onClick={handleResend} disabled={resendState === "sending"}>
+                    {t("auth.resendConfirmation")}
+                  </button>
+                )}
+              </div>
+            ) : (
+              <>
+                <div className="email-auth-tabs">
+                  <button
+                    type="button"
+                    className={"email-auth-tab" + (mode === "signin" ? " active" : "")}
+                    onClick={() => switchMode("signin")}
+                  >
+                    {t("auth.signIn")}
+                  </button>
+                  <button
+                    type="button"
+                    className={"email-auth-tab" + (mode === "register" ? " active" : "")}
+                    onClick={() => switchMode("register")}
+                  >
+                    {t("auth.register")}
+                  </button>
+                </div>
+
+                <form onSubmit={handleSubmit} className="email-auth-form">
+                  <label className="email-auth-field">
+                    <span>{t("auth.email")}</span>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      autoComplete="email"
+                    />
+                  </label>
+                  <label className="email-auth-field">
+                    <span>{t("auth.password")}</span>
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      minLength={mode === "register" ? 10 : undefined}
+                      autoComplete={mode === "signin" ? "current-password" : "new-password"}
+                    />
+                  </label>
+                  {mode === "register" && (
+                    <label className="email-auth-field">
+                      <span>{t("auth.confirmPassword")}</span>
+                      <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                        autoComplete="new-password"
+                      />
+                    </label>
+                  )}
+
+                  {error && <p className="email-auth-error">{error}</p>}
+                  {isUnconfirmedError && (
+                    <button type="button" className="email-auth-link" onClick={handleResend} disabled={resendState !== "idle"}>
+                      {resendState === "sent" ? t("auth.resendConfirmationSent") : t("auth.resendConfirmation")}
+                    </button>
+                  )}
+
+                  <button type="submit" className="email-auth-submit" disabled={submitting}>
+                    {mode === "signin" ? t("auth.submitSignIn") : t("auth.submitRegister")}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

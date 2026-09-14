@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import './i18n.ts'
 import App from './App.tsx'
+import ConfirmEmailPage from './ConfirmEmailPage.tsx'
 import { faviconHref } from './envTheme.ts'
 import { applyTheme, getInitialTheme } from './theme.ts'
 
@@ -16,8 +17,10 @@ if (faviconLink) {
 // anyone who has actually chosen (or whose OS prefers) light.
 applyTheme(getInitialTheme())
 
+// One static extra route doesn't earn a router dependency - the whole app
+// is one page plus this one link target from the confirmation email.
+const page = window.location.pathname === '/confirm-email' ? <ConfirmEmailPage /> : <App />
+
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  <StrictMode>{page}</StrictMode>,
 )

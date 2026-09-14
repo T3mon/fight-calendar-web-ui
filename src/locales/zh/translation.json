@@ -69,6 +69,27 @@
     "failedToLoadEvents": "赛事加载失败：{{message}}"
   },
   "auth": {
-    "signInNotConfigured": "登录未配置"
+    "signInNotConfigured": "登录未配置",
+    "emailSignIn": "登录",
+    "close": "关闭",
+    "signIn": "登录",
+    "register": "注册",
+    "email": "邮箱",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "passwordMismatch": "两次输入的密码不一致。",
+    "submitSignIn": "登录",
+    "submitRegister": "创建账户",
+    "checkEmailTitle": "请查收邮件",
+    "registerSuccess": "我们已向 {{email}} 发送了确认链接。请在登录前确认您的邮箱。",
+    "resendConfirmation": "重新发送确认邮件",
+    "resendConfirmationSent": "确认邮件已发送 - 请查收。"
+  },
+  "confirmEmail": {
+    "confirming": "正在确认您的邮箱…",
+    "success": "邮箱已确认，现在可以登录了。",
+    "error": "此确认链接无效或已过期。",
+    "invalidLink": "此确认链接缺少必要信息。",
+    "backToCalendar": "返回 Fight Calendar"
   }
 }

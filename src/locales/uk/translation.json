@@ -69,6 +69,27 @@
     "failedToLoadEvents": "Не вдалося завантажити події: {{message}}"
   },
   "auth": {
-    "signInNotConfigured": "Вхід не налаштовано"
+    "signInNotConfigured": "Вхід не налаштовано",
+    "emailSignIn": "Увійти",
+    "close": "Закрити",
+    "signIn": "Увійти",
+    "register": "Реєстрація",
+    "email": "Email",
+    "password": "Пароль",
+    "confirmPassword": "Підтвердіть пароль",
+    "passwordMismatch": "Паролі не збігаються.",
+    "submitSignIn": "Увійти",
+    "submitRegister": "Створити акаунт",
+    "checkEmailTitle": "Перевірте пошту",
+    "registerSuccess": "Ми надіслали посилання для підтвердження на {{email}}. Підтвердьте email перед входом.",
+    "resendConfirmation": "Надіслати лист повторно",
+    "resendConfirmationSent": "Лист надіслано - перевірте пошту."
+  },
+  "confirmEmail": {
+    "confirming": "Підтверджуємо ваш email…",
+    "success": "Email підтверджено. Тепер ви можете увійти.",
+    "error": "Посилання для підтвердження недійсне або застаріле.",
+    "invalidLink": "У цьому посиланні для підтвердження бракує даних.",
+    "backToCalendar": "Назад до Fight Calendar"
   }
 }

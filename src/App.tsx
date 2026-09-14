@@ -10,6 +10,7 @@ import YearCalendar from "./YearCalendar";
 import HeatmapCalendar from "./HeatmapCalendar";
 import PromotionSidebar from "./PromotionSidebar";
 import GoogleSignInButton from "./GoogleSignInButton";
+import EmailAuthButton from "./EmailAuthButton";
 import AccountOverlay from "./AccountOverlay";
 import SiteSettingsButton from "./SiteSettingsButton";
 import SearchBar from "./SearchBar";
@@ -202,7 +203,10 @@ function App() {
               }}
             />
           ) : (
-            <GoogleSignInButton onSignedIn={setSession} />
+            <div className="d-flex align-items-center gap-2">
+              <GoogleSignInButton onSignedIn={setSession} />
+              <EmailAuthButton onSignedIn={setSession} />
+            </div>
           )}
         </div>
       </header>
