@@ -39,6 +39,7 @@ export default function EmailAuthButton({ onSignedIn }: EmailAuthButtonProps) {
     setError(null);
     setPassword("");
     setConfirmPassword("");
+    setResendState("idle");
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -80,10 +81,11 @@ export default function EmailAuthButton({ onSignedIn }: EmailAuthButtonProps) {
     }
   }
 
-  // The backend can't hand back a structured "which kind of error" code, so
-  // this is the same trick used for confirmation status - the one error
-  // message that actually names email confirmation is checked for by text.
-  const isUnconfirmedError = mode === "signin" && error?.toLowerCase().includes("confirm");
+  // Resending needs only an email address, never a password, so it must not be
+  // gated behind a successful sign-in - someone who registered and never got
+  // the email has no password path back in. Registering again just hits
+  // "account already exists", which is why this shows on that error too.
+  const canResend = email.trim().length > 0 && (mode === "signin" || error !== null);
 
   return (
     <div className="email-auth">
@@ -140,7 +142,10 @@ export default function EmailAuthButton({ onSignedIn }: EmailAuthButtonProps) {
                     <input
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        setResendState("idle");
+                      }}
                       required
                       autoComplete="email"
                     />
@@ -170,7 +175,7 @@ export default function EmailAuthButton({ onSignedIn }: EmailAuthButtonProps) {
                   )}
 
                   {error && <p className="email-auth-error">{error}</p>}
-                  {isUnconfirmedError && (
+                  {canResend && (
                     <button type="button" className="email-auth-link" onClick={handleResend} disabled={resendState !== "idle"}>
                       {resendState === "sent" ? t("auth.resendConfirmationSent") : t("auth.resendConfirmation")}
                     </button>
