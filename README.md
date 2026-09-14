@@ -1,6 +1,6 @@
-# Fight Calendar - Web UI
+# WhoFights - Web UI
 
-React + TypeScript frontend for [Fight Calendar](https://github.com/T3mon/fight-calendar-api). Fetches events from the API and plots them on a calendar, with checkboxes to filter by promotion.
+React + TypeScript frontend for [WhoFights](https://github.com/T3mon/fight-calendar-api). Fetches events from the API and plots them on a calendar, with checkboxes to filter by promotion.
 
 See the [project wiki](https://github.com/T3mon/fight-calendar-api/wiki) for the full system architecture and new-contributor onboarding guide. This README covers only what's specific to this repo.
 
@@ -28,4 +28,4 @@ Visit `http://localhost:5173`.
 
 | Variable | Purpose | Default |
 |---|---|---|
-| `VITE_API_BASE_URL` | Base URL of the Fight Calendar API | `http://localhost:5080` |
+| `VITE_API_BASE_URL` | Base URL of the WhoFights API | `http://localhost:5080` |

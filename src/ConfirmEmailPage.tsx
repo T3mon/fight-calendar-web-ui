@@ -41,7 +41,7 @@ export default function ConfirmEmailPage() {
     <div className="confirm-email-page">
       <div className="confirm-email-card">
         <h1 className="confirm-email-title">
-          <span className="confirm-email-title-fight">Fight</span> <span className="confirm-email-title-calendar">Calendar</span>
+          <span className="confirm-email-title-who">Who</span><span className="confirm-email-title-fights">Fights</span>
         </h1>
 
         {status === "confirming" && <p className="confirm-email-message">{t("confirmEmail.confirming")}</p>}
@@ -50,7 +50,7 @@ export default function ConfirmEmailPage() {
         {status === "missing-params" && <p className="confirm-email-message confirm-email-error">{t("confirmEmail.invalidLink")}</p>}
 
         <a className="confirm-email-back" href="/">
-          {t("confirmEmail.backToCalendar")}
+          {t("confirmEmail.backToApp")}
         </a>
       </div>
     </div>

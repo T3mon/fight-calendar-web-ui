@@ -90,6 +90,6 @@
     "success": "Votre e-mail est confirmé. Connexion en cours…",
     "error": "Ce lien de confirmation est invalide ou a expiré.",
     "invalidLink": "Ce lien de confirmation manque d'informations.",
-    "backToCalendar": "Retour à Fight Calendar"
+    "backToApp": "Retour à WhoFights"
   }
 }

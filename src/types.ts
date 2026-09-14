@@ -1,4 +1,4 @@
-// Mirrors FightCalendar.Web's Models/Api DTOs (fight-calendar-api repo).
+// Mirrors WhoFights.Web's Models/Api DTOs (fight-calendar-api repo).
 
 export interface Promotion {
   id: number;

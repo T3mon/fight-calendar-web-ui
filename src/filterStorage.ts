@@ -1,4 +1,4 @@
-const STORAGE_KEY = "fightcalendar.deselectedKeys";
+const STORAGE_KEY = "whofights.deselectedKeys";
 
 // We persist what the user turned OFF, not what's on. That way a promotion
 // or sub-series discovered after a visitor's last visit (e.g. a brand new

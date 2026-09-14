@@ -3,12 +3,12 @@
   height: 100dvh;
 }
 
-.app-title-fight {
-  color: var(--brand-fight);
+.app-title-who {
+  color: var(--brand-who);
 }
 
-.app-title-calendar {
-  color: var(--brand-calendar);
+.app-title-fights {
+  color: var(--brand-fights);
 }
 
 .nav-toolbar {

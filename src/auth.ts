@@ -1,5 +1,5 @@
 const AUTH_BASE_URL = import.meta.env.VITE_AUTH_BASE_URL ?? "http://localhost:5090";
-const STORAGE_KEY = "fightcalendar.session";
+const STORAGE_KEY = "whofights.session";
 
 export interface Session {
   token: string;

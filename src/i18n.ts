@@ -41,7 +41,7 @@ void i18n
       // preferences (see filterStorage.ts / auth.ts) - explicit choice
       // wins, then fall back to the browser's own language.
       order: ["localStorage", "navigator"],
-      lookupLocalStorage: "fightcalendar.language",
+      lookupLocalStorage: "whofights.language",
       caches: ["localStorage"],
     },
   });

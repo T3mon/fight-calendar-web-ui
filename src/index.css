@@ -38,8 +38,8 @@
   --danger-bg: rgba(230, 57, 70, 0.12);
 
   /* Brand wordmark */
-  --brand-fight: #e63946;
-  --brand-calendar: #e6c200;
+  --brand-who: #e63946;
+  --brand-fights: #e6c200;
 
   /* Shadows / overlays */
   --shadow-sm: rgba(0, 0, 0, 0.45);
@@ -81,8 +81,8 @@
   --danger: #b8412e;
   --danger-bg: rgba(184, 65, 46, 0.1);
 
-  --brand-fight: #b8412e;
-  --brand-calendar: #8a6d1f;
+  --brand-who: #b8412e;
+  --brand-fights: #8a6d1f;
 
   --shadow-sm: rgba(60, 50, 30, 0.08);
   --shadow-md: rgba(60, 50, 30, 0.12);

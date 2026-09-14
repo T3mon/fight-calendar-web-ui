@@ -90,6 +90,6 @@
     "success": "Your email is confirmed. Signing you in…",
     "error": "This confirmation link is invalid or has expired.",
     "invalidLink": "This confirmation link is missing information.",
-    "backToCalendar": "Back to Fight Calendar"
+    "backToApp": "Back to WhoFights"
   }
 }

@@ -24,12 +24,12 @@
   margin: 0 0 20px;
 }
 
-.confirm-email-title-fight {
-  color: var(--brand-fight);
+.confirm-email-title-who {
+  color: var(--brand-who);
 }
 
-.confirm-email-title-calendar {
-  color: var(--brand-calendar);
+.confirm-email-title-fights {
+  color: var(--brand-fights);
 }
 
 .confirm-email-message {

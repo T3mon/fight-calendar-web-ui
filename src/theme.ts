@@ -1,6 +1,6 @@
 export type Theme = "dark" | "light";
 
-const STORAGE_KEY = "fightcalendar.theme";
+const STORAGE_KEY = "whofights.theme";
 
 // Same precedence as language: explicit choice (localStorage) wins, then
 // fall back to the OS/browser preference, then default to dark since

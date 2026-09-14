@@ -7,7 +7,7 @@ import { format } from "date-fns";
 // has deliberately pinned a zone (travelling, or planning around a venue).
 export const AUTO_TIMEZONE = "auto";
 
-const STORAGE_KEY = "fightcalendar.timezone";
+const STORAGE_KEY = "whofights.timezone";
 
 export function getDeviceTimezone(): string {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;

@@ -90,6 +90,6 @@
     "success": "邮箱已确认，正在为您登录…",
     "error": "此确认链接无效或已过期。",
     "invalidLink": "此确认链接缺少必要信息。",
-    "backToCalendar": "返回 Fight Calendar"
+    "backToApp": "返回 WhoFights"
   }
 }
